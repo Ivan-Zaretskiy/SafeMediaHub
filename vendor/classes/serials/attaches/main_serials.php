@@ -1,8 +1,8 @@
-<div class="p-20-px">
-    <h1 class="float-l">Serials</h1>
-    <button class="btn btn-success float-r m-20-px" onclick="showModal('Add new serials','/load.php?page=serials&action=addNewSerial&ajax=true')">Add new serials</button>
-    <table id="serialsTable" class="m-20-px"></table>
-</div>
+    <div class="p-20-px">
+        <h1 class="float-l">Serials</h1>
+        <button class="btn btn-success float-r m-20-px" onclick="showModal('Add new serials','/load.php?page=serials&action=addNewSerial&ajax=true')">Add new serials</button>
+        <table id="serialsTable" class="m-20-px"></table>
+    </div>
 <script>
     let is_yes = '<button class="btn btn-success"><i class="fa fa-check"></i></button>';
     let is_not = '<button class="btn btn-danger"><i class="fa fa-close"></i></button>';

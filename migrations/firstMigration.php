@@ -41,3 +41,12 @@ mq('ALTER table `serials` ADD COLUMN `iframe_html` VARCHAR(5124) DEFAULT NULL AF
 mq('ALTER table `users` MODIFY COLUMN `firstPIN` VARCHAR(1024) DEFAULT NULL;');
 mq('ALTER table `users` MODIFY COLUMN `secondPIN` VARCHAR(1024) DEFAULT NULL;');
 //////////////////////////////////////////////////////////
+mq('CREATE TABLE `images` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(1024) NOT NULL,
+    `file` LONGTEXT NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)');
+mq('ALTER table `images` ADD COLUMN `user_id` INT NOT NULL AFTER `id`;');
+

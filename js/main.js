@@ -141,3 +141,34 @@ function episodeAction(id, elem ='#episode_', minus = true, to_first = false) {
 function showLoader() {
     return '<div class="loader"></div alt="LOADER">';
 }
+
+function load_page(index, elem){
+    var span_page_id = $(elem).attr('page-id');
+    var span_href = $(elem).attr('ajax-href');
+    var page = $('#'+span_page_id);
+    localStorage.setItem('last_page', index);
+    $('.li-pass').removeClass('active-pass');
+    $(elem).closest('.li-pass').addClass('active-pass');
+    $('.page-content').removeClass('active-page');
+    page.addClass('active-page');
+    if (page.attr('data-ready') === 'false'){
+        page.load(span_href);
+    }
+    page.attr('data-ready','true');
+}
+
+function toggleMenuAdmin(with_change = true) {
+    var toggleAdmin = document.querySelector('.toggle-pass');
+    var navigationAdmin = document.querySelector('.navigation-pass');
+    var mainAdmin = document.querySelector('.main-pass');
+    if (with_change) {
+        if (+window.localStorage.getItem("preferHidden")) {
+            window.localStorage.setItem("preferHidden", 0);
+        } else {
+            window.localStorage.setItem("preferHidden", 1);
+        }
+    }
+    toggleAdmin.classList.toggle('active');
+    navigationAdmin.classList.toggle('active');
+    mainAdmin.classList.toggle('active');
+}

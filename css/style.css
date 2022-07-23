@@ -373,6 +373,9 @@
 .button-group-item{
     margin-left: 10px;
 }
+.button-radius{
+    border-radius: 50px!important;
+}
 .loader {
     position: relative;
     width: 100px;

@@ -56,7 +56,6 @@ class login{
 
     public function logout()
     {
-
         unset($_SESSION);
         session_destroy();
         redirect('/');
