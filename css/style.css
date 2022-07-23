@@ -1,0 +1,466 @@
+.p-100{
+    padding: 100px!important;
+}
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+.ul-pass {
+    padding-left: 0 !important;
+}
+
+.container-pass {
+    position: relative;
+    width: 100%;
+}
+
+.navigation-pass {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: #003147;
+    transition: 0.5s;
+    overflow: hidden;
+}
+.navigation-pass.active{
+    width: 60px;
+}
+.navigation-pass ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.navigation-pass ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+}
+
+.navigation-pass ul li:hover {
+    background: #03a9f4;
+}
+
+.navigation-pass ul li:nth-child(1) {
+    margin-top: 20px;
+}
+
+.navigation-pass ul li:nth-child(1):hover {
+    background: transparent;
+}
+
+.navigation-pass ul li a {
+    position: relative;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.navigation-pass ul li a .icon-pass {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+
+.navigation-pass ul li a .icon-pass .fa {
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.navigation-pass ul li a .title-pass {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    white-space: nowrap;
+}
+
+.main-pass{
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: #ececec;
+    transition: 0.5s;
+}
+.main-pass.active{
+    width: calc(100% - 60px);
+    left: 60px;
+}
+.main-pass .topbar-pass {
+    width: 100%;
+    background: #ffffff;
+    height: 60px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.toggle-pass{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    z-index: 10000;
+}
+.toggle-pass::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 60px;
+    font-size: 24px;
+    text-align: center;
+    color: #111;
+}
+.search-pass{
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+}
+.search-pass lable{
+    position: relative;
+    width: 100%;
+}
+.search-pass lable input{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    outline: none;
+    border: 1px solid rgba(0,0,0,00.2);
+}
+.search-pass lable .fa{
+    position: absolute;
+    left: 15px;
+    top: 4px;
+}
+.user-pass{
+    position: relative;
+    min-width: 50px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.user-pass img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.cardBox-pass{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 20px;
+}
+.cardBox-pass .card-pass{
+    position: relative;
+    background: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.cardBox-pass .card-pass .numbers-pass{
+    position: relative;
+    font-size: 2em;
+    font-weight: 500;
+}
+.cardBox-pass .card-pass .cardName-pass{
+    color: #999;
+}
+.cardBox-pass .card-pass .iconBox-pass{
+    font-size: 2.5em;
+    color: #03a9f4;
+}
+.details-pass{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    padding-top: 0;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 2fr 1fr;
+}
+.details-pass .recentOrders-pass{
+    position: relative;
+    min-height: 530px;
+    padding: 20px;
+    background: #fff;
+}
+.cardHeader-pass{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.cardHeader-pass h2{
+    font-weight: 600;
+}
+.btn-pass{
+    position: relative;
+    padding: 5px 10px;
+    background: #03a9f4;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+}
+.details-pass table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.details-pass table thead td{
+    font-weight: 600;
+}
+.details-pass .recentOrders-pass table tr{
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.details-pass .recentOrders-pass table tbody tr:last-child{
+    border-bottom: none;
+}
+
+.details-pass .recentOrders-pass table tbody tr:hover{
+    background: #03a9f4;
+    color: #ffffff;
+}
+.details-pass .recentOrders-pass table tr td{
+    padding: 9px 5px;
+}
+.details-pass .recentOrders-pass table thead tr td:last-child,
+.details-pass .recentOrders-pass table tbody tr td:last-child{
+    text-align: right;
+}
+.details-pass .recentOrders-pass table thead tr td:nth-child(2),
+.details-pass .recentOrders-pass table tbody tr td:nth-child(2){
+    text-align: right;
+    padding-right: 20px;
+}
+.details-pass .recentOrders-pass table thead tr td:nth-child(3),
+.details-pass .recentOrders-pass table tbody tr td:nth-child(3){
+    text-align: center;
+}
+.status-pass{
+    position: relative;
+    padding: 2px 4px;
+    color: #ffffff;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+.delivered-pass{
+    background: #8de02c;
+}
+.pending-pass{
+    background: #f9ca3f;
+}
+.return-pass{
+    background: #f00;
+}
+.inprogress-pass{
+    background: #1795ce;
+}
+.details-pass .recentCustomers-pass{
+    position: relative;
+    display: grid;
+    min-height: 530px;
+    background: #ffffff;
+    padding: 20px;
+}
+.details-pass .recentCustomers-pass .imgBx-pass{
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.details-pass .recentCustomers-pass .imgBx-pass img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.details-pass .recentCustomers-pass table tr:hover,
+.details-pass .recentCustomers-pass table tr:hover td h4 span {
+    background: #03a9f4;
+    color: #ffffff;
+}
+.details-pass .recentCustomers-pass table tr td{
+    padding: 7px 10px;
+}
+.details-pass .recentCustomers-pass table tr td h4{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2em;
+}
+.details-pass .recentCustomers-pass table tr td h4 span{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2em;
+}
+.active-pass{
+    background-color: #0e476a;
+}
+.h2-main{
+    margin: 0;
+    position: absolute;
+    top: 42%;
+    left: 500%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+/*#loading-image{*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    margin-right: -50%;*/
+/*}*/
+
+.page-content{
+    display: none;
+    margin: 30px;
+    background-color: white;
+    border-radius: 5px;
+}
+.page-content.active-page{
+    display: block;
+}
+.dataTable thead {
+    background-color: #003147;
+    color: white;
+}
+.m-20-px{
+    margin: 20px;
+}
+.p-20-px{
+    padding: 20px;
+}
+.button-group-item{
+    margin-left: 10px;
+}
+.loader {
+    position: relative;
+    width: 100px;
+    margin: 20px auto;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, transparent 40%, skyblue);
+    animation: move 0.8s linear infinite;
+}
+.loader::before {
+    position: absolute;
+    content: "";
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    z-index: 2;
+}
+.loader::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(45deg, transparent 40%, skyblue);
+    filter: blur(20px);
+}
+@keyframes move {
+    to {
+        transform: rotate(360deg);
+        filter: hue-rotate(360deg);
+    }
+}
+
+/*LOADING*/
+.loading-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+    z-index: 1111;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+}
+
+.loading-bar {
+    width: 100%;
+    height: 5px;
+    background: #EBECF0;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar-animation {
+    width: 50%;
+    height: 5px;
+    background: #0055D5;
+    position: absolute;
+    transition: 1s all ease-out;
+    animation-name: loading-interminate;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes loading-interminate {
+    0% {
+        left: 0;
+        width: 0;
+    }
+
+    50% {
+        left: 10%;
+    }
+
+    70% {
+        left: 60%;
+    }
+
+    100% {
+        left: 100%;
+        right: 0;
+    }
+}
+/*LOADING END*/

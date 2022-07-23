@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymlinks
+Options -MultiViews
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !\..+$
+RewriteRule ^(.*)$ $1/ [L,R=301]
+RedirectMatch 404 /\.git
+
+DirectoryIndex index.php
+RewriteBase /
+
+#LOAD
+RewriteRule ^404/([a-zA-Z_]+)/$ /load.php?page=404 [L]
+RewriteRule ^load/([0-9a-zA-Z_]+)/$ /load.php?page=$1 [L]
+RewriteRule ^load/([0-9a-zA-Z_]+)/([0-9a-zA-Z_]+)/$ /load.php?page=$1&action=$2 [L]
+RewriteRule ^load/([0-9a-zA-Z_]+)/([0-9a-zA-Z_]+)/([^/]+)/$ /load.php?page=$1&action=$2&val1=$3 [L]
+RewriteRule ^load/([0-9a-zA-Z_]+)/([0-9a-zA-Z_]+)/([^/]+)/([^/]+)/$ /load.php?page=$1&action=$2&val1=$3&val2=$4 [L]
+RewriteRule ^load/([0-9a-zA-Z_]+)/([0-9a-zA-Z_]+)/([^/]+)/([^/]+)/([^/]+)/$ /load.php?page=$1&action=$2&val1=$3&val2=$4&val3=$5 [L]
+RewriteRule ^load/([0-9a-zA-Z_]+)/([0-9a-zA-Z_]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /load.php?page=$1&action=$2&val1=$3&val2=$4&val3=$5&val4=$6 [L]
+#INDEX
+RewriteRule ^404/$ /index.php?page=404 [L]
+RewriteRule ^([a-zA-Z_]+)/$ /index.php?page=$1 [L]
+RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/$ /index.php?page=$1&action=$2 [L]
+RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([^/]+)/$ /index.php?page=$1&action=$2&val1=$3 [L]
+RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([^/]+)/([^/]+)/$ /index.php?page=$1&action=$2&val1=$3&val2=$4 [L]
+RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([^/]+)/([^/]+)/([^/]+)/$ /index.php?page=$1&action=$2&val1=$3&val2=$4&val3=$5 [L]
+RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /index.php?page=$1&action=$2&val1=$3&val2=$4&val3=$5&val4=$6 [L]
+
+</IfModule>
