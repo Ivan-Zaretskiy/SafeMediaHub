@@ -75,9 +75,12 @@
 </div>
 <script>
     var id = '<?=$serial['id']?>';
-    $('#next_episode_date_'+id).datepicker({
-        dateFormat: "yy-mm-dd"
-    });
+    $(document).ready(function (){
+        $('#next_episode_date_'+id).datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    })
+
     $('#changeTime').on('submit', function (e) {
         e.preventDefault();
         blockCUI();

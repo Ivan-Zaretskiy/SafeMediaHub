@@ -70,18 +70,6 @@ class serials {
         }
     }
 
-    public function deleteSerial()
-    {
-        $ajax = [];
-        $ajax['success'] = false;
-        $id = (int)$_POST['id'];
-        $q = 'DELETE FROM `serials` WHERE `id` = '.$id;
-        if (mq($q)) {
-            $ajax['success'] = true;
-        }
-        echo json_encode($ajax);
-    }
-
     public function editSerial()
     {
         $id = (int)$_GET['id'];

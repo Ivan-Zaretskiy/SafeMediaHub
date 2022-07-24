@@ -39,9 +39,6 @@ function copyToClipboard(elementId) {
     document.execCommand("copy");
     document.body.removeChild(aux);
 }
- function checkPINEncryptedString(id) {
-    showModal('Enter your first PIN','/load.php?page=user&action=checkUserPINEncryptedString&ajax=true&id='+id);
-}
 
 function blockCUI(text = '<p class="m-0">Please wait...</p>'){
     $.blockUI({ css: {
@@ -171,4 +168,23 @@ function toggleMenuAdmin(with_change = true) {
     toggleAdmin.classList.toggle('active');
     navigationAdmin.classList.toggle('active');
     mainAdmin.classList.toggle('active');
+}
+
+function checkPin(func, id = false) {
+    var data = {};
+    data.func = func;
+    if (id) data.id = id;
+    showModal('Enter your first PIN for: '+func,'/load.php?page=keysManager&action=checkPin&ajax=true', data);
+}
+
+function check2Pins(func, id) {
+    var data = {};
+    data.func = func;
+    if (id) data.id = id;
+    showModal('Enter your PINs for: '+func,'/load.php?page=keysManager&action=check2Pins&ajax=true', data);
+}
+
+function getModalData(){
+    var val = $('#modal_data').val();
+    return JSON.parse(val);
 }

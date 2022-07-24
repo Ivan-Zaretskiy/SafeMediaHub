@@ -7,6 +7,7 @@
         <div class="modal-main">
             <?= showLoader(); ?>
         </div>
+        <input type="hidden" id="modal_data" value="">
     </div>
 </div>
 <style>
@@ -75,7 +76,7 @@
         }
     });
 
-    function showModal(title, load_url) {
+    function showModal(title, load_url, data = false) {
         let modal = $('#myModal');
         let modalMain = $('.modal-main');
 
@@ -83,11 +84,13 @@
         modalMain.load(load_url);
 
         modal.show();
+        if (data) $('#modal_data').val(JSON.stringify(data));
     }
 
     function closeModal() {
         $('#myModal').hide();
         $('.modal-main').html(showLoader());
         $('#modalHeader h2').html('Modal Header');
+        $('#modal_data').val('');
     }
 </script>

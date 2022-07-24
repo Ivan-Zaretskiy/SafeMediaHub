@@ -26,7 +26,9 @@ class imageManager
     {
         global $keyManager;
         if (!isset($_GET['ajax'])) {
-            $name = mres($_POST['name']);
+            $name = !empty($_POST['name']) ? $_POST['name'] : date('d-m-Y_H:i:s');
+            $name = str_replace(' ', '_', trim(mres($name)));
+            $name = $name . '.jpg';
             $image = file_get_contents($_POST['url_image']);
             $encrypt = $keyManager->encryptString($image);
             $q = "INSERT INTO `images` SET `user_id` = ".$this->user['id'].", `name` = '".mres($name)."', `file` = '".$encrypt."'";
@@ -46,7 +48,8 @@ class imageManager
     {
         global $keyManager;
         if (!isset($_GET['ajax'])) {
-            $new_name = $_POST['name'] ?? '';
+            $new_name = !empty($_POST['name']) ? $_POST['name'] : date('d-m-Y_H:i:s');
+            $new_name = str_replace(' ', '_', trim($new_name));
             $new_name = $new_name .'.jpg';
             $name = md5(mt_rand(100, 200)).time().'.jpg';
             $target_dir = "img/";
@@ -72,11 +75,6 @@ class imageManager
 
     public function openImage()
     {
-        global $keyManager;
-        $id = (int)$_GET['id'];
-        $q = 'SELECT * FROM `images` WHERE `user_id` = '.$this->user['id'].' AND `id` = '.$id;
-        $image = getRowQuery($q);
-        $image['decrypt'] = $keyManager->decryptString($image['file']);
         include_once('attaches/simpleOpenImage.php');
         die();
     }
@@ -94,19 +92,5 @@ class imageManager
             $ajax['q'] = $q;
         }
         echo json_encode($ajax);
-    }
-
-    public function getDecryptedHref()
-    {
-        global $keyManager;
-
-        $id = (int)$_POST['id'];
-        $q = 'SELECT * FROM `images` WHERE `user_id` = '.$this->user['id'].' AND `id` = '.$id;
-        $image = getRowQuery($q);
-        $ajax['success'] = true;
-        $ajax['decrypt'] = base64_encode($keyManager->decryptString($image['file']));
-
-        echo json_encode($ajax);
-        die();
     }
 }

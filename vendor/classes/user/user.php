@@ -107,25 +107,6 @@ class user
         die();
     }
 
-    public function checkUserPINEncryptedString()
-    {
-        global $keyManager;
-
-        if (!isset($_GET['ajax'])) {
-            $firstPIN = $keyManager->decryptString($this->user['firstPIN']);
-            $result = $_POST['PIN'] == $firstPIN;
-            $ajax['success'] = $result;
-            if ($result) $ajax['decrypted_value'] = $keyManager->decryptString($keyManager::getEncryptedValueById((int)$_GET['id']));
-
-            echo json_encode($ajax);
-            die();
-        } else {
-            $id = (int)$_GET['id'];
-            include_once('attaches/modalCheckPIN.php');
-            die();
-        }
-    }
-
     private static function generateLockPIN($len)
     {
         return str_repeat('*', $len);

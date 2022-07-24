@@ -17,12 +17,16 @@
     </div>
 </form>
 <script>
+    var modal_data = getModalData();
+    $('#fieldName').val(modal_data.field.name);
+    $('#fieldValue').val(modal_data.field.value);
+
     $('#editFieldFrom').on('submit',function (e){
         e.preventDefault();
 
         let form = $('#editFieldFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=keysManager&action=editField&id=<?=$id?>';
+        let url = '/load.php?page=keysManager&action=editField&id='+modal_data.field.id;
 
         $.ajax({
             method: "POST",

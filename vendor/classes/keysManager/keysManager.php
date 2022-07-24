@@ -13,9 +13,7 @@ class keysManager{
     {
         $this->userId = (int)$_SESSION['loginUser']['id'];
         $this->ivlen = openssl_cipher_iv_length($this->cipher);
-        if (!file_exists($this->keyUrl)) {
-            $this->generateKey();
-        }
+        if (!file_exists($this->keyUrl)) $this->generateKey();
         $this->key = $this->readKey();
     }
 
@@ -130,44 +128,96 @@ class keysManager{
         echo json_encode($ajax);
     }
 
-    public function deleteField()
-    {
-        $ajax = [];
-        $ajax['success'] = false;
-        $id = (int)$_POST['id'];
-        $q = 'DELETE FROM `encryptedString` WHERE `id` = '.$id;
-        if (mq($q)) {
-            $ajax['success'] = true;
-        }
-        echo json_encode($ajax);
-    }
-
     public function editField()
     {
-        $id = (int)$_GET['id'];
-        if (!empty($id)) {
-            if (!$_GET['ajax']) {
-                $ajax = [];
-                $ajax['success'] = false;
-                $fieldName = mres($_POST['fieldName']);
-                $fieldValue = mres($_POST['fieldValue']);
-                $encryptedName = $this->encryptString($fieldName);
-                $encryptedValue = $this->encryptString($fieldValue);
+        if (!$_GET['ajax']) {
+            $id = (int)$_GET['id'];
+            $ajax = [];
+            $ajax['success'] = false;
+            $fieldName = mres($_POST['fieldName']);
+            $fieldValue = mres($_POST['fieldValue']);
+            $encryptedName = $this->encryptString($fieldName);
+            $encryptedValue = $this->encryptString($fieldValue);
 
-                $q = 'UPDATE `encryptedString` SET `encryptedText` = "'.$encryptedValue.'", `name` = "'.$encryptedName.'" WHERE `id` = '.$id;
-                if (mq($q)){
-                    $ajax['success'] = true;
-                    $ajax['name'] = $fieldName;
-                }
-                echo json_encode($ajax);
-            } else {
-                $fieldInfo = getRowQuery('SELECT * FROM `encryptedString` WHERE `id` = ' . $id);
-                $fieldName = $this->decryptString($fieldInfo['name']) ?? '';
-                $fieldValue = $this->decryptString($fieldInfo['encryptedText']) ?? '';
-
-                include_once('attaches/modalEditField.php');
-                die();
+            $q = 'UPDATE `encryptedString` SET `encryptedText` = "' . $encryptedValue . '", `name` = "' . $encryptedName . '" WHERE `id` = ' . $id;
+            if (mq($q)) {
+                $ajax['success'] = true;
+                $ajax['name'] = $fieldName;
             }
+            echo json_encode($ajax);
+        } else {
+            include_once('attaches/modalEditField.php');
+            die();
+        }
+    }
+
+    public function checkPin()
+    {
+        if (!isset($_GET['ajax'])) {
+            $firstPIN = $this->decryptString($_SESSION['loginUser']['firstPIN']);
+            $result = $_POST['PIN'] == $firstPIN;
+            $ajax['success'] = $result;
+            if ($ajax['success']) {
+                switch ($_POST['data']['func']) {
+                    case 'deleteImage':
+                        $id = (int)$_POST['data']['id'];
+                        $q = mq('DELETE FROM `images` WHERE `user_id` = '.$_SESSION['loginUser']['id'].' AND `id` = '.$id);
+                        if (!$q) $ajax['error_message'] = getSqliError();
+                        break;
+                    case 'showEncryptedString':
+                        $id = (int)$_POST['data']['id'];
+                        $ajax['decrypted_value'] = $this->decryptString(self::getEncryptedValueById($id));
+                        break;
+                    case 'deleteField':
+                        $id = (int)$_POST['data']['id'];
+                        $q = mq('DELETE FROM `encryptedString` WHERE `user_id` = '.$_SESSION['loginUser']['id'].' AND `id` = '.$id);
+                        if (!$q) $ajax['error_message'] = getSqliError();
+                        break;
+                    case 'deleteSerial':
+                        $id = (int)$_POST['data']['id'];
+                        $q = mq('DELETE FROM `serials` WHERE `user_id` = '.$_SESSION['loginUser']['id'].' AND `id` = '.$id);
+                        if (!$q) $ajax['error_message'] = getSqliError();
+                        break;
+                }
+            }
+            echo json_encode($ajax);
+            die();
+        } else {
+            include_once('attaches/checkPin.php');
+            die();
+        }
+    }
+
+    public function check2Pins()
+    {
+        if (!isset($_GET['ajax'])) {
+            $firstPIN = $this->decryptString($_SESSION['loginUser']['firstPIN']);
+            $secondPIN = $this->decryptString($_SESSION['loginUser']['secondPIN']);
+            $result = $_POST['PIN'] == $firstPIN;
+            $result2 = $_POST['PIN2'] == $secondPIN;
+            $ajax['success'] = $result && $result2;
+            if ($ajax['success']) {
+                switch ($_POST['data']['func']) {
+                    case 'openImage':
+                    case 'openImageNewWindow':
+                        $id = (int)$_POST['data']['id'];
+                        $image = getValueQuery('SELECT `file` FROM `images` WHERE `user_id` = '.$_SESSION['loginUser']['id'].' AND `id` = '.$id);
+                        $ajax['file'] = base64_encode($this->decryptString($image));
+                        break;
+                    case 'editField':
+                        $id = (int)$_POST['data']['id'];
+                        $fieldInfo = getRowQuery('SELECT * FROM `encryptedString` WHERE `user_id` = '.$_SESSION['loginUser']['id'].' AND `id` = ' . $id);
+                        $ajax['field']['id'] = $id;
+                        $ajax['field']['name'] = $this->decryptString($fieldInfo['name']) ?? '';
+                        $ajax['field']['value'] = $this->decryptString($fieldInfo['encryptedText']) ?? '';
+                        break;
+                }
+            }
+            echo json_encode($ajax);
+            die();
+        } else {
+            include_once('attaches/check2Pins.php');
+            die();
         }
     }
 }
