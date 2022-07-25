@@ -39,6 +39,20 @@
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                     </span>
                 </div>
+                <div class="wrap-input100 validate-input" data-validate="First PIN is required">
+                    <input id="firstPIN" class="input100" type="text" name="firstPIN" minlength="4" maxlength="4" placeholder="First PIN (4 symbols)">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-key" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Second PIN is required">
+                    <input id="secondPIN" class="input100" type="text" name="secondPIN" minlength="8" maxlength="8" placeholder="Second PIN (8 symbols)">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-key" aria-hidden="true"></i>
+                    </span>
+                </div>
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
                     <input id="password" class="input100" type="password" name="password" placeholder="Password">
                     <span class="focus-input100"></span>
@@ -140,6 +154,16 @@
                 }
             }
             else if ($(input).attr('name') == 'password') {
+                if($(input).val().trim() == ''){
+                    return false;
+                }
+            }
+            else if ($(input).attr('name') == 'firstPIN') {
+                if($(input).val().trim() == ''){
+                    return false;
+                }
+            }
+            else if ($(input).attr('name') == 'secondPIN') {
                 if($(input).val().trim() == ''){
                     return false;
                 }

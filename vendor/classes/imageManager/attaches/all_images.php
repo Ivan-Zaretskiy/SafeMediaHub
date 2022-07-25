@@ -23,14 +23,15 @@
                 return data ?? '';
             }},
             { title: "Option", data: "id", render: function (data){
-                    let str = '<div class="button-group">';
-                    str += '<button class="btn btn-warning button-group-item button-radius" title="Open Image" onclick="check2Pins(\'openImage\', '+data+')"><i class="fa fa-eye"></i></button>';
-                    str += '<button class="btn btn-info button-group-item button-radius" title="Open Image In New Window" onclick="check2Pins(\'openImageNewWindow\', '+data+')"><i class="fa fa-external-link"></i></button>';
-                    str +='<button class="btn btn-danger button-group-item button-radius" title="Delete Image" onclick="checkPin(\'deleteImage\',' + data + ')"><i class="fa fa-trash"></i></button>';
-                    str += '</div>';
+                let str = '<div class="button-group">';
+                str += '<button class="btn btn-warning button-group-item button-radius" title="Open Image" onclick="check2Pins(\'openImage\', '+data+')"><i class="fa fa-eye"></i></button>';
+                str += '<button class="btn btn-info button-group-item button-radius" title="Open Image In New Window" onclick="check2Pins(\'openImageNewWindow\', '+data+')"><i class="fa fa-external-link"></i></button>';
+                str +='<button class="btn btn-success button-group-item button-radius" title="Download Image" onclick="check2Pins(\'downloadImage\',' + data + ')"><i class="fa fa-download"></i></button>';
+                str +='<button class="btn btn-danger button-group-item button-radius" title="Delete Image" onclick="checkPin(\'deleteImage\',' + data + ')"><i class="fa fa-trash"></i></button>';
+                str += '</div>';
 
-                    return str;
-                }}
+                return str;
+            }}
         ]
     } );
 </script>

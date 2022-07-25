@@ -211,6 +211,13 @@ class keysManager{
                         $ajax['field']['name'] = $this->decryptString($fieldInfo['name']) ?? '';
                         $ajax['field']['value'] = $this->decryptString($fieldInfo['encryptedText']) ?? '';
                         break;
+                    case 'downloadImage':
+                        $id = (int)$_POST['data']['id'];
+                        $image = getRowQuery('SELECT * FROM `images` WHERE `user_id` = '.$_SESSION['loginUser']['id'].' AND `id` = '.$id);
+                        $base64strImg = base64_encode($this->decryptString($image['file']));
+                        $ajax['img'] = "data:image/jpg;base64, ". $base64strImg;
+                        $ajax['name'] = $image['name'];
+                        break;
                 }
             }
             echo json_encode($ajax);

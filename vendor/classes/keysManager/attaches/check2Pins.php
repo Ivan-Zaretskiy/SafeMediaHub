@@ -41,6 +41,13 @@
                         case 'editField':
                             showModal('Edit Field', '/load.php?page=keysManager&action=editField&ajax=true', response);
                             break;
+                        case 'downloadImage':
+                            var a = document.createElement("a");
+                            a.href = response.img;
+                            a.download = response.name;
+                            a.click();
+                            closeModal();
+                            break;
                     }
                 } else {
                     showAlert('Wrong PIN', 'error');

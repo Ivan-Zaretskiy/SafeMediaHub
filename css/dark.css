@@ -1,0 +1,65 @@
+.main-pass{
+    background: #202020!important;
+}
+body{
+    color: #ececec !important;
+}
+.page-content{
+    background: #2c3136 !important;
+}
+.dataTable > tbody > tr> td{
+    background: #2c3136;
+}
+i{
+    color: #ececec!important;
+}
+.dataTables_length{
+    color: #ececec!important;
+}
+.dataTables_filter{
+    color: #ececec!important;
+}
+input{
+    color: #ececec!important;
+    background: #4c5053!important;
+}
+select{
+    background: #4c5053!important;
+    color: #ececec!important;
+}
+a{
+    color: #f5f0f0!important;
+}
+.topbar-pass{
+    background: #2c3136 !important;
+}
+.toggle-pass::before{
+    color: #ececec!important;
+}
+.modal-header,
+.modal-body,
+.modal-main,
+.modal-footer{
+    background: #2c3136 !important;
+}
+.modal-content,
+.modal-header,
+.modal-body,
+.modal-footer{
+    border-color: #1f1f1f !important;
+}
+p{
+    color: #ececec!important;
+}
+.fa-eye{
+    color: #111!important;
+}
+.loading-bar{
+    background: #111!important;
+}
+.ui-state-default{
+    color: black!important;
+}
+.loader::before{
+    background: #2c3136 !important;
+}

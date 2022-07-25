@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/plugin/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/util.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css">
 <link rel="stylesheet" type="text/css" href="/plugin/datatable/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="/plugin/jquery-ui/jquery-ui.css">
 <script src="/plugin/jquery/jquery.js" crossorigin="anonymous"></script>

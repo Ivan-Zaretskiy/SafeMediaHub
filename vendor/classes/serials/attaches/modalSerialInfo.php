@@ -64,9 +64,15 @@
             </div>
         </div>
         <?php if (!empty($serial['iframe_html'])) { ?>
+            <fieldset class="custom-fieldset">
+                <legend class="custom-legend" align="right">
+                    Player
+                </legend>
             <div class="player" style="min-height: 600px;padding: 20px;">
                 <iframe src="<?=$serial['iframe_html'];?>" allowfullscreen="allowfullscreen" style="width:100%;min-height:inherit;"></iframe>
             </div>
+            </fieldset>
+
         <?php } ?>
     </div>
 </div>

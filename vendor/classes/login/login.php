@@ -67,6 +67,8 @@ class login{
         $email = mres($_POST['email']);
         $password = mres($_POST['password']);
         $confirm_password = mres($_POST['confirm_password']);
+        $firstPIN = mres($_POST['firstPIN']);
+        $secondPIN = mres($_POST['secondPIN']);
         if ($password !== $confirm_password){
             $this->sign_up('Password must to match');
         }
@@ -78,13 +80,22 @@ class login{
         if (!empty($check_email)){
             $this->sign_up('We have such email');
         }
+        if (empty($firstPIN) || !is_numeric($firstPIN) || strlen($firstPIN) !== 4) {
+            $this->sign_up('Incorrect First PIN');
+        }
+        if (empty($secondPIN) || !is_numeric($secondPIN) || strlen($secondPIN) !== 8) {
+            $this->sign_up('Incorrect Second PIN');
+        }
         $options_hash = [
             'cost' => 12,
         ];
         $hash_password = password_hash($password,PASSWORD_BCRYPT,$options_hash);
+        $keyManager = new keysManager();
         $q = 'INSERT INTO `users` SET
                   `username` = "'.$username.'",
                   `email` = "'.$email.'",
+                  `firstPIN` = "'.$keyManager->encryptString($firstPIN).'",
+                  `secondPIN` = "'.$keyManager->encryptString($secondPIN).'",
                   `password` = "'.$hash_password.'"';
         if(mq($q)){
             redirect('/');
