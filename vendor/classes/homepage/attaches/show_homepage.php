@@ -2,7 +2,10 @@
     <div class="main-pass">
         <div class="topbar-pass">
             <div class="toggle-pass" onclick="toggleMenuAdmin()"></div>
-            <a class="btn btn-dark" href="index.php?page=login&action=logout">Logout</a>
+            <div class="buttons-header">
+                <?php include_once('templates/theme_switcher.php');?>
+                <a class="btn btn-info" href="index.php?page=login&action=logout">Logout</a>
+            </div>
         </div>
         <div class="load-content">
             <div class="page-content" id="page-1" data-ready="false"></div>

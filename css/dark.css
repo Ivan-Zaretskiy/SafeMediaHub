@@ -51,7 +51,8 @@ a{
 p{
     color: #ececec!important;
 }
-.fa-eye{
+.fa-eye,
+.fa-sun-o{
     color: #111!important;
 }
 .loading-bar{
@@ -62,4 +63,8 @@ p{
 }
 .loader::before{
     background: #2c3136 !important;
+}
+.paginate_button{
+    background: #979797!important;
+    color: black!important;
 }

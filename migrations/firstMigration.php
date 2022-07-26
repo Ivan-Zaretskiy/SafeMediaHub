@@ -19,6 +19,9 @@ mq("CREATE TABLE `users`(
 )");
 mq('ALTER table `users` ADD COLUMN `firstPIN` VARCHAR(4) DEFAULT NULL AFTER `password`');
 mq('ALTER table `users` ADD COLUMN `secondPIN` VARCHAR(8) DEFAULT NULL AFTER `firstPIN`');
+mq('ALTER table `users` ADD COLUMN `dark_mode` INT DEFAULT 0 AFTER `password`');
+mq('ALTER table `users` MODIFY COLUMN `firstPIN` VARCHAR(1024) DEFAULT NULL;');
+mq('ALTER table `users` MODIFY COLUMN `secondPIN` VARCHAR(1024) DEFAULT NULL;');
 //////////////////////////////////////////////////////////
 mq("CREATE TABLE `serials`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -37,9 +40,6 @@ mq("CREATE TABLE `serials`(
 mq('ALTER table `serials` ADD COLUMN `url_to_watch` VARCHAR(5124) DEFAULT NULL AFTER `next_episode_date`');
 mq('ALTER table `serials` ADD COLUMN `image_url` VARCHAR(5124) DEFAULT NULL AFTER `next_episode_date`');
 mq('ALTER table `serials` ADD COLUMN `iframe_html` VARCHAR(5124) DEFAULT NULL AFTER `next_episode_date`');
-//////////////////////////////////////////////////////////
-mq('ALTER table `users` MODIFY COLUMN `firstPIN` VARCHAR(1024) DEFAULT NULL;');
-mq('ALTER table `users` MODIFY COLUMN `secondPIN` VARCHAR(1024) DEFAULT NULL;');
 //////////////////////////////////////////////////////////
 mq('CREATE TABLE `images` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

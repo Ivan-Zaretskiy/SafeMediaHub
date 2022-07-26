@@ -475,3 +475,9 @@
 .custom-legend{
     width: auto;
 }
+.datepicker {
+    /*transform: translate(0, 3.1em);*/
+}
+.bootstrap-datetimepicker-widget{
+    z-index: 12000!important;
+}

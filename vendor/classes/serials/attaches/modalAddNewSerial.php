@@ -84,6 +84,7 @@
     })
 
     $('#next_episode_date').datepicker({
-        dateFormat: "yy-mm-dd"
+        container:'#myModal',
+        format: "yyyy-mm-dd"
     });
 </script>
