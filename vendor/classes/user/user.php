@@ -66,7 +66,7 @@ class user
                 echo json_encode($ajax);
                 die();
             }
-            $firstPIN = $keyManager->encryptString($_POST['firstPIN']);
+            $firstPIN = password_hash($_POST['firstPIN'],PASSWORD_BCRYPT, ['cost' => 12]);
         }
 
         if ($_POST['secondPIN'] == '********') {
@@ -77,7 +77,7 @@ class user
                 echo json_encode($ajax);
                 die();
             }
-            $secondPIN = $keyManager->encryptString($_POST['secondPIN']);
+            $secondPIN = password_hash($_POST['secondPIN'], PASSWORD_BCRYPT, ['cost' => 12]);
         }
 
         if (empty($username)) {

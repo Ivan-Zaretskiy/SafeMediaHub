@@ -68,3 +68,6 @@ p{
     background: #979797!important;
     color: black!important;
 }
+.blockUI > p {
+    color: black!important;
+}

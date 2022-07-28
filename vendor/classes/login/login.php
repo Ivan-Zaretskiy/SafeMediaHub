@@ -86,17 +86,12 @@ class login{
         if (empty($secondPIN) || !is_numeric($secondPIN) || strlen($secondPIN) !== 8) {
             $this->sign_up('Incorrect Second PIN');
         }
-        $options_hash = [
-            'cost' => 12,
-        ];
-        $hash_password = password_hash($password,PASSWORD_BCRYPT,$options_hash);
-        $keyManager = new keysManager();
         $q = 'INSERT INTO `users` SET
                   `username` = "'.$username.'",
                   `email` = "'.$email.'",
-                  `firstPIN` = "'.$keyManager->encryptString($firstPIN).'",
-                  `secondPIN` = "'.$keyManager->encryptString($secondPIN).'",
-                  `password` = "'.$hash_password.'"';
+                  `firstPIN` = "'.password_hash($firstPIN,PASSWORD_BCRYPT, ['cost' => 12]).'",
+                  `secondPIN` = "'.password_hash($secondPIN,PASSWORD_BCRYPT, ['cost' => 12]).'",
+                  `password` = "'.password_hash($password,PASSWORD_BCRYPT, ['cost' => 12]).'"';
         if(mq($q)){
             redirect('/');
         } else {

@@ -154,8 +154,7 @@ class keysManager{
     public function checkPin()
     {
         if (!isset($_GET['ajax'])) {
-            $firstPIN = $this->decryptString($_SESSION['loginUser']['firstPIN']);
-            $result = $_POST['PIN'] == $firstPIN;
+            $result = password_verify($_POST['PIN'], $_SESSION['loginUser']['firstPIN']);;
             $ajax['success'] = $result;
             if ($ajax['success']) {
                 switch ($_POST['data']['func']) {
@@ -191,10 +190,8 @@ class keysManager{
     public function check2Pins()
     {
         if (!isset($_GET['ajax'])) {
-            $firstPIN = $this->decryptString($_SESSION['loginUser']['firstPIN']);
-            $secondPIN = $this->decryptString($_SESSION['loginUser']['secondPIN']);
-            $result = $_POST['PIN'] == $firstPIN;
-            $result2 = $_POST['PIN2'] == $secondPIN;
+            $result = password_verify($_POST['PIN'], $_SESSION['loginUser']['firstPIN']);
+            $result2 = password_verify($_POST['PIN2'], $_SESSION['loginUser']['secondPIN']);
             $ajax['success'] = $result && $result2;
             if ($ajax['success']) {
                 switch ($_POST['data']['func']) {
