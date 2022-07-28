@@ -48,6 +48,9 @@
                             a.click();
                             closeModal();
                             break;
+                        case 'generateMyKey':
+                            downloadText(response.name, response.key);
+                            break;
                     }
                 } else {
                     showAlert('Wrong PIN', 'error');

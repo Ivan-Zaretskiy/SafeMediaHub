@@ -14,27 +14,29 @@ class keysManager{
         $this->userId = (int)$_SESSION['loginUser']['id'];
         $this->ivlen = openssl_cipher_iv_length($this->cipher);
         if (!file_exists($this->keyUrl)) $this->generateKey();
-        $this->key = $this->readKey();
+        $this->key = $_SESSION['loginUser']['have_key'] == 1 ? $_SESSION['key'] : $this->readKey();
     }
 
-    public function encryptString($text)
+    public function encryptString($text, $key = false)
     {
+        $key = $key ?? $this->key;
         $iv = openssl_random_pseudo_bytes($this->ivlen);
-        $ciphertext_raw = openssl_encrypt($text, $this->cipher, $this->key, $this->options, $iv);
-        $hmac = hash_hmac('sha256', $ciphertext_raw, $this->key, true);
+        $ciphertext_raw = openssl_encrypt($text, $this->cipher, $key, $this->options, $iv);
+        $hmac = hash_hmac('sha256', $ciphertext_raw, $key, true);
         $ciphertext = base64_encode( $iv.$hmac.$ciphertext_raw );
 
         return $ciphertext ?? false;
     }
 
-    public function decryptString($text)
+    public function decryptString($text, $key = false)
     {
+        $key = $key ?? $this->key;
         $c = base64_decode($text);
         $iv = substr($c, 0, $this->ivlen);
         $hmac = substr($c, $this->ivlen, $this->sha2len);
         $ciphertext_raw = substr($c, $this->ivlen+$this->sha2len);
-        $original_plaintext = openssl_decrypt($ciphertext_raw, $this->cipher, $this->key, $this->options, $iv);
-        $calcmac = hash_hmac('sha256', $ciphertext_raw, $this->key, true);
+        $original_plaintext = openssl_decrypt($ciphertext_raw, $this->cipher, $key, $this->options, $iv);
+        $calcmac = hash_hmac('sha256', $ciphertext_raw, $key, true);
 
         return hash_equals($hmac, $calcmac) ? $original_plaintext : false;
     }
@@ -215,6 +217,14 @@ class keysManager{
                         $ajax['img'] = "data:image/jpg;base64, ". $base64strImg;
                         $ajax['name'] = $image['name'];
                         break;
+                    case 'generateMyKey':
+                        $key = self::generateRandomString();
+                        $ajax['key'] = $key;
+                        $ajax['name'] = $_SESSION['loginUser']['username'] . '.env';
+                        $key_hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 12]);
+                        mq('UPDATE `users` SET `have_key` = 1, `key_created_at` = CURRENT_TIMESTAMP(), `key_hash` = "'.$key_hash.'" WHERE `id` = '.$_SESSION['loginUser']['id']);
+                        $this->updateAllValuesByNewKey($key);
+                        break;
                 }
             }
             echo json_encode($ajax);
@@ -223,5 +233,54 @@ class keysManager{
             include_once('attaches/check2Pins.php');
             die();
         }
+    }
+
+    private static function generateRandomString($length = 1024) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    private function updateAllValuesByNewKey($new_key)
+    {
+        $user = $_SESSION['loginUser'];
+        $encryptedStrings = getArrayQuery('SELECT * FROM `encryptedString` WHERE `user_id` = '.$user['id']);
+        foreach ($encryptedStrings as $encryptedString) {
+            $oldName = $this->decryptString($encryptedString['name']);
+            $oldEncryptedText = $this->decryptString($encryptedString['encryptedText']);
+            $newName = $this->encryptString($oldName, $new_key);
+            $newEncryptedText = $this->encryptString($oldEncryptedText, $new_key);
+            mq('UPDATE `encryptedString` SET `encryptedText` = "' . $newEncryptedText . '", `name` = "' . $newName . '" WHERE `id` = ' . $encryptedString['id']);
+        }
+        $images = getArrayQuery('SELECT * FROM `images` WHERE `user_id` = '.$user['id']);
+        foreach ($images as $image) {
+            $oldFile = $this->decryptString($image['file']);
+            $newFile = $this->encryptString($oldFile, $new_key);
+            mq('UPDATE `images` SET `file` = "' . $newFile . '" WHERE `id` = ' . $image['id']);
+        }
+
+    }
+
+    public function uploadKey()
+    {
+        if (!isset($_GET['ajax'])) {
+            $ajax = [];
+            $ajax['success'] = false;
+            $key = file_get_contents($_FILES['key']['tmp_name']);
+//            if (password_verify($key, $_SESSION['key_hash'])) {
+                $ajax['success'] = true;
+                $_SESSION['key'] = $key;
+//            } else {
+//                $ajax['error_message'] = 'Wrong key';
+//            }
+            echo json_encode($ajax);
+        } else {
+            include_once('attaches/modalUploadKey.php');
+        }
+        die();
     }
 }

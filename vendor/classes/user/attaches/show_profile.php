@@ -1,7 +1,11 @@
 <div class="p-20-px">
     <div class="d-flex justify-content-sm-between">
         <h1 class="float-l">Profile</h1>
-        <button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=user&action=changePassword&ajax=true')">Change password</button>
+        <div class="buttons">
+            <button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/load.php?page=keysManager&action=uploadKey&ajax=true');">Upload Key</button>
+            <button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=user&action=changePassword&ajax=true')">Change password</button>
+            <button class="btn btn-info float-r m-20-px" onclick="check2Pins('generateMyKey')">Generate Key</button>
+        </div>
     </div>
     <form id="changeProfileForm">
         <div class="row gutters p-20-px">
