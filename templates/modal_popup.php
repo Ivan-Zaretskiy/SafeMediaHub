@@ -70,20 +70,14 @@
     $(document).ready(function () {
         $('#closeModal').on('click',closeModal)
         window.onclick = function (event) {
-            if (event.target.id === 'myModal') {
-                closeModal();
-            }
+            if (event.target.id === 'myModal') closeModal();
         }
     });
 
     function showModal(title, load_url, data = false) {
-        let modal = $('#myModal');
-        let modalMain = $('.modal-main');
-
         $('#modalHeader h2').html(title);
-        modalMain.load(load_url);
-
-        modal.show();
+        $('.modal-main').load(load_url);
+        $('#myModal').show();
         if (data) $('#modal_data').val(JSON.stringify(data));
     }
 

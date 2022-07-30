@@ -185,8 +185,7 @@ function check2Pins(func, id) {
 }
 
 function getModalData(){
-    var val = $('#modal_data').val();
-    return JSON.parse(val);
+    return JSON.parse($('#modal_data').val());
 }
 
 function isset(elem) {
