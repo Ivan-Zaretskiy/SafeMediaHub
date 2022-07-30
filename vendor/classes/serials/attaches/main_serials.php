@@ -23,15 +23,17 @@
             { title: 'Last season', data: 'last_season', render: function (data, type, row) {
                 var minus_button = '<button onclick="seasonAction('+row.id+', \'#season_\', true)"><i class="fa fa-minus"></i></button>';
                 var plus_button = '<button onclick="seasonAction('+row.id+', \'#season_\', false)"><i class="fa fa-plus"></i></button>';
+                var value = data ?? '';
 
-                return data ? minus_button + " <span id='season_"+row.id+"'>"+data+"</span> " + plus_button : '-';
+                return minus_button + " <span id='season_"+row.id+"'>"+value+"</span> " + plus_button;
             }},
             { title: 'Last episode', data: 'last_episode', render: function (data, type, row) {
                 var minus_button = '<button onclick="episodeAction('+row.id+', \'#episode_\', true)"><i class="fa fa-minus"></i></button>';
                 var plus_button = '<button onclick="episodeAction('+row.id+', \'#episode_\', false)"><i class="fa fa-plus"></i></button>';
                 var first_button = '  <button onclick="episodeAction('+row.id+', \'#episode_\', false, true)"><i class="fa fa-refresh"></i></button>';
+                var value = data ?? '';
 
-                return data ? minus_button + " <span id='episode_"+row.id+"'>"+data+"</span> " + plus_button + first_button : '-';
+                return minus_button + " <span id='episode_"+row.id+"'>"+value+"</span> " + plus_button + first_button;
             }},
             { title: 'Last watched episode time', data: 'last_episode_time', render: function (data, type, row) {
                 return data ? '<span id="last_episode_time_'+row.id+'">'+data+'</span>': '';

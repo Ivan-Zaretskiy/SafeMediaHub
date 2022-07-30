@@ -62,6 +62,7 @@ function unblockCUI(){
 
 function seasonAction(id, elem ='#season_', minus = true, to_first = false) {
     var current_value = parseInt($(elem+id)[0].innerText);
+    if (isNaN(current_value)) current_value = 0;
     var new_value = false;
     if (minus) {
         if(current_value > 1) {
@@ -85,8 +86,8 @@ function seasonAction(id, elem ='#season_', minus = true, to_first = false) {
             success: function (data) {
                 let response = JSON.parse(data);
                 if (response.success === true) {
-                    $('#season_'+id)[0].innerText = response.new_value;
-                    $('#season_info_'+id)[0].innerText = response.new_value;
+                    if (isset($('#season_'+id)[0])) $('#season_'+id)[0].innerText = response.new_value;
+                    if (isset($('#season_info_'+id)[0])) $('#season_info_'+id)[0].innerText = response.new_value;
                     unblockCUI();
                 } else {
                     unblockCUI();
@@ -99,7 +100,7 @@ function seasonAction(id, elem ='#season_', minus = true, to_first = false) {
 
 function episodeAction(id, elem ='#episode_', minus = true, to_first = false) {
     var current_value = parseInt($(elem+id)[0].innerText);
-    console.log(current_value);
+    if (isNaN(current_value)) current_value = 0;
     var new_value = false;
     if (minus) {
         if(current_value > 0) {
@@ -124,9 +125,8 @@ function episodeAction(id, elem ='#episode_', minus = true, to_first = false) {
                 let response = JSON.parse(data);
                 if (response.success === true) {
                     unblockCUI();
-                    $('#episode_'+id)[0].innerText = response.new_value;
-                    $('#episode_info_'+id)[0].innerText = response.new_value;
-
+                    if (isset($('#episode_'+id)[0])) $('#episode_'+id)[0].innerText = response.new_value;
+                    if (isset($('#episode_info_'+id)[0])) $('#episode_info_'+id)[0].innerText = response.new_value;
                 } else {
                     unblockCUI();
                     showAlert('Try Later!', 'error');
@@ -187,4 +187,8 @@ function check2Pins(func, id) {
 function getModalData(){
     var val = $('#modal_data').val();
     return JSON.parse(val);
+}
+
+function isset(elem) {
+    return typeof elem !== "undefined";
 }

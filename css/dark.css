@@ -71,3 +71,6 @@ p{
 .blockUI > p {
     color: black!important;
 }
+.dataTables_info{
+    color: #ececec!important;
+}
