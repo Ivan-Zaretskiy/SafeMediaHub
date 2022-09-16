@@ -16,6 +16,18 @@
                     <p><strong>Category: </strong><?=$serial['category']?></p>
                 </div>
                 <div class="form-group">
+                    <span class="d-flex">
+                        <strong class="m-r-10 m-t-5">Watch status:</strong>
+                        <form id="changeWatchStatus" style="position: relative; bottom: 5px">
+                            <select type="text" class="form-control h-100" id="watch_status_<?=$serial['id'];?>" name="watch_status_<?=$serial['id'];?>">
+                                <?php foreach ($this->watch_statuses as $watch_status){ ?>
+                                    <option value="<?=$watch_status['id']?>" <?= $watch_status['id'] == $serial['watch_status'] ? "selected" : ''?>><?=$watch_status['name']?></option>
+                                <?php } ?>
+                            </select>
+                        </form>
+                    </span>
+                </div>
+                <div class="form-group">
                     <p>
                         <strong>Last watched season: </strong>
                         <button onclick="seasonAction(<?=$serial['id']?>, '#season_info_', true)"><i class="fa fa-minus"></i></button>
@@ -32,15 +44,8 @@
                         <button onclick="episodeAction(<?=$serial['id']?>, '#episode_info_', false, true)"><i class="fa fa-refresh"></i></button>
                     </p>
                 </div>
-                <div class="form-group d-flex m-b-4">
-                    <p>
-                        <strong>Last watched episode time: </strong>
-                        <form id="changeTime" style="position: relative; bottom: 5px">
-                            <input id="time_<?=$serial['id'];?>" type="text" value="<?=$serial['last_episode_time']?>" style="border: 1px solid;padding: 5px;font-size: 15px;border-radius: 7px;margin-left: 10px;">
-                            <i class="fa fa-refresh" onclick="$('#time_<?=$serial['id'];?>').val('00:00:00'); $('#submit_time_<?=$serial['id'];?>').click();"></i>
-                            <button id="submit_time_<?=$serial['id'];?>" type="submit"><i class="fa fa-check"></i></button>
-                        </form>
-                    </p>
+                <div class="form-group">
+                    <p><strong>URL to watch: </strong><a href="<?=$serial['url_to_watch']?>" target="_blank"><?=$serial['url_to_watch']?></a></p>
                 </div>
                 <div class="form-group d-flex m-b-4">
                     <p>
@@ -52,14 +57,15 @@
                         </form>
                     </p>
                 </div>
-                <div class="form-group">
-                    <p><strong>URL to watch: </strong><a href="<?=$serial['url_to_watch']?>" target="_blank"><?=$serial['url_to_watch']?></a></p>
-                </div>
-                <div class="form-group">
-                    <p><strong>You only planning watch this serial?: </strong><?=$serial['is_planned'] == 1 ? 'Yes' : 'No'?></p>
-                </div>
-                <div class="form-group">
-                    <p><strong>You finished watch this serial?: </strong><?=$serial['is_finished'] == 1 ? 'Yes' : 'No'?></p>
+                <div class="form-group d-flex m-b-4">
+                    <p>
+                        <strong>Last watched episode time: </strong>
+                        <form id="changeTime" style="position: relative; bottom: 5px">
+                            <input id="time_<?=$serial['id'];?>" type="text" value="<?=$serial['last_episode_time']?>" style="border: 1px solid;padding: 5px;font-size: 15px;border-radius: 7px;margin-left: 10px;">
+                            <i class="fa fa-refresh" onclick="$('#time_<?=$serial['id'];?>').val('00:00:00'); $('#submit_time_<?=$serial['id'];?>').click();"></i>
+                            <button id="submit_time_<?=$serial['id'];?>" type="submit"><i class="fa fa-check"></i></button>
+                        </form>
+                    </p>
                 </div>
             </div>
         </div>
@@ -130,4 +136,25 @@
             }
         });
     });
+    $('#watch_status_<?=$serial['id'];?>').on('change', function (e) {
+        e.preventDefault();
+        blockCUI();
+        var status = $('#watch_status_'+id).val();
+        $.ajax({
+            method: "POST",
+            url: '/load.php?page=serials&action=changeWatchStatus',
+            data: {'id': id, 'status': status},
+            success: function (data) {
+                let response = JSON.parse(data);
+                if (response.success === true) {
+                    unblockCUI();
+                    if (isset($('#watch_status_main_'+id)[0])) $('#watch_status_main_'+id)[0].innerText = response.new_value;
+                    showAlert('Watch status successfully changed', 'success');
+                } else {
+                    unblockCUI();
+                    showAlert(response.error_message ?? 'Try Later!', 'error');
+                }
+            }
+        });
+    })
 </script>

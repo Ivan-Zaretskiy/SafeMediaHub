@@ -49,4 +49,15 @@ mq('CREATE TABLE `images` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )');
 mq('ALTER table `images` ADD COLUMN `user_id` INT NOT NULL AFTER `id`;');
-
+//////////////////////////////////////////////////////////
+mq('CREATE TABLE `watch_statuses` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(1024) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)');
+mq('INSERT INTO `watch_statuses`(`name`) VALUES ("Watching"), ("Finished"), ("Planning"), ("Waiting"), ("Abandoned")');
+mq('ALTER table `serials` ADD COLUMN `watch_status` INT DEFAULT 1 AFTER `last_episode`');
+mq('ALTER table `serials` DROP COLUMN `is_planned`');
+mq('ALTER table `serials` DROP COLUMN `is_finished`');
+//////////////////////////////////////////////////////////

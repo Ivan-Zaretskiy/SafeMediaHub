@@ -7,12 +7,8 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name of serial">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="category">Category</label>
-                    <select type="text" class="form-control" id="category" name="category">
-                        <?php foreach ($this->serial_categories as $category){ ?>
-                            <option value="<?=$category?>"><?=$category?></option>
-                        <?php } ?>
-                    </select>
+                    <label for="url_to_watch">URL</label>
+                    <input type="text" class="form-control" id="url_to_watch" name="url_to_watch" placeholder="URL to watch">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="last_season">Last watched season</label>
@@ -23,32 +19,36 @@
                     <input type="text" class="form-control" id="last_episode" name="last_episode" placeholder="Number of last watched episode">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="url_to_watch">URL</label>
-                    <input type="text" class="form-control" id="url_to_watch" name="url_to_watch" placeholder="URL to watch">
+                    <label for="category">Category</label>
+                    <select type="text" class="form-control" id="category" name="category">
+                        <?php foreach ($this->serial_categories as $category){ ?>
+                            <option value="<?=$category?>"><?=$category?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="image_url">Image</label>
-                    <input type="text" class="form-control" id="image_url" name="image_url" placeholder="URL to image">
+                    <label for="category">Watch status</label>
+                    <select type="text" class="form-control" id="watch_status" name="watch_status">
+                        <?php foreach ($this->watch_statuses as $watch_status){ ?>
+                            <option value="<?=$watch_status['id']?>"><?=$watch_status['name']?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="iframe_html">Iframe</label>
                     <input type="text" class="form-control" id="iframe_html" name="iframe_html" placeholder="Iframe for video">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="last_episode_time">Last watched episode time</label>
-                    <input type="text" class="form-control" id="last_episode_time" name="last_episode_time" placeholder="Time of last watched episode">
+                    <label for="image_url">Image</label>
+                    <input type="text" class="form-control" id="image_url" name="image_url" placeholder="URL to image">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="next_episode_date">Next episode date</label>
                     <input type="text" class="form-control" id="next_episode_date" name="next_episode_date" placeholder="Date of next episode">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="is_planned">You only planning watch this serial?</label>
-                    <input type="checkbox" class="m-l-15" style="width:20px; height:20px;" id="is_planned" name="is_planned">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="is_finished">You finished watch this serial?</label>
-                    <input type="checkbox" class="m-l-15" style="width:20px; height:20px;" id="is_finished" name="is_finished">
+                    <label for="last_episode_time">Last watched episode time</label>
+                    <input type="text" class="form-control" id="last_episode_time" name="last_episode_time" placeholder="Time of last watched episode">
                 </div>
             </div>
         </div>

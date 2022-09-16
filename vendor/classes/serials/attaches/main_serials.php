@@ -12,13 +12,17 @@
             method: "GET",
         },
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, 'All'] ],
-        pageLength: 25,
+        pageLength: 50,
         columns: [
             { title: 'Name',data: 'name', render: function (data) {
                 return data ?? '';
             }},
             { title: 'Category',data: 'category', render: function (data) {
                 return data ?? '';
+            }},
+            { title: 'Watch Status', data: 'full_watch_status', render: function (data, type, row) {
+                    var val = data ??  '';
+                    return '<span id="watch_status_main_'+row.id+'">'+val+'</span>';
             }},
             { title: 'Last season', data: 'last_season', render: function (data, type, row) {
                 var minus_button = '<button onclick="seasonAction('+row.id+', \'#season_\', true)"><i class="fa fa-minus"></i></button>';
@@ -44,12 +48,6 @@
             }},
             { title: 'URL to watch', data: 'url_to_watch', render: function (data) {
                 return data ? '<a href="'+data+'" target="_blank">URL</a>' : '';
-            }},
-            { title: 'Is Planned', data: 'is_planned', render: function (data) {
-                return data == 1 ? is_yes : is_not;
-            }},
-            { title: 'Is Finished', data: 'is_finished', render: function (data) {
-                return data == 1 ? is_yes : is_not;
             }},
             { title: 'Updated time', data: 'updated_at', render: function (data){
                 return data ?? '';
