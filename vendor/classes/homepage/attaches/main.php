@@ -1,7 +1,9 @@
-<div class="p-20-px">
-    <h1 class="float-l">Encrypted fields</h1>
-    <button class="btn btn-success float-r m-20-px button-radius" title="Add New Field" onclick="checkPin('addField')"><i class="fa fa-plus"></i></button>
-    <table id="fieldsTable" class="m-20-px"></table>
+<div class="overflow-hidden">
+    <div class="overflow-auto p-20-px">
+        <h1 class="float-l">Encrypted fields</h1>
+        <button class="btn btn-success float-r m-20-px button-radius" title="Add New Field" onclick="checkPin('addField')"><i class="fa fa-plus"></i></button>
+        <table id="fieldsTable" class="m-20-px w-100"></table>
+    </div>
 </div>
 <script>
     var fieldsTable = $('#fieldsTable').DataTable({

@@ -1,8 +1,10 @@
-<div class="p-20-px">
-    <h1 class="float-l">Images</h1>
-    <button class="btn btn-success float-r m-20-px m-l-0 button-radius" title="Load new image by URL" onclick="checkPin('loadNewImage')">URL</button>
-    <button class="btn btn-info float-r m-20-px m-r-10 button-radius"  title="Load new image by File" onclick="checkPin('loadNewImageFile')"><i class="fa fa-file"></i></button>
-    <table id="imagesTable" class="m-20-px"></table>
+<div class="overflow-hidden">
+    <div class="overflow-auto p-20-px">
+        <h1 class="float-l">Images</h1>
+        <button class="btn btn-success float-r m-20-px m-l-0 button-radius" title="Load new image by URL" onclick="checkPin('loadNewImage')">URL</button>
+        <button class="btn btn-info float-r m-20-px m-r-10 button-radius"  title="Load new image by File" onclick="checkPin('loadNewImageFile')"><i class="fa fa-file"></i></button>
+        <table id="imagesTable" class="m-20-px w-100"></table>
+    </div>
 </div>
 <script>
     var imagesTable = $('#imagesTable').DataTable({
