@@ -1,6 +1,6 @@
 <?php
 //////////////////////////////////////////////////////////
-mq("CREATE TABLE `encryptedString` (
+mq("CREATE TABLE IF NOT EXIST `encryptedString` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT(12) NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -9,7 +9,7 @@ mq("CREATE TABLE `encryptedString` (
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP()
 )");
 //////////////////////////////////////////////////////////
-mq("CREATE TABLE `users`(
+mq("CREATE TABLE IF NOT EXIST `users`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(128) NOT NULL,
     `email` VARCHAR(1024) NOT NULL,
@@ -24,7 +24,7 @@ mq("CREATE TABLE `users`(
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )");
 //////////////////////////////////////////////////////////
-mq("CREATE TABLE `serials`(
+mq("CREATE TABLE IF NOT EXIST `serials`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -41,7 +41,7 @@ mq("CREATE TABLE `serials`(
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )");
 //////////////////////////////////////////////////////////
-mq('CREATE TABLE `images` (
+mq('CREATE TABLE IF NOT EXIST `images` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -50,11 +50,10 @@ mq('CREATE TABLE `images` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )');
 //////////////////////////////////////////////////////////
-mq('CREATE TABLE `watch_statuses` (
+mq('CREATE TABLE IF NOT EXIST `watch_statuses` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )');
-mq('INSERT INTO `watch_statuses`(`name`) VALUES ("Watching"), ("Finished"), ("Planning"), ("Waiting"), ("Abandoned")');
 //////////////////////////////////////////////////////////

@@ -1,5 +1,3 @@
-<?php
-global $user?>
 <div id="myModal" class="modal">
     <div class="modal-content">
         <div id="modalHeader" class="modal-header">
