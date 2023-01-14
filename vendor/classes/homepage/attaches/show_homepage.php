@@ -1,7 +1,3 @@
-<?php
-global $keyManager;
-//var_dump($_SESSION)
-?>
 <div class="container-pass">
     <div class="main-pass">
         <div class="topbar-pass">
@@ -22,7 +18,7 @@ global $keyManager;
         <ul class="ul-pass">
             <li class="li-pass">
                 <a href="javascript:void(0)">
-                    <span class="icon-pass"><i class="fa fa-apple" aria-hidden="true"></i></span>
+                    <span class="icon-pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
                     <span class="title-pass"><h5 class="h2-main">Protection Manager</h5></span>
                 </a>
             </li>
@@ -34,7 +30,7 @@ global $keyManager;
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
-                    <span class="icon-pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                    <span class="icon-pass"><i class="fa fa-sticky-note" aria-hidden="true"></i></span>
                     <span class="title-pass load-title-pass" name="loadMain" page-id="page-2" ajax-href="/load.php?page=homepage&action=loadMain" ready="false">Encrypted fields</span>
                 </a>
             </li>

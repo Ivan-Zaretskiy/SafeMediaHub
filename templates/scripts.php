@@ -14,6 +14,7 @@
 <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
 <script src="/plugin/select2/select2.min.js"></script>
 <script src="/plugin/blockUI/jquery.blockUI.js"></script>
+<script src="/plugin/jquery-ui/jquery-ui.js"></script>
 <script src="/plugin/tilt/tilt.jquery.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/plugin/sweetalert2/sweetalert2.js"></script>

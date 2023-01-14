@@ -3,7 +3,7 @@
         <div style="margin: 20px">
             <div class="form-group">
                 <label for="modalPIN">PIN</label>
-                <input type="password" class="form-control" id="modalPIN" name="PIN" placeholder="Enter your first PIN">
+                <input type="text" class="form-control" id="modalPIN" name="PIN" placeholder="Enter your first PIN">
             </div>
         </div>
     </div>

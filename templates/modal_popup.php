@@ -1,8 +1,13 @@
+<?php
+global $user?>
 <div id="myModal" class="modal">
     <div class="modal-content">
         <div id="modalHeader" class="modal-header">
             <h2>Modal Header</h2>
-            <span id="closeModal">&times;</span>
+            <div>
+                <img id="draggable_icon" src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG">
+                <span id="closeModal">&times;</span>
+            </div>
         </div>
         <div class="modal-main">
             <?= showLoader(); ?>
@@ -47,7 +52,7 @@
     }
     #closeModal {
         float: right;
-        font-size: 28px;
+        font-size: 40px;
         font-weight: bold;
     }
     #closeModal:hover,
@@ -55,6 +60,12 @@
         color: #000;
         text-decoration: none;
         cursor: pointer;
+    }
+    #draggable_icon {
+        cursor: pointer;
+        width: 32px;
+        margin-top: 12px;
+        margin-right: 20px;
     }
     .modal-header {
         padding: 16px;
@@ -72,6 +83,9 @@
         window.onclick = function (event) {
             if (event.target.id === 'myModal') closeModal();
         }
+        $('.modal-content').draggable({
+            handle: "#draggable_icon"
+        });
     });
 
     function showModal(title, load_url, data = false) {

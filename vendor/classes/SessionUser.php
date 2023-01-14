@@ -51,6 +51,11 @@ class SessionUser{
         return $this->dark_mode == 1;
     }
 
+    function getInterfaceMode(): string
+    {
+        return $this->dark_mode == 1 ? 'dark' : 'light';
+    }
+
     function setUserKey($key = null)
     {
         $key = $key ?? ($_SESSION['user_key'] ?? null);
