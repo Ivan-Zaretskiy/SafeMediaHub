@@ -1,5 +1,8 @@
 <?php
-include_once "vendor/config.php";?>
+include_once "vendor/config.php";
+//var_dump($_SESSION);
+//die();
+?>
 <!doctype html>
 <html lang="en">
 <head>

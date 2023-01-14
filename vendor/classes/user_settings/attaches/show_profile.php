@@ -1,20 +1,20 @@
 <div class="p-20-px">
     <div class="d-flex justify-content-sm-between">
         <h1 class="float-l">Profile</h1>
-        <button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=user&action=changePassword&ajax=true')">Change password</button>
+        <div class="buttons" id="profile_buttons"></div>
     </div>
     <form id="changeProfileForm">
         <div class="row gutters p-20-px">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="profileUsername">Full Name</label>
-                    <input type="text" class="form-control" id="profileUsername" name="username" value="<?= $this->user['username']; ?>" placeholder="Enter your username">
+                    <input type="text" class="form-control" id="profileUsername" name="username" value="<?= $user->username; ?>" placeholder="Enter your username">
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="profileEmail">Email</label>
-                    <input type="email" class="form-control" id="profileEmail" name="email" value="<?= $this->user['email']; ?>" placeholder="Enter your email">
+                    <input type="email" class="form-control" id="profileEmail" name="email" value="<?= $user->email; ?>" placeholder="Enter your email">
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -36,12 +36,28 @@
     </form>
 </div>
 <script>
+    var userHaveKey = Boolean(<?= $user->have_key?>);
+    $(document).ready(showProfileButtons(userHaveKey));
+    function showProfileButtons(have_key) {
+        var buttons = '';
+        var uploadKeyButton = `<button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/load.php?page=keysManager&action=uploadKey&ajax=true');">Upload Key</button>`;
+        var changePasswordButton = `<button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=user_settings&action=changePassword&ajax=true')">Change password</button>`;
+        var resetKeyButton= `<button class="btn btn-danger float-r m-20-px" onclick="check2Pins('resetKey')">Reset Key</button>`;
+        var generateKeyButton= `<button class="btn btn-info float-r m-20-px" onclick="check2Pins('generateMyKey')">${have_key ? 'Regenerate Key' : 'Generate Key'}</button>`;
+        if (have_key) {
+            buttons = uploadKeyButton + changePasswordButton + resetKeyButton + generateKeyButton;
+        } else {
+            buttons =  changePasswordButton + generateKeyButton;
+        }
+        $('#profile_buttons').html(buttons);
+    }
+
     $('#changeProfileForm').on('submit',function (e) {
         e.preventDefault();
 
         var form = $('#changeProfileForm');
         var data = form.serialize();
-        var url = '/load.php?page=user&action=editProfile';
+        var url = '/load.php?page=user_settings&action=editProfile';
 
         $.ajax({
             method: "POST",

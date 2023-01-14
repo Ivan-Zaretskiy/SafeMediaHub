@@ -86,8 +86,8 @@ function seasonAction(id, elem ='#season_', minus = true, to_first = false) {
             success: function (data) {
                 let response = JSON.parse(data);
                 if (response.success === true) {
-                    if (isset($('#season_'+id)[0])) $('#season_'+id)[0].innerText = response.new_value;
-                    if (isset($('#season_info_'+id)[0])) $('#season_info_'+id)[0].innerText = response.new_value;
+                    if (typeof ($('#season_'+id)[0]) !== 'undefined') $('#season_'+id)[0].innerText = response.new_value;
+                    if (typeof ($('#season_info_'+id)[0]) !== 'undefined') $('#season_info_'+id)[0].innerText = response.new_value;
                     unblockCUI();
                 } else {
                     unblockCUI();
@@ -125,8 +125,8 @@ function episodeAction(id, elem ='#episode_', minus = true, to_first = false) {
                 let response = JSON.parse(data);
                 if (response.success === true) {
                     unblockCUI();
-                    if (isset($('#episode_'+id)[0])) $('#episode_'+id)[0].innerText = response.new_value;
-                    if (isset($('#episode_info_'+id)[0])) $('#episode_info_'+id)[0].innerText = response.new_value;
+                    if (typeof ($('#episode_'+id)[0]) !== 'undefined') $('#episode_'+id)[0].innerText = response.new_value;
+                    if (typeof ($('#episode_info_'+id)[0]) !== 'undefined') $('#episode_info_'+id)[0].innerText = response.new_value;
                 } else {
                     unblockCUI();
                     showAlert('Try Later!', 'error');
@@ -188,6 +188,20 @@ function getModalData(){
     return JSON.parse($('#modal_data').val());
 }
 
-function isset(elem) {
-    return typeof elem !== "undefined";
+function downloadText(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + JSON.parse(encodeURIComponent(text)));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+function updateAllTables() {
+    if (typeof(imagesTable) !== 'undefined') imagesTable.ajax.reload();
+    if (typeof(fieldsTable) !== 'undefined') fieldsTable.ajax.reload();
 }

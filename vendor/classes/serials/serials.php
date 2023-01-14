@@ -1,12 +1,10 @@
 <?php
 class serials {
-    public $user;
     public $serial_categories = ['Serial', 'Anime', 'Marvel', 'CW', 'Cartoon', 'Netflix'];
     public $watch_statuses = [];
 
     public function __construct()
     {
-        $this->user = $_SESSION['loginUser'];
         $this->watch_statuses = getArrayQuery('SELECT * FROM watch_statuses');
     }
 
@@ -32,9 +30,11 @@ class serials {
 
     public function getSerials()
     {
+        global $user;
+
         $q = 'SELECT `s`.*, `ws`.`name` as `full_watch_status` FROM `serials` `s` 
                 LEFT JOIN `watch_statuses` `ws` ON `s`.`watch_status` = `ws`.`id`
-                WHERE `s`.`user_id` = '.$this->user['id'];
+                WHERE `s`.`user_id` = '.$user->getUserID();
         $result = getArrayQuery($q);
 
         echo json_encode(['data'=>$result]);
@@ -42,9 +42,11 @@ class serials {
 
     public function addNewSerial()
     {
+        global $user;
+
         if (!isset($_GET['ajax'])) {
             $ajax = [];
-            $userId = $this->user['id'];
+            $userId = $user->getUserID();
             $name = mres($_POST['name']);
             $category = mres($_POST['category']);
             $last_season = !empty($_POST['last_season']) ?  "'".(int)$_POST['last_season']."'" : 'NULL';

@@ -136,7 +136,7 @@ var Tooltip = function () {
 
     _initialiseProps.call(this);
 
-    // apply user options over default ones
+    // apply user_settings options over default ones
     options = _extends({}, DEFAULT_OPTIONS, options);
 
     reference.jquery && (reference = reference[0]);

@@ -48,6 +48,22 @@
                             a.click();
                             closeModal();
                             break;
+                        case 'generateMyKey':
+                            if (response.name) {
+                                showAlert('Key successfully generated!<br>' +
+                                    'Click <a onclick="clickEnvFile(\'' + response.name + '\')" style="color: #29b348!important;font-size: 1.1rem;" href="/temporary_user_files/' + response.name + '">here</a> to downolad key!', 'success');
+                                showProfileButtons(true)
+                                closeModal();
+                            } else {
+                                showAlert(response.error_message, 'error');
+                                closeModal();
+                            }
+                            break;
+                        case 'resetKey':
+                            showAlert('Key reset successfully!', 'success');
+                            updateAllTables();
+                            showProfileButtons(false)
+                            closeModal();
                     }
                 } else {
                     showAlert('Wrong PIN', 'error');
@@ -55,4 +71,14 @@
             }
         })
     })
+
+    function clickEnvFile(name) {
+        setTimeout(() => {
+            $.ajax({
+                method: "POST",
+                url: '/load.php?page=keysManager&action=removeEnvFile',
+                data: {'name': name}
+            });
+        }, 1000);
+    }
 </script>

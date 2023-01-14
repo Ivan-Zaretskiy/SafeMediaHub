@@ -1,12 +1,6 @@
 <?php
 class imageManager
 {
-    public mixed $user;
-
-    public function __construct()
-    {
-        $this->user = $_SESSION['loginUser'];
-    }
 
     public function loadAllImages()
     {
@@ -16,7 +10,9 @@ class imageManager
 
     public function getImages()
     {
-        $q = 'SELECT * FROM `images` WHERE `user_id` = '.$this->user['id'];
+        global $user;
+
+        $q = 'SELECT * FROM `images` WHERE `user_id` = '.$user->getUserID();
         $result = getArrayQuery($q);
 
         echo json_encode(['data'=>$result]);
@@ -24,14 +20,14 @@ class imageManager
 
     public function loadNewImage()
     {
-        global $keyManager;
+        global $keyManager, $user;
         if (!isset($_GET['ajax'])) {
             $name = !empty($_POST['name']) ? $_POST['name'] : date('d-m-Y_H:i:s');
             $name = str_replace(' ', '_', trim(mres($name)));
             $name = $name . '.jpg';
             $image = file_get_contents($_POST['url_image']);
             $encrypt = $keyManager->encryptString($image);
-            $q = "INSERT INTO `images` SET `user_id` = ".$this->user['id'].", `name` = '".mres($name)."', `file` = '".$encrypt."'";
+            $q = "INSERT INTO `images` SET `user_id` = ".$user->getUserID().", `name` = '".mres($name)."', `file` = '".$encrypt."'";
             if (mq($q)) {
                 $ajax['success'] = true;
             } else {
@@ -46,7 +42,7 @@ class imageManager
 
     public function loadNewImageFile()
     {
-        global $keyManager;
+        global $keyManager, $user;
         if (!isset($_GET['ajax'])) {
             $new_name = !empty($_POST['name']) ? $_POST['name'] : date('d-m-Y_H:i:s');
             $new_name = str_replace(' ', '_', trim($new_name));
@@ -56,7 +52,7 @@ class imageManager
             if (move_uploaded_file($_FILES['file']['tmp_name'], $target_dir . $name)) {
                 $image_base64 = $keyManager->encryptString(file_get_contents($target_dir.$name));
                 unlink($target_dir . $name);
-                $q = "INSERT INTO `images` SET `user_id` = ".$this->user['id'].", `name` = '".mres($new_name)."', `file` = '".$image_base64."'";
+                $q = "INSERT INTO `images` SET `user_id` = ".$user->getUserID().", `name` = '".mres($new_name)."', `file` = '".$image_base64."'";
                 if (mq($q)) {
                     $ajax['success'] = true;
                 } else {
@@ -81,9 +77,11 @@ class imageManager
 
     public function deleteImage()
     {
+        global $user;
+
         $ajax = [];
         $id = (int)$_POST['id'];
-        $q = 'DELETE FROM `images` WHERE `user_id` = '.$this->user['id'].' AND `id` = '.$id;
+        $q = 'DELETE FROM `images` WHERE `user_id` = '.$user->getUserID().' AND `id` = '.$id;
         if (mq($q)) {
             $ajax['success'] = true;
         } else {

@@ -1,16 +1,12 @@
 <?php
 
-class user
+class user_settings
 {
-    public $user;
-
-    public function __construct()
-    {
-        $this->user = $_SESSION['loginUser'];
-    }
 
     public function profile()
     {
+        global $user;
+
         $firstPIN = self::generateLockPIN(4);
         $secondPIN = self::generateLockPIN(8);
         include_once('attaches/show_profile.php');
@@ -19,6 +15,7 @@ class user
 
     public function changePassword()
     {
+        global $user;
 
         if (!isset($_GET['ajax'])) {
             $ajax = [];
@@ -26,11 +23,11 @@ class user
             $currentPassword = mres($_POST['currentPassword']);
             $newPassword = mres($_POST['newPassword']);
             $confirmPassword = mres($_POST['confirmPassword']);
-            $pass_verify = password_verify($currentPassword, $this->user['password']);
+            $pass_verify = password_verify($currentPassword, $user->password);
             if ($newPassword == $confirmPassword) {
                 if ($pass_verify) {
                     $hash_password = password_hash($newPassword,PASSWORD_BCRYPT,['cost' => 12]);
-                    $q = "UPDATE `users` SET `password` = '".$hash_password."' WHERE `id` = ".$this->user['id'];
+                    $q = "UPDATE `users` SET `password` = '".$hash_password."' WHERE `id` = ".$user->getUserID();
                     if (mq($q)) {
                         $ajax['success'] = true;
                     } else {
@@ -51,7 +48,7 @@ class user
 
     public function editProfile()
     {
-        global $keyManager;
+        global $user;
 
         $ajax = [];
         $ajax['success'] = false;
@@ -59,7 +56,7 @@ class user
         $username = mres($_POST['username']);
 
         if ($_POST['firstPIN'] == '****') {
-            $firstPIN = $this->user['firstPIN'];
+            $firstPIN = $user->firstPIN;
         } else {
             if (!is_numeric($_POST['firstPIN']) && strlen($_POST['firstPIN']) !== 4){
                 $ajax['text'] = 'Invalid first PIN';
@@ -70,7 +67,7 @@ class user
         }
 
         if ($_POST['secondPIN'] == '********') {
-            $secondPIN = $this->user['secondPIN'];
+            $secondPIN = $user->secondPIN;
         } else {
             if (!is_numeric($_POST['secondPIN']) && strlen($_POST['secondPIN']) !== 8){
                 $ajax['text'] = 'Invalid second PIN';
@@ -91,10 +88,12 @@ class user
             die();
         }
 
-        $q = 'UPDATE `users` SET `email` = "'.$email.'",
-                                `username` = "'.$username.'",
-                                `firstPIN` = "'.mres($firstPIN).'",
-                                `secondPIN` = "'.mres($secondPIN).'"';
+        $q = 'UPDATE `users` SET
+                 `email` = "'.$email.'",
+                 `username` = "'.$username.'",
+                 `firstPIN` = "'.mres($firstPIN).'",
+                 `secondPIN` = "'.mres($secondPIN).'"
+              WHERE id = '.$user->getUserID();
 
         if (mq($q)) {
             $ajax['success'] = true;

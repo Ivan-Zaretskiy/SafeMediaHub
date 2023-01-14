@@ -27,7 +27,7 @@
             if ($('#confirmPassword').val() === $('#newPassword').val()) {
                 let form = $('#changePasswordFrom');
                 let data = form.serialize();
-                let url = '/load.php?page=user&action=changePassword';
+                let url = '/load.php?page=user_settings&action=changePassword';
 
                 $.ajax({
                     method: "POST",

@@ -1,7 +1,6 @@
 <?php
 
 class login{
-    public $loginUser;
 
     public function __construct()
     {
@@ -14,7 +13,7 @@ class login{
         if ($_GET['action'] == 'createNewAccount'){
             $this->createNewAccount();
         }
-        if (empty($_SESSION['loginUser'])) {
+        if (empty($_SESSION['user'])) {
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
                 $email = mres($_POST['email']);
                 $pass = $_POST['password'];
@@ -22,8 +21,7 @@ class login{
                 if ($user_info) {
                     $pass_verify = password_verify($pass, $user_info['password']);
                     if ($pass_verify) {
-                        $this->loginUser = $user_info;
-                        $_SESSION['loginUser'] = $user_info;
+                        $_SESSION['user_id'] = $user_info['id'];
                     } else {
                         $this->sign_in('Invalid password');
                     }
@@ -34,9 +32,7 @@ class login{
                 $this->sign_in();
             }
         } else {
-            $user_info = getRowQuery('SELECT * FROM users WHERE `id` = '.$_SESSION['loginUser']['id']);
-            $_SESSION['loginUser'] = $user_info;
-            $this->loginUser = $user_info;
+            $_SESSION['user_id'] = $_SESSION['user']['id'];
         }
     }
 
@@ -95,7 +91,7 @@ class login{
         if(mq($q)){
             redirect('/');
         } else {
-            $error = 'Problem with saving user';
+            $error = 'Problem with saving user_settings';
             $this->sign_up($error);
         }
     }

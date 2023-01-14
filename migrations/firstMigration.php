@@ -22,6 +22,9 @@ mq('ALTER table `users` ADD COLUMN `secondPIN` VARCHAR(8) DEFAULT NULL AFTER `fi
 mq('ALTER table `users` ADD COLUMN `dark_mode` INT DEFAULT 0 AFTER `password`');
 mq('ALTER table `users` MODIFY COLUMN `firstPIN` VARCHAR(1024) DEFAULT NULL;');
 mq('ALTER table `users` MODIFY COLUMN `secondPIN` VARCHAR(1024) DEFAULT NULL;');
+mq('ALTER table `users` ADD COLUMN `have_key` INT DEFAULT 0 AFTER `dark_mode`');
+mq('ALTER table `users` ADD COLUMN `key_hash` LONGTEXT DEFAULT NULL AFTER `have_key`');
+mq('ALTER table `users` ADD COLUMN `key_created_at` TIMESTAMP DEFAULT NULL AFTER `have_key`');
 //////////////////////////////////////////////////////////
 mq("CREATE TABLE `serials`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

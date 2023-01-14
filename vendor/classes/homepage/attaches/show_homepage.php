@@ -1,3 +1,7 @@
+<?php
+global $keyManager;
+//var_dump($_SESSION)
+?>
 <div class="container-pass">
     <div class="main-pass">
         <div class="topbar-pass">
@@ -24,14 +28,14 @@
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
-                    <span class="icon-pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="loadMain" page-id="page-1" ajax-href="/load.php?page=homepage&action=loadMain" ready="false">Encrypted fields</span>
+                    <span class="icon-pass"><i class="fa fa-user" aria-hidden="true"></i></span>
+                    <span class="title-pass load-title-pass" name="profile" page-id="page-1" ajax-href="/load.php?page=user_settings&action=profile" ready="false">Profile</span>
                 </a>
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
-                    <span class="icon-pass"><i class="fa fa-user" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="profile" page-id="page-2" ajax-href="/load.php?page=user&action=profile" ready="false">Profile</span>
+                    <span class="icon-pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                    <span class="title-pass load-title-pass" name="loadMain" page-id="page-2" ajax-href="/load.php?page=homepage&action=loadMain" ready="false">Encrypted fields</span>
                 </a>
             </li>
             <li class="li-pass">

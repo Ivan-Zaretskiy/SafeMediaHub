@@ -148,7 +148,7 @@
                 let response = JSON.parse(data);
                 if (response.success === true) {
                     unblockCUI();
-                    if (isset($('#watch_status_main_'+id)[0])) $('#watch_status_main_'+id)[0].innerText = response.new_value;
+                    if (typeof ($('#watch_status_main_'+id)[0]) !== 'undefined') $('#watch_status_main_'+id)[0].innerText = response.new_value;
                     showAlert('Watch status successfully changed', 'success');
                 } else {
                     unblockCUI();
