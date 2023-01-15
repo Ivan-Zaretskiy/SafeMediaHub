@@ -32,12 +32,47 @@ class serials {
     {
         global $user;
 
-        $q = 'SELECT `s`.*, `ws`.`name` as `full_watch_status` FROM `serials` `s` 
-                LEFT JOIN `watch_statuses` `ws` ON `s`.`watch_status` = `ws`.`id`
-                WHERE `s`.`user_id` = '.$user->getUserID();
-        $result = getArrayQuery($q);
+        $q_select = 'SELECT SQL_CALC_FOUND_ROWS `s`.*, `ws`.`name` as `full_watch_status` FROM `serials` `s` 
+                LEFT JOIN `watch_statuses` `ws` ON `s`.`watch_status` = `ws`.`id`';
 
-        echo json_encode(['data'=>$result]);
+        $q_where = " WHERE `s`.`user_id` = ".$user->getUserID();
+        $pre = " AND ";
+        if( sizeof($_POST['columns']) > 0 ) {
+            foreach ($_POST['columns'] as $column) {
+                if ($column['searchable'] == "true") {
+                    if ($column['search']['value'] != "" && $column['search']['value'] != '-1') {
+                        $q_where .= $pre . mres($column['name']) . " LIKE '%" . mres($column['search']['value']) . "%'";
+                        $pre = " AND ";
+                    }
+                }
+            }
+        }
+
+
+        if(isset($_POST['length'])) {
+            $limit = (int) $_POST['length'];
+            if ($limit != -1) {
+                $q_limit = " LIMIT " . (int) $_POST['start'] . "," . $limit;
+            } else {
+                $q_limit = "";
+            }
+        }else {
+            $q_limit = "";
+        }
+
+
+        $orderby = "";
+        $orderbyPre = " ORDER BY ";
+        foreach($_POST['order'] as $order){
+            $orderby .= $orderbyPre.$_POST['columns'][$order['column']]['name']." ".$order['dir'];
+            $orderbyPre = ",";
+        }
+        $q = $q_select.$q_where.$orderby.$q_limit;
+        $result = getArrayQuery($q);
+        $total = (int) getValueQuery("SELECT FOUND_ROWS()");
+
+        echo json_encode(["draw"=>(int) $_POST['draw'], "recordsTotal" => $total, "recordsFiltered" => $total, "data" => $result, "q" => $q]);
+        die();
     }
 
     public function addNewSerial()
