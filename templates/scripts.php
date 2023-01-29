@@ -4,7 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/plugin/animate/animate.css">
 <link rel="stylesheet" type="text/css" href="/plugin/css-hamburgers/hamburgers.min.css">
 <link rel="stylesheet" type="text/css" href="/plugin/select2/select2.min.css">
-<link rel="stylesheet" type="text/css" href="/plugin/vanillaSelectBox-master/vanillaSelectBox.css">
 <link rel="stylesheet" type="text/css" href="/css/util.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/plugin/datatable/jquery.dataTables.min.css">
@@ -14,7 +13,6 @@
 <script src="/plugin/bootstrap/js/popper.js"></script>
 <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
 <script src="/plugin/select2/select2.min.js"></script>
-<script src="/plugin/vanillaSelectBox-master/vanillaSelectBox.js"></script>
 <script src="/plugin/blockUI/jquery.blockUI.js"></script>
 <script src="/plugin/jquery-ui/jquery-ui.js"></script>
 <script src="/plugin/tilt/tilt.jquery.min.js"></script>

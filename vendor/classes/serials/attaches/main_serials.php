@@ -48,9 +48,7 @@
      </div>
 </div>
 <script>
-    let is_yes = '<button class="btn btn-success button-radius"><i class="fa fa-check"></i></button>';
-    let is_not = '<button class="btn btn-danger button-radius"><i class="fa fa-close"></i></button>';
-    var wto;
+    var timeout;
     var dom = '<"row"<"col-md-6"l><"col-md-6">>B'+
         '<"dataTables_scroll dataTables_wrapper"<"table-dataTables_scrollBody table-adaptive"t>>'+
         '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
@@ -114,19 +112,11 @@
             }}
         ],
         initComplete: function () {
-            $('#serialsTable>tfoot input').keyup(function () {
-                clearTimeout(wto);
+            $('#serialsTable>tfoot input, #serialsTable>tfoot select').on('keyup change',function () {
+                clearTimeout(timeout);
                 var idx = $(this).parent('td').index();
                 serialsTable.column(idx).search($(this).val());
-                wto = setTimeout(function () {
-                    serialsTable.draw();
-                }, 300);
-            });
-            $('#serialsTable>tfoot select').change(function () {
-                clearTimeout(wto);
-                var idx = $(this).parent('td').index();
-                serialsTable.column(idx).search($(this).val());
-                wto = setTimeout(function () {
+                timeout = setTimeout(function () {
                     serialsTable.draw();
                 }, 300);
             });

@@ -15,11 +15,12 @@
     </div>
 </div>
 <div id="modalHidden" class="modal-header modal-hidden">
-    <h2>Modal</h2>
-    <div>
-        <span class="closeModalButton">×</span>
-        <img src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG" class="draggable_icon draggable_icon_second">
-        <span class="hideModalButton">-</span>
+    <div class="modal-hidden-content d-flex justify-content-between">
+        <div class="modal-hidden-buttons">
+            <span class="closeModalButton">×</span>
+            <img src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG" class="draggable_icon draggable_icon_second">
+            <span class="hideModalButton">-</span>
+        </div>
     </div>
 </div>
 <style>
@@ -84,7 +85,6 @@
     .modal-hidden {
         position: fixed;
         display: none;
-        width: 20%;
         height: 8%;
         border: 1px solid black;
         border-radius: 15px;
@@ -97,6 +97,10 @@
     }
     .modal-footer {
         padding: 16px;
+    }
+    .modal-hidden-buttons {
+        position: relative;
+        bottom: 15px;
     }
 </style>
 <script>
@@ -111,8 +115,13 @@
         $('#modalHidden').draggable({
             handle: ".draggable_icon_second"
         });
-        $('.hideModalButton').on('click', function (e){
-
+        $('.hideModalButton').on('click', function (){
+            $('#myModal').slideToggle();
+            if ($('#modalHidden').css('display') === 'none') {
+                $('#modalHidden').show();
+            } else {
+                $('#modalHidden').hide();
+            }
         });
     });
 
