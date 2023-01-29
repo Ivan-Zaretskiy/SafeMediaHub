@@ -68,7 +68,7 @@
         columns: [
             { title: 'Name', data: 'name', name: 's.name', sortable: true, render: function (data, type, row) {
                 var url = '';
-                if (row.url_to_watch) url = ' <a style="color: #007bff!important;" href="'+row.url_to_watch+'" target="_blank">URL</a>';
+                if (row.url_to_watch) url = '<a href="'+row.url_to_watch+'" target="_blank" title="Link to view"><i class="fa fa-link" style="margin-left: 5px;   color: #007bff!important"></a>';
                 return data + url;
             }},
             { title: 'Category', data: 'category', name: 'category', sortable: true, render: function (data) {

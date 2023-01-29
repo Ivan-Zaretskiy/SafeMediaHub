@@ -3,14 +3,23 @@
         <div id="modalHeader" class="modal-header">
             <h2>Modal Header</h2>
             <div>
-                <img id="draggable_icon" src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG">
-                <span id="closeModal">&times;</span>
+                <span class="closeModalButton">&times;</span>
+                <img src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG" class="draggable_icon draggable_icon_first">
+                <span class="hideModalButton">-</span>
             </div>
         </div>
         <div class="modal-main">
             <?= showLoader(); ?>
         </div>
         <input type="hidden" id="modal_data" value="">
+    </div>
+</div>
+<div id="modalHidden" class="modal-header modal-hidden">
+    <h2>Modal</h2>
+    <div>
+        <span class="closeModalButton">×</span>
+        <img src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG" class="draggable_icon draggable_icon_second">
+        <span class="hideModalButton">-</span>
     </div>
 </div>
 <style>
@@ -48,25 +57,40 @@
         from {top:-300px; opacity:0}
         to {top:0; opacity:1}
     }
-    #closeModal {
+    .closeModalButton,
+    .hideModalButton{
         float: right;
         font-size: 40px;
         font-weight: bold;
+        padding: 5px;
     }
-    #closeModal:hover,
-    #closeModal:focus {
+    .closeModalButton:hover,
+    .hideModalButton:hover,
+    .closeModalButton:focus,
+    .hideModalButton:focus {
         color: #000;
         text-decoration: none;
         cursor: pointer;
     }
-    #draggable_icon {
+    .draggable_icon {
         cursor: pointer;
         width: 32px;
-        margin-top: 12px;
-        margin-right: 20px;
+        margin-top: 17px;
+        margin-right: 5px;
     }
     .modal-header {
         padding: 16px;
+    }
+    .modal-hidden {
+        position: fixed;
+        display: none;
+        width: 20%;
+        height: 8%;
+        border: 1px solid black;
+        border-radius: 15px;
+        z-index: 10001;
+        top: 85%;
+        left: 75%;
     }
     .modal-body {
         padding: 2px 16px;
@@ -77,16 +101,23 @@
 </style>
 <script>
     $(document).ready(function () {
-        $('#closeModal').on('click',closeModal)
+        $('.closeModalButton').on('click',closeModal)
         window.onclick = function (event) {
             if (event.target.id === 'myModal') closeModal();
         }
         $('.modal-content').draggable({
-            handle: "#draggable_icon"
+            handle: ".draggable_icon_first"
+        });
+        $('#modalHidden').draggable({
+            handle: ".draggable_icon_second"
+        });
+        $('.hideModalButton').on('click', function (e){
+
         });
     });
 
     function showModal(title, load_url, data = false) {
+        $('#modalHidden').hide();
         $('#modalHeader h2').html(title);
         $('.modal-main').load(load_url);
         $('#myModal').show();
@@ -94,6 +125,7 @@
     }
 
     function closeModal() {
+        $('#modalHidden').hide();
         $('#myModal').hide();
         $('.modal-main').html(showLoader());
         $('#modalHeader h2').html('Modal Header');
