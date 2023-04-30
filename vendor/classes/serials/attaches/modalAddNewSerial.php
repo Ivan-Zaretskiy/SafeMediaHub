@@ -50,6 +50,9 @@
                     <label for="last_episode_time">Last watched episode time</label>
                     <input type="text" class="form-control" id="last_episode_time" name="last_episode_time" placeholder="Time of last watched episode">
                 </div>
+                <div class="form-group col-md-12">
+                    <textarea class="form-control" id="additional_info" name="additional_info" placeholder="Additional Info" style="height: 125px"></textarea>
+                </div>
             </div>
         </div>
     </div>

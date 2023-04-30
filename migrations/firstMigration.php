@@ -34,6 +34,7 @@ mq("CREATE TABLE IF NOT EXIST `serials`(
     `watch_status` INT DEFAULT 1,
     `last_episode_time` TIME DEFAULT NULL,
     `next_episode_date` DATE DEFAULT NULL,
+    `addition_info` MEDIUMTEXT DEFAULT NULL,
     `iframe_html` VARCHAR(5124) DEFAULT NULL,
     `image_url` VARCHAR(5124) DEFAULT NULL,
     `url_to_watch` VARCHAR(5124) DEFAULT NULL,

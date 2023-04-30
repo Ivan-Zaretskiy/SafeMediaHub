@@ -1,25 +1,52 @@
 <?php
 class serials {
-    public $serial_categories = ['Serial', 'Anime', 'Marvel', 'CW', 'Cartoon', 'Netflix'];
-    public $watch_statuses = [];
+    public array $serial_categories = ['Serial', 'Anime', 'Marvel', 'CW', 'Cartoon', 'Netflix'];
+    public array $watch_statuses = [];
 
     public function __construct()
     {
         $this->watch_statuses = getArrayQuery('SELECT * FROM watch_statuses');
     }
 
-    private static function insertInDB($userId, $name, $category, $last_season, $last_episode, $last_episode_time, $next_episode_date, $url_to_watch, $image_url, $iframe_html, $watch_status)
+    private static function insertInDB($data)
     {
-        $q = "INSERT INTO `serials` SET `user_id` = ".(int)$userId.", `name` = '".$name."', `category` = '".$category."', `last_season` = ".$last_season.", `last_episode` = ".$last_episode.", `image_url` = ".$image_url.", `iframe_html` = ".$iframe_html.",".
-              "`last_episode_time` = ".$last_episode_time.", `next_episode_date` = ".$next_episode_date.", `watch_status` = '".$watch_status."', `url_to_watch` = ".$url_to_watch;
-        return mq($q);
+        return mq("
+        INSERT INTO
+            `serials`
+        SET
+            `user_id` = ".$data['user_id'].",
+            `name` = '".$data['name']."',
+            `category` = '".$data['category']."',
+            `last_season` = ".$data['last_season'].",
+            `last_episode` = ".$data['last_episode'].",
+            `image_url` = ".$data['image_url'].",
+            `iframe_html` = ".$data['iframe_html'].",
+            `last_episode_time` = ".$data['last_episode_time'].",
+            `next_episode_date` = ".$data['next_episode_date'].",
+            `additional_info` = ".$data['additional_info'].",
+            `watch_status` = '".$data['watch_status']."',
+            `url_to_watch` = ".$data['url_to_watch'].";");
     }
 
-    private static function updateInDB($name, $category, $last_season, $last_episode, $last_episode_time, $next_episode_date, $url_to_watch, $image_url, $iframe_html, $watch_status, $id)
+    private static function updateInDB($data)
     {
-        $q = "UPDATE `serials` SET `name` = '".$name."', `category` = '".$category."', `last_season` = ".$last_season.", `last_episode` = ".$last_episode.", `url_to_watch` = ".$url_to_watch.", `image_url` = ".$image_url.", `iframe_html` = ".$iframe_html.",".
-              "`last_episode_time` = ".$last_episode_time.", `next_episode_date` = ".$next_episode_date.", `watch_status` = '".$watch_status."' WHERE `id` = ".$id;
-        return mq($q);
+        return mq("
+        UPDATE
+            `serials`
+        SET
+            `name` = '".$data['name']."',
+            `category` = '".$data['category']."',
+            `last_season` = ".$data['last_season'].",
+            `last_episode` = ".$data['last_episode'].",
+            `image_url` = ".$data['image_url'].",
+            `iframe_html` = ".$data['iframe_html'].",
+            `last_episode_time` = ".$data['last_episode_time'].",
+            `next_episode_date` = ".$data['next_episode_date'].",
+            `additional_info` = ".$data['additional_info'].",
+            `watch_status` = '".$data['watch_status']."',
+            `url_to_watch` = ".$data['url_to_watch']."
+        WHERE
+            `id` = ".$data['id'].";");
     }
 
 
@@ -37,6 +64,9 @@ class serials {
 
         $q_where = " WHERE `s`.`user_id` = ".$user->getUserID();
         $pre = " AND ";
+        $q_limit = "";
+        $orderBy = "";
+        $orderByPre = " ORDER BY ";
         if( sizeof($_POST['columns']) > 0 ) {
             foreach ($_POST['columns'] as $column) {
                 if ($column['searchable'] == "true") {
@@ -48,26 +78,15 @@ class serials {
             }
         }
 
-
-        if(isset($_POST['length'])) {
-            $limit = (int) $_POST['length'];
-            if ($limit != -1) {
-                $q_limit = " LIMIT " . (int) $_POST['start'] . "," . $limit;
-            } else {
-                $q_limit = "";
-            }
-        }else {
-            $q_limit = "";
+        if(isset($_POST['length']) && (int) $_POST['length'] != -1) {
+            $q_limit = " LIMIT " . (int) $_POST['start'] . "," . (int) $_POST['length'];
         }
 
-
-        $orderby = "";
-        $orderbyPre = " ORDER BY ";
         foreach($_POST['order'] as $order){
-            $orderby .= $orderbyPre.$_POST['columns'][$order['column']]['name']." ".$order['dir'];
-            $orderbyPre = ",";
+            $orderBy .= $orderByPre.$_POST['columns'][$order['column']]['name']." ".$order['dir'];
+            $orderByPre = ",";
         }
-        $q = $q_select.$q_where.$orderby.$q_limit;
+        $q = $q_select.$q_where.$orderBy.$q_limit;
         $result = getArrayQuery($q);
         $total = (int) getValueQuery("SELECT FOUND_ROWS()");
 
@@ -81,24 +100,26 @@ class serials {
 
         if (!isset($_GET['ajax'])) {
             $ajax = [];
-            $userId = $user->getUserID();
-            $name = mres($_POST['name']);
-            $category = mres($_POST['category']);
-            $last_season = !empty($_POST['last_season']) ?  "'".(int)$_POST['last_season']."'" : 'NULL';
-            $last_episode = !empty($_POST['last_episode']) ?  "'".(int)$_POST['last_episode']."'" : 'NULL';
-            $url_to_watch = !empty($_POST['url_to_watch']) ?  "'".mres($_POST['url_to_watch'])."'" : 'NULL';
-            $image_url = !empty($_POST['image_url']) ?  "'".mres($_POST['image_url'])."'" : 'NULL';
-            $iframe_html = !empty($_POST['iframe_html']) ?  "'".mres($_POST['iframe_html'])."'" : 'NULL';
-            $last_episode_time = !empty($_POST['last_episode_time']) ? "'".date_format(date_create($_POST['last_episode_time']), 'H:i:s')."'" : "'00:00:00'";
-            $next_episode_date = !empty($_POST['next_episode_date']) ? "'".date_format(date_create($_POST['next_episode_date']), 'Y-m-d')."'" : "NULL";
-            $watch_status = !empty($_POST['watch_status']) ? (int)$_POST['watch_status'] : 1;
+            $data = [];
+            $data['user_id'] = $user->getUserID();
+            $data['name'] = mres($_POST['name']);
+            $data['category'] = mres($_POST['category']);
+            $data['last_season'] = !empty($_POST['last_season']) ?  "'".(int)$_POST['last_season']."'" : 'NULL';
+            $data['last_episode'] = !empty($_POST['last_episode']) ?  "'".(int)$_POST['last_episode']."'" : 'NULL';
+            $data['url_to_watch'] = !empty($_POST['url_to_watch']) ?  "'".mres($_POST['url_to_watch'])."'" : 'NULL';
+            $data['image_url'] = !empty($_POST['image_url']) ?  "'".mres($_POST['image_url'])."'" : 'NULL';
+            $data['iframe_html'] = !empty($_POST['iframe_html']) ?  "'".mres($_POST['iframe_html'])."'" : 'NULL';
+            $data['last_episode_time'] = !empty($_POST['last_episode_time']) ? "'".date_format(date_create($_POST['last_episode_time']), 'H:i:s')."'" : "'00:00:00'";
+            $data['next_episode_date'] = !empty($_POST['next_episode_date']) ? "'".date_format(date_create($_POST['next_episode_date']), 'Y-m-d')."'" : "NULL";
+            $data['additional_info'] = !empty($_POST['additional_info']) ?  "'".mres($_POST['additional_info'])."'" : 'NULL';
+            $data['watch_status'] = !empty($_POST['watch_status']) ? (int)$_POST['watch_status'] : 1;
 
             $ajax['success'] = false;
-            if (!empty($name) && !empty($category)) {
-                $result = self::insertInDB($userId, $name, $category, $last_season, $last_episode, $last_episode_time, $next_episode_date, $url_to_watch, $image_url, $iframe_html, $watch_status);
+            if (!empty($data['name']) && !empty($data['category'])) {
+                $result = self::insertInDB($data);
                 if ($result) {
                     $ajax['success'] = true;
-                    $ajax['name'] = $name;
+                    $ajax['name'] = $data['name'];
                 } else {
                     $ajax['error_message'] = getSqliError();
                 }
@@ -112,28 +133,31 @@ class serials {
 
     public function editSerial()
     {
-        $id = (int)$_GET['id'];
+        $id = (int) $_GET['id'];
         if (!empty($id)) {
             if (!$_GET['ajax']) {
                 $ajax = [];
                 $ajax['success'] = false;
-                $name = mres($_POST['name']);
-                $category = mres($_POST['category']);
-                $last_season = !empty($_POST['last_season']) ?  "'".(int)$_POST['last_season']."'" : 'NULL';
-                $last_episode = !empty($_POST['last_episode']) ?  "'".(int)$_POST['last_episode']."'" : 'NULL';
-                $url_to_watch = !empty($_POST['url_to_watch']) ?  "'".mres($_POST['url_to_watch'])."'" : 'NULL';
-                $image_url = !empty($_POST['image_url']) ?  "'".mres($_POST['image_url'])."'" : 'NULL';
-                $iframe_html = !empty($_POST['iframe_html']) ?  "'".mres($_POST['iframe_html'])."'" : 'NULL';
-                $last_episode_time = !empty($_POST['last_episode_time']) ? "'".date_format(date_create($_POST['last_episode_time']), 'H:i:s')."'" : "'00:00:00'";
-                $next_episode_date = !empty($_POST['next_episode_date']) ? "'".date_format(date_create($_POST['next_episode_date']), 'Y-m-d')."'" : "NULL";
-                $watch_status = !empty($_POST['watch_status']) ? (int)$_POST['watch_status'] : 1;
+                $data = [];
+                $data['id'] = $id;
+                $data['name'] = mres($_POST['name']);
+                $data['category'] = mres($_POST['category']);
+                $data['last_season'] = !empty($_POST['last_season']) ?  "'".(int)$_POST['last_season']."'" : 'NULL';
+                $data['last_episode'] = !empty($_POST['last_episode']) ?  "'".(int)$_POST['last_episode']."'" : 'NULL';
+                $data['url_to_watch'] = !empty($_POST['url_to_watch']) ?  "'".mres($_POST['url_to_watch'])."'" : 'NULL';
+                $data['image_url'] = !empty($_POST['image_url']) ?  "'".mres($_POST['image_url'])."'" : 'NULL';
+                $data['iframe_html'] = !empty($_POST['iframe_html']) ?  "'".mres($_POST['iframe_html'])."'" : 'NULL';
+                $data['last_episode_time'] = !empty($_POST['last_episode_time']) ? "'".date_format(date_create($_POST['last_episode_time']), 'H:i:s')."'" : "'00:00:00'";
+                $data['next_episode_date'] = !empty($_POST['next_episode_date']) ? "'".date_format(date_create($_POST['next_episode_date']), 'Y-m-d')."'" : "NULL";
+                $data['additional_info'] = !empty($_POST['additional_info']) ?  "'".mres($_POST['additional_info'])."'" : 'NULL';
+                $data['watch_status'] = !empty($_POST['watch_status']) ? (int)$_POST['watch_status'] : 1;
 
                 $ajax['success'] = false;
-                if (!empty($name) && !empty($category)) {
-                    $result = self::updateInDB($name, $category, $last_season, $last_episode, $last_episode_time, $next_episode_date, $url_to_watch, $image_url, $iframe_html, $watch_status, $id);
+                if (!empty($data['name']) && !empty($data['category'])) {
+                    $result = self::updateInDB($data);
                     if ($result) {
                         $ajax['success'] = true;
-                        $ajax['name'] = $name;
+                        $ajax['name'] = $data['name'];
                     } else {
                         $ajax['error_message'] = getSqliError();
                     }
@@ -252,7 +276,6 @@ class serials {
                     $ajax['new_value'] = $watch_status;
                 } else {
                     $ajax['error_message'] = getSqliError();
-                    $ajax['q'] = $q;
                 }
             } else {
                 $ajax['error_message'] = 'ID not found';

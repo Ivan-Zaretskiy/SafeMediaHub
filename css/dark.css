@@ -19,7 +19,8 @@ i{
 .dataTables_filter{
     color: #ececec!important;
 }
-input{
+input,
+textarea{
     color: #ececec!important;
     background: #4c5053!important;
 }

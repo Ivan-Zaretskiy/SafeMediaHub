@@ -67,6 +67,14 @@
                         </form>
                     </p>
                 </div>
+                <div class="form-group d-flex m-b-4">
+                    <p>
+                        <strong>Last watched episode time: </strong>
+                        <form id="changeAdditionalInfo" style="position: relative; bottom: 5px">
+                            <textarea class="form-control" name="additional_info" id="additional_info_<?=$serial['id'];?>" style="margin-left: 10px;"><?=$serial['additional_info'];?></textarea>
+                        </form>
+                    </p>
+                </div>
             </div>
         </div>
         <?php if (!empty($serial['iframe_html'])) { ?>
