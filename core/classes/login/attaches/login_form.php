@@ -14,7 +14,7 @@
             <div class="login100-pic js-tilt" data-tilt>
                 <img src="/img/login.png" alt="IMG">
             </div>
-            <?php if (isset($type) && $type == 'sign_up'){ ?>
+            <?php if (isset($type) && $type == 'sign_up') { ?>
             <form id="sign_up_form" class="login100-form validate-form" method="post" action="/index.php?page=login&action=createNewAccount">
                 <span class="login100-form-title">
                     Create Account

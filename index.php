@@ -1,5 +1,5 @@
 <?php
-include_once "vendor/config.php";?>
+include_once "core/config.php";?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,6 +10,6 @@ include_once "vendor/config.php";?>
     <?php include_once ('templates/scripts.php'); ?>
 </head>
 <body>
-<?php include_once('vendor/routes/global_routes.php'); ?>
+<?php include_once('core/routes/global_routes.php'); ?>
 <?php include_once('templates/modal_popup.php'); ?>
 </body>

@@ -2,7 +2,12 @@
 
 function mq($query) {
     global $mysqli;
-    return $mysqli->query($query);
+    try {
+        $res = $mysqli->query($query);
+    } catch (Exception $exception) {
+        $res = false;
+    }
+    return $res;
 }
 
 function mres($string){

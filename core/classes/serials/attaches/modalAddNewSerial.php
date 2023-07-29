@@ -30,7 +30,7 @@
                     <label for="category">Watch status</label>
                     <select type="text" class="form-control" id="watch_status" name="watch_status">
                         <?php foreach ($this->watch_statuses as $watch_status){ ?>
-                            <option value="<?=$watch_status['id']?>"><?=$watch_status['name']?></option>
+                            <option value="<?=$watch_status->id?>"><?=$watch_status->name?></option>
                         <?php } ?>
                     </select>
                 </div>

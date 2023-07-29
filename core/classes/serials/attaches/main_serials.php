@@ -31,7 +31,7 @@
                          <select class='form-control m-input' name="full_watch_status" id="full_watch_status">
                              <option value="-1"></option>
                              <?php foreach($this->watch_statuses as $status){?>
-                                 <option value="<?=$status['id']?>"><?=$status['name']?></option><?php
+                                 <option value="<?=$status->id?>"><?=$status->name?></option><?php
                              }?>
                          </select>
                      </td>
@@ -98,7 +98,7 @@
                 var val = data ? data : ''
                 return '<span id="next_episode_date_main_'+row.id+'">'+val+'</span>';
             }},
-            { title: 'Updated time', data: 'updated_at', name: 'name', sortable: true, render: function (data){
+            { title: 'Updated time', data: 'updated_at', name: 's.updated_at', sortable: true, render: function (data){
                 return data ?? '';
             }},
             { title: "Option", data: "id", sortable: false, render: function (data){

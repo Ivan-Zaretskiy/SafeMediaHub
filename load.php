@@ -1,3 +1,3 @@
 <?php
-include_once ('vendor/config.php');
-include_once ('vendor/routes/global_routes.php');
+include_once ('core/config.php');
+include_once ('core/routes/global_routes.php');

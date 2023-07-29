@@ -2,3 +2,6 @@ keys.env
 .idea
 .git
 test.php
+vendor
+composer.lock
+.env

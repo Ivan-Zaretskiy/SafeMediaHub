@@ -51,7 +51,7 @@
                         case 'generateMyKey':
                             if (response.name) {
                                 showAlert('Key successfully generated!<br>' +
-                                    'Click <a onclick="clickEnvFile(\'' + response.name + '\')" style="color: #29b348!important;font-size: 1.1rem;" href="/temporary_user_files/' + response.name + '">here</a> to downolad key!', 'success');
+                                    'Click <a onclick="clickEnvFile(\'' + response.name + '\')" style="color: #29b348!important;font-size: 1.1rem;" href="/temporary_user_files/' + response.name + '">HERE</a> to downolad key!', 'success');
                                 showProfileButtons(true)
                                 closeModal();
                             } else {

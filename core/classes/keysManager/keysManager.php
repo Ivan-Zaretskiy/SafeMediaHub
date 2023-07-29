@@ -298,7 +298,7 @@ class keysManager{
             $key = file_get_contents($_FILES['key']['tmp_name']);
             if (password_verify($key, $user->key_hash)) {
                 $ajax['success'] = true;
-                $_SESSION['user_key'] = $key;
+                $_SESSION['user']['key'] = $key;
             } else {
                 $ajax['error_message'] = 'Wrong key';
             }

@@ -205,3 +205,8 @@ function updateAllTables() {
     if (typeof(imagesTable) !== 'undefined') imagesTable.ajax.reload();
     if (typeof(fieldsTable) !== 'undefined') fieldsTable.ajax.reload();
 }
+
+function textAreaAdjust(element) {
+    element.style.height = "1px";
+    element.style.height = (25 + element.scrollHeight) + "px";
+}

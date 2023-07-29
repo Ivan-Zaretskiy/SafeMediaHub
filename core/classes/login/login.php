@@ -4,35 +4,23 @@ class login{
 
     public function __construct()
     {
-        if ($_GET['action'] == 'sign_up'){
-            $this->sign_up();
+        $action = $_GET['action'];
+        if (in_array($action, ['sign_up', 'logout', 'createNewAccount'])) {
+            $this->$action();
         }
-        if ($_GET['action'] == 'logout'){
-            $this->logout();
-        }
-        if ($_GET['action'] == 'createNewAccount'){
-            $this->createNewAccount();
-        }
-        if (empty($_SESSION['user'])) {
+        if (empty($_SESSION['user']['id'])) {
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
                 $email = mres($_POST['email']);
                 $pass = $_POST['password'];
                 $user_info = getRowQuery('SELECT * FROM users WHERE `email` = "'.$email.'"');
-                if ($user_info) {
-                    $pass_verify = password_verify($pass, $user_info['password']);
-                    if ($pass_verify) {
-                        $_SESSION['user_id'] = $user_info['id'];
-                    } else {
-                        $this->sign_in('Invalid password');
-                    }
+                if ($user_info && password_verify($pass, $user_info['password'])) {
+                    $_SESSION['user']['id'] = $user_info['id'];
                 } else {
-                    $this->sign_in('This user doesn\'t exist');
+                    $this->sign_in('Invalid email or password');
                 }
             } else {
                 $this->sign_in();
             }
-        } else {
-            $_SESSION['user_id'] = $_SESSION['user']['id'];
         }
     }
 
