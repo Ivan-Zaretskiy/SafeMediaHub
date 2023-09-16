@@ -107,7 +107,9 @@
     $(document).ready(function () {
         $('.closeModalButton').on('click',closeModal)
         window.onclick = function (event) {
-            if (event.target.id === 'myModal') closeModal();
+            if (event.target.id === 'myModal') {
+                closeModal();
+            }
         }
         $('.modal-content').draggable({
             handle: ".draggable_icon_first"
@@ -117,10 +119,11 @@
         });
         $('.hideModalButton').on('click', function (){
             $('#myModal').slideToggle();
-            if ($('#modalHidden').css('display') === 'none') {
-                $('#modalHidden').show();
+            let modalHiddenElement = $('#modalHidden')
+            if (modalHiddenElement.css('display') === 'none') {
+                modalHiddenElement.show();
             } else {
-                $('#modalHidden').hide();
+                modalHiddenElement.hide();
             }
         });
     });

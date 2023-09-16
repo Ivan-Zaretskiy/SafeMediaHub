@@ -36,9 +36,13 @@
     </form>
 </div>
 <script>
-    var userHaveKey = Boolean(<?= $user->have_key?>);
-    $(document).ready(showProfileButtons(userHaveKey));
-    function showProfileButtons(have_key) {
+    let userHaveKey = Boolean(<?= $user->have_key?>);
+
+    $(document).ready(function () {
+        showProfileButtons(userHaveKey);
+    });
+
+    function showProfileButtons(have_key): void {
         var buttons = '';
         var uploadKeyButton = `<button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/load.php?page=keysManager&action=uploadKey&ajax=true');">Upload Key</button>`;
         var changePasswordButton = `<button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=user_settings&action=changePassword&ajax=true')">Change password</button>`;

@@ -75,3 +75,6 @@ p{
 .dataTables_info{
     color: #ececec!important;
 }
+table.dataTable tbody tr.even td {
+    background: #052634 !important;
+}

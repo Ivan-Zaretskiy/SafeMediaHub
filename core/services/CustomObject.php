@@ -37,7 +37,7 @@ class CustomObject {
         unset($this->$name);
     }
 
-    public function setObjectFromArray(array $array) {
+    public function setObjectFromArray($array) {
         foreach ($array as $name => $value) {
             $this->set($name, $value);
         }

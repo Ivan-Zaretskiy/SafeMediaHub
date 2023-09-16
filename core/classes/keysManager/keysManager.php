@@ -1,12 +1,12 @@
 <?php
-class keysManager{
+class keysManager {
     public $key;
-    private $cipher = "AES-128-CBC";
-    private $keyUrl = "keys.env";
-    private $options = OPENSSL_RAW_DATA;
+    private string $cipher = "AES-128-CBC";
+    private string $keyUrl = "keys.env";
+    private int $options = OPENSSL_RAW_DATA;
     private $ivlen;
-    private $sha2len = 32;
-    private $bitesCount = 1024;
+    private int $sha2len = 32;
+    private int $bitesCount = 1024;
 
     public function __construct()
     {
@@ -67,7 +67,7 @@ class keysManager{
         return $txt;
     }
 
-    public function generateKeyString()
+    public function generateKeyString(): string
     {
         return openssl_random_pseudo_bytes($this->bitesCount);
     }
@@ -199,11 +199,10 @@ class keysManager{
                 }
             }
             echo json_encode($ajax);
-            die();
         } else {
             include_once('attaches/checkPin.php');
-            die();
         }
+        die();
     }
 
     public function check2Pins()

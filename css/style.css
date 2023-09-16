@@ -500,3 +500,6 @@ table.dataTable tfoot th, table.dataTable tfoot td{
 table.dataTable tfoot th, table.dataTable tfoot td{
     padding: 10px 6px 6px 0px!important;
 }
+table.dataTable tbody tr.even td {
+    background: #d6dee1 !important;
+}
