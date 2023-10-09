@@ -12,20 +12,20 @@ class serials {
     {
         return query("
         INSERT INTO
-            `serials`
+            serials
         SET
-            `user_id` = :user_id,
-            `name` = :serialName,
-            `category` = :category,
-            `last_season` = :last_season,
-            `last_episode` = :last_episode,
-            `image_url` = :image_url,
-            `iframe_html` = :iframe_html,
-            `last_episode_time` = :last_episode_time,
-            `next_episode_date` = :next_episode_date,
-            `additional_info` = :additional_info,
-            `watch_status` = :watch_status,
-            `url_to_watch` = :url_to_watch
+            user_id = :user_id,
+            name = :serialName,
+            category = :category,
+            last_season = :last_season,
+            last_episode = :last_episode,
+            image_url = :image_url,
+            iframe_html = :iframe_html,
+            last_episode_time = :last_episode_time,
+            next_episode_date = :next_episode_date,
+            additional_info = :additional_info,
+            watch_status = :watch_status,
+            url_to_watch = :url_to_watch
         ", [
             ':user_id' => $data->get('user_id'),
             ':serialName' => $data->get('name'),
@@ -46,21 +46,21 @@ class serials {
     {
         return query("
         UPDATE
-            `serials`
+            serials
         SET
-            `name` = :serialName,
-            `category` = :category,
-            `last_season` = :last_season,
-            `last_episode` = :last_episode,
-            `image_url` = :image_url,
-            `iframe_html` = :iframe_html,
-            `last_episode_time` = :last_episode_time,
-            `next_episode_date` = :next_episode_date,
-            `additional_info` = :additional_info,
-            `watch_status` = :watch_status,
-            `url_to_watch` = :url_to_watch
+            name = :serialName,
+            category = :category,
+            last_season = :last_season,
+            last_episode = :last_episode,
+            image_url = :image_url,
+            iframe_html = :iframe_html,
+            last_episode_time = :last_episode_time,
+            next_episode_date = :next_episode_date,
+            additional_info = :additional_info,
+            watch_status = :watch_status,
+            url_to_watch = :url_to_watch
         WHERE
-            `id` = :id
+            id = :id
             ", [
             ':id' => $data->get('id'),
             ':serialName' => $data->get('name'),
@@ -83,6 +83,9 @@ class serials {
         include_once('attaches/main_serials.php');
     }
 
+    /**
+     * @throws Exception
+     */
     public function getSerials($check_user = true)
     {
         global $user;
@@ -104,7 +107,7 @@ class serials {
         $orderByPre = " ORDER BY ";
         $params = [];
         if ($check_user) {
-            $q_where = $pre . " `s`.`user_id` = :user_id";
+            $q_where = $pre . " s.user_id = :user_id";
             $params[':user_id'] = $user->getUserID();
             $pre = " AND ";
         }
@@ -112,7 +115,13 @@ class serials {
             foreach ($_POST['columns'] as $column) {
                 if ($column['searchable'] == "true") {
                     if ($column['search']['value'] != "" && $column['search']['value'] != '-1') {
-                        $q_where .= $pre . $column['name'] . " LIKE :" . $column['data'];
+                        if ($column['name'] === 'next_episode_date') {
+                            $q_where .= $pre . "DATE_FORMAT({$column['name']}, '%d.%m.%Y')" . " LIKE :{$column['data']}";
+                        } elseif ($column['name'] === 's.updated_at') {
+                            $q_where .= $pre . "DATE_FORMAT({$column['name']}, '%d.%m.%Y %H:%i:%s')" . " LIKE :{$column['data']}";
+                        } else {
+                            $q_where .= $pre . $column['name'] . " LIKE :{$column['data']}";
+                        }
                         $params[':' . $column['data']] = "%" . $column['search']['value'] . "%";
                         $pre = " AND ";
                     }
@@ -131,6 +140,12 @@ class serials {
         $q = $q_select.$q_where.$orderBy.$q_limit;
         $result = query($q, $params)->fetchAll();
         $total = (int) query("SELECT FOUND_ROWS()")->fetchCell();
+
+        foreach ($result as $item) {
+            $item->next_episode_date = CustomDate::createFormatData(DATE_DATABASE_FORMAT, $item->next_episode_date, DATE_INTERFACE_FORMAT);
+            $item->updated_at = CustomDate::createFormatData(DATETIME_DATABASE_FORMAT, $item->updated_at, DATETIME_INTERFACE_FORMAT);
+            $item->last_episode_time = CustomDate::createFormatData(TIME_FORMAT, $item->last_episode_time, TIME_FORMAT);
+        }
 
         echo json_encode(["draw"=>(int) $_POST['draw'], "recordsTotal" => $total, "recordsFiltered" => $total, "data" => $result, "q" => $q]);
         die();
@@ -165,7 +180,7 @@ class serials {
                     $ajax['success'] = true;
                     $ajax['name'] = $data->name;
                 } else {
-                    $ajax['error_message'] = getSqliError();
+                    $ajax['error_message'] = 'Error on insert!';
                 }
             }
             echo json_encode($ajax);
@@ -198,17 +213,13 @@ class serials {
                 $data->set('watch_status', (int) $_POST['watch_status']);
                 $ajax['success'] = false;
                 if (!empty($data->name) && !empty($data->category)) {
-                    $result = self::updateInDB($data);
-                    if ($result) {
-                        $ajax['success'] = true;
-                        $ajax['name'] = $data->name;
-                    } else {
-                        $ajax['error_message'] = getSqliError();
-                    }
+                    self::updateInDB($data);
+                    $ajax['success'] = true;
+                    $ajax['name'] = $data->name;
                 }
                 echo json_encode($ajax);
             } else {
-                $serial = query('SELECT * FROM `serials` WHERE `id` = ?', $id)->fetchRow();
+                $serial = query('SELECT * FROM serials WHERE id = ?', $id)->fetchRow();
 
                 include_once('attaches/modalEditSerial.php');
             }
@@ -219,16 +230,12 @@ class serials {
     public function seasonAction()
     {
         $ajax['success'] = false;
-        $serial = query("SELECT * FROM `serials` WHERE `id` = ?", (int) $_POST['id'])->fetchRow();
+        $serial = query("SELECT * FROM serials WHERE id = ?", (int) $_POST['id'])->fetchRow();
         if ($serial) {
             $season = (int) $_POST['season'];
-            $result = query("UPDATE `serials` SET `last_season` = :season WHERE id = :id", [':season' => $_POST['season'], ':id' => $serial->id])->execute();
-            if ($serial) {
-                $ajax['success'] = true;
-                $ajax['new_value'] = $season;
-            } else {
-                $ajax['error_message'] = getSqliError();
-            }
+            query("UPDATE serials SET last_season = :season WHERE id = :id", [':season' => $_POST['season'], ':id' => $serial->id])->execute();
+            $ajax['success'] = true;
+            $ajax['new_value'] = $season;
         } else {
             $ajax['error_message'] = 'Serial Not Found!';
         }
@@ -238,16 +245,12 @@ class serials {
     public function episodeAction()
     {
         $ajax['success'] = false;
-        $serial = query("SELECT * FROM `serials` WHERE `id` = ?", (int) $_POST['id'])->fetchRow();
+        $serial = query("SELECT * FROM serials WHERE id = ?", (int) $_POST['id'])->fetchRow();
         if ($serial) {
             $episode = (int) $_POST['episode'];
-            $result = query("UPDATE `serials` SET `last_episode` = :episode WHERE id = :id", [':episode' => $episode, ':id' => $serial->id])->execute();
-            if ($result) {
-                $ajax['success'] = true;
-                $ajax['new_value'] = $episode;
-            } else {
-                $ajax['error_message'] = getSqliError();
-            }
+            query("UPDATE serials SET last_episode = :episode WHERE id = :id", [':episode' => $episode, ':id' => $serial->id])->execute();
+            $ajax['success'] = true;
+            $ajax['new_value'] = $episode;
         } else {
             $ajax['error_message'] = 'Serial Not Found!';
         }
@@ -261,17 +264,22 @@ class serials {
             if ($_GET['ajax']) {
                 $serial = query("
                 SELECT
-                    `s`.*,
-                    `ws`.`name` AS `full_watch_status`
+                    s.*,
+                    ws.name AS full_watch_status
                 FROM
-                    `serials` AS `s` 
+                    serials AS s 
 
-                    LEFT JOIN `watch_statuses` AS `ws`
-                    ON `s`.`watch_status` = `ws`.`id`
+                    LEFT JOIN watch_statuses AS ws
+                    ON s.watch_status = ws.id
                 WHERE
-                    `s`.`id` = ?", $id)->fetchRow();
+                    s.id = ?", $id)->fetchRow();
 
                 include_once('attaches/modalSerialInfo.php');
+                echo "
+                   <script>
+                       $('#modalHeader h2').html('{$serial->name}');
+                       $('#modalHidden h2').html('{$serial->name}');
+                   </script>";
                 die();
             }
         }
@@ -282,12 +290,8 @@ class serials {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
-            $result = query("UPDATE `serials` SET `last_episode_time` = :last_time WHERE id = :id", [':last_time' => $_POST['time'], ':id' => $id])->execute();
-            if ($result) {
-                $ajax['success'] = true;
-            } else {
-                $ajax['error_message'] = getSqliError();
-            }
+            query("UPDATE serials SET last_episode_time = :last_time WHERE id = :id", [':last_time' => $_POST['time'], ':id' => $id])->execute();
+            $ajax['success'] = true;
         }
         echo json_encode($ajax);
         die();
@@ -298,12 +302,8 @@ class serials {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
-            $result = query("UPDATE `serials` SET `next_episode_date` = :next_date WHERE id = :id", [':next_date' => $_POST['date'], ':id' => $id])->execute();
-            if ($result) {
-                $ajax['success'] = true;
-            } else {
-                $ajax['error_message'] = getSqliError();
-            }
+            query("UPDATE serials SET next_episode_date = :next_date WHERE id = :id", [':next_date' => $_POST['date'], ':id' => $id])->execute();
+            $ajax['success'] = true;
         }
         echo json_encode($ajax);
         die();
@@ -314,16 +314,12 @@ class serials {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         $status = $_POST['status'] ?? 1;
-        $watch_status = query("SELECT `name` FROM `watch_statuses` WHERE `id` = ?", $status)->fetchCell();
+        $watch_status = query("SELECT name FROM watch_statuses WHERE id = ?", $status)->fetchCell();
         if ($watch_status) {
             if ($id) {
-                $result = query("UPDATE `serials` SET `watch_status` = :status WHERE id = :id", [':status' => $status, ':id' => $id])->execute();
-                if ($result) {
-                    $ajax['success'] = true;
-                    $ajax['new_value'] = $watch_status;
-                } else {
-                    $ajax['error_message'] = getSqliError();
-                }
+                query("UPDATE serials SET watch_status = :status WHERE id = :id", [':status' => $status, ':id' => $id])->execute();
+                $ajax['success'] = true;
+                $ajax['new_value'] = $watch_status;
             } else {
                 $ajax['error_message'] = 'ID not found';
             }
@@ -337,30 +333,28 @@ class serials {
     public function changeAdditionalInfo()
     {
         $ajax['success'] = false;
-        if (isset($_POST['additional_info'])) {
-            if (isset($_POST['id'])) {
-                $result = query("
-                UPDATE
-                    `serials`
-                SET
-                    `additional_info` = :additional_info
-                WHERE
-                    `id` = :id
-                ", [
-                    ':id' => $_POST['id'],
-                    ':additional_info' => $_POST['additional_info']
-                ])->execute();
-                if ($result) {
-                    $ajax['success'] = true;
-                } else {
-                    $ajax['error_message'] = getSqliError();
-                }
-            } else {
-                $ajax['error_message'] = 'ID not found';
-            }
-        } else {
+        if (!isset($_POST['additional_info'])) {
             $ajax['error_message'] = 'Property Additional Info not found!';
+            echo json_encode($ajax);
+            die();
         }
+        if (!isset($_POST['id'])) {
+            $ajax['error_message'] = 'ID not found';
+            echo json_encode($ajax);
+            die();
+        }
+        query("
+        UPDATE
+            serials
+        SET
+            additional_info = :additional_info
+        WHERE
+            id = :id
+        ", [
+            ':id' => $_POST['id'],
+            ':additional_info' => $_POST['additional_info']
+        ])->execute();
+        $ajax['success'] = true;
         echo json_encode($ajax);
         die();
     }

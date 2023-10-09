@@ -1,15 +1,15 @@
 <?php
 //////////////////////////////////////////////////////////
-mq("CREATE TABLE IF NOT EXIST `encryptedString` (
+query("CREATE TABLE IF NOT EXIST `encryptedString` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT(12) NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
     `encryptedText` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP()
-)");
+)")->execute();
 //////////////////////////////////////////////////////////
-mq("CREATE TABLE IF NOT EXIST `users`(
+query("CREATE TABLE IF NOT EXIST `users`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(128) NOT NULL,
     `email` VARCHAR(1024) NOT NULL,
@@ -22,9 +22,9 @@ mq("CREATE TABLE IF NOT EXIST `users`(
     `secondPIN` VARCHAR(1024) DEFAULT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)");
+)")->execute();
 //////////////////////////////////////////////////////////
-mq("CREATE TABLE IF NOT EXIST `serials`(
+query("CREATE TABLE IF NOT EXIST `serials`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -40,21 +40,21 @@ mq("CREATE TABLE IF NOT EXIST `serials`(
     `url_to_watch` VARCHAR(5124) DEFAULT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)");
+)")->execute();
 //////////////////////////////////////////////////////////
-mq('CREATE TABLE IF NOT EXIST `images` (
+query('CREATE TABLE IF NOT EXIST `images` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
     `file` LONGTEXT NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)');
+)')->execute();
 //////////////////////////////////////////////////////////
-mq('CREATE TABLE IF NOT EXIST `watch_statuses` (
+query('CREATE TABLE IF NOT EXIST `watch_statuses` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)');
+)')->execute();
 //////////////////////////////////////////////////////////

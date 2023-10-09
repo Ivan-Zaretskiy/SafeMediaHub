@@ -16,7 +16,7 @@ class SessionUser extends CustomObject {
 
     function setFromDBResult($user_id): void
     {
-        $dataUser = query('SELECT * FROM `users` WHERE id = ?', $user_id)->fetchRow();
+        $dataUser = query('SELECT * FROM users WHERE id = ?', $user_id)->fetchRow();
         $this->setObjectFromArray($dataUser);
         if ($this->haveKey()) {
             $this->setUserKey();

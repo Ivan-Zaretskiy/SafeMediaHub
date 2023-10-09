@@ -4,7 +4,7 @@
             <h2>Modal Header</h2>
             <div>
                 <span class="closeModalButton">&times;</span>
-                <img src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG" class="draggable_icon draggable_icon_first">
+                <span class="moveModalButton draggable_icon_first">+</span>
                 <span class="hideModalButton">-</span>
             </div>
         </div>
@@ -16,9 +16,10 @@
 </div>
 <div id="modalHidden" class="modal-header modal-hidden">
     <div class="modal-hidden-content d-flex justify-content-between">
+        <h2 class="hideModalTitle">Test title</h2>
         <div class="modal-hidden-buttons">
             <span class="closeModalButton">×</span>
-            <img src="/img/drag_icon_<?=$user->getInterfaceMode()?>.png" alt="IMG" class="draggable_icon draggable_icon_second">
+            <span class="moveModalButton draggable_icon_second">+</span>
             <span class="hideModalButton">-</span>
         </div>
     </div>
@@ -50,6 +51,9 @@
         animation-name: animatetop;
         animation-duration: 0.4s
     }
+    .modal-hidden-content {
+        align-items: center;
+    }
     @-webkit-keyframes animatetop {
         from {top:-300px; opacity:0}
         to {top:0; opacity:1}
@@ -59,6 +63,7 @@
         to {top:0; opacity:1}
     }
     .closeModalButton,
+    .moveModalButton,
     .hideModalButton{
         float: right;
         font-size: 40px;
@@ -66,8 +71,10 @@
         padding: 5px;
     }
     .closeModalButton:hover,
+    .moveModalButton:hover,
     .hideModalButton:hover,
     .closeModalButton:focus,
+    .moveModalButton:focus,
     .hideModalButton:focus {
         color: #000;
         text-decoration: none;
@@ -85,7 +92,6 @@
     .modal-hidden {
         position: fixed;
         display: none;
-        height: 8%;
         border: 1px solid black;
         border-radius: 15px;
         z-index: 10001;
@@ -99,8 +105,6 @@
         padding: 16px;
     }
     .modal-hidden-buttons {
-        position: relative;
-        bottom: 15px;
     }
 </style>
 <script>
@@ -131,6 +135,7 @@
     function showModal(title, load_url, data = false) {
         $('#modalHidden').hide();
         $('#modalHeader h2').html(title);
+        $('#modalHidden h2').html(title);
         $('.modal-main').load(load_url);
         $('#myModal').show();
         if (data) $('#modal_data').val(JSON.stringify(data));

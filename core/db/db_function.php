@@ -59,7 +59,7 @@ function get_insert_id(){
 }
 
 function getParam($index) {
-    return mres(@$_GET[$index]);
+    return @$_GET[$index];
 }
 
 function getSqliError(){

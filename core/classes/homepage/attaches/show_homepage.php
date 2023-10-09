@@ -3,7 +3,7 @@
         <div class="topbar-pass">
             <div class="toggle-pass" onclick="toggleMenuAdmin()"></div>
             <div class="buttons-header">
-                <?php include_once('templates/theme_switcher.php');?>
+                <?php include_once('templates/html/theme_switcher.php');?>
                 <a class="btn btn-info" href="index.php?page=login&action=logout">Logout</a>
             </div>
         </div>
