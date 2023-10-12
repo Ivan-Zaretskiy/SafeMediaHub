@@ -22,7 +22,7 @@
                      <td>
                          <select class='form-control m-input' name="category" id="category">
                              <option value="-1"></option>
-                             <?php foreach($this->serial_categories as $category){?>
+                             <?php foreach($this->serialCategories as $category){?>
                                  <option value="<?=$category?>"><?=$category?></option><?php
                              }?>
                          </select>
@@ -30,7 +30,7 @@
                      <td>
                          <select class='form-control m-input' name="full_watch_status" id="full_watch_status">
                              <option value="-1"></option>
-                             <?php foreach($this->watch_statuses as $status){?>
+                             <?php foreach($this->watchStatuses as $status){?>
                                  <option value="<?=$status->id?>"><?=$status->name?></option><?php
                              }?>
                          </select>

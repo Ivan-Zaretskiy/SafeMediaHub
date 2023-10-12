@@ -1,11 +1,13 @@
 <?php
-class serials {
-    public array $serial_categories = ['Serial', 'Anime', 'Marvel', 'CW', 'Cartoon', 'Netflix'];
-    public array $watch_statuses = [];
+class serials extends serialsHelper {
+
+    public array $serialCategories;
+    public array $watchStatuses;
 
     public function __construct()
     {
-        $this->watch_statuses = query("SELECT * FROM watch_statuses")->fetchAll();
+        $this->watchStatuses = self::getWatchStatuses();
+        $this->serialCategories = self::getSerialCategories();
     }
 
     private static function insertInDB(CustomObject $data): int

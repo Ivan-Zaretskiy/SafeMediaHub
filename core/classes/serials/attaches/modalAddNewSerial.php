@@ -21,7 +21,7 @@
                 <div class="form-group col-md-6">
                     <label for="category">Category</label>
                     <select type="text" class="form-control" id="category" name="category">
-                        <?php foreach ($this->serial_categories as $category){ ?>
+                        <?php foreach ($this->serialCategories as $category){ ?>
                             <option value="<?=$category?>"><?=$category?></option>
                         <?php } ?>
                     </select>
@@ -29,7 +29,7 @@
                 <div class="form-group col-md-6">
                     <label for="category">Watch status</label>
                     <select type="text" class="form-control" id="watch_status" name="watch_status">
-                        <?php foreach ($this->watch_statuses as $watch_status){ ?>
+                        <?php foreach ($this->watchStatuses as $watch_status){ ?>
                             <option value="<?=$watch_status->id?>"><?=$watch_status->name?></option>
                         <?php } ?>
                     </select>

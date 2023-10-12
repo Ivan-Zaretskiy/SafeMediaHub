@@ -20,7 +20,7 @@
                         <strong class="m-r-10 m-t-5">Watch status:</strong>
                         <form id="changeWatchStatus" style="position: relative; bottom: 5px">
                             <select type="text" class="form-control h-100" id="watch_status_<?=$serial->id;?>" name="watch_status_<?=$serial->id;?>">
-                                <?php foreach ($this->watch_statuses as $watch_status){ ?>
+                                <?php foreach ($this->watchStatuses as $watch_status){ ?>
                                     <option value="<?=$watch_status->id?>" <?= $watch_status->id == $serial->watch_status ? "selected" : ''?>><?=$watch_status->name?></option>
                                 <?php } ?>
                             </select>
