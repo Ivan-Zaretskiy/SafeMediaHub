@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/plugin/datatable/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="/plugin/datepicker/css/bootstrap-datepicker.min.css">
-<?php global $user; if ($user && $user->isDarkMode()) echo '<link rel="stylesheet" type="text/css" href="/css/dark.css">'?>
+<?php if (SessionUser::issetSession() && SessionUser::isDarkMode()) echo '<link rel="stylesheet" type="text/css" href="/css/dark.css">'?>
 <script src="/plugin/jquery/jquery.js" crossorigin="anonymous"></script>
 <script src="/plugin/bootstrap/js/popper.js"></script>
 <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>

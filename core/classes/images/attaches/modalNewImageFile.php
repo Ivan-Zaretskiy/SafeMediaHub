@@ -1,4 +1,4 @@
-<form id="newImage">
+<form id="newImageFile">
     <div class="modal-body">
         <div style="margin: 20px">
             <div class="row">
@@ -7,8 +7,8 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name of image">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="url_image">URL</label>
-                    <input type="text" class="form-control" id="url_image" name="url_image" placeholder="URL to image">
+                    <label for="url_image">File</label>
+                    <input type="file" class="form-control" id="file" name="file" placeholder="Upload image">
                 </div>
             </div>
         </div>
@@ -19,17 +19,18 @@
     </div>
 </form>
 <script>
-    $('#newImage').on('submit',function (e){
+    $('#newImageFile').on('submit',function (e){
         e.preventDefault();
-
-        let form = $('#newImage');
-        let data =  form.serialize();
-        let url = '/load.php?page=imageManager&action=loadNewImage';
+        let data =  new FormData(this);
+        let url = '/load.php?page=images&action=loadNewImageFile';
 
         $.ajax({
             method: "POST",
             url: url,
             data: data,
+            cache:false,
+            contentType: false,
+            processData: false,
             success: function (data){
                 let response = JSON.parse(data);
                 if (response.success === true){
@@ -37,7 +38,7 @@
                     showAlert('Image successfully added', 'success');
                     closeModal();
                 } else {
-                    showAlert('Error on added new image', 'error');
+                    showAlert(response.error_message ?? 'Error on added new image', 'error');
                 }
             }
         })

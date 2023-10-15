@@ -1,29 +1,25 @@
 <?php
 
-class user_settings
+class settings
 {
 
     public function profile()
     {
-        global $user;
-
         $firstPIN = self::generateLockPIN(4);
         $secondPIN = self::generateLockPIN(8);
+
         include_once('attaches/show_profile.php');
-        die();
     }
 
     public function changePassword()
     {
-        global $user;
-
         if (!isset($_GET['ajax'])) {
             $ajax = [];
             $ajax['success'] = false;
             $currentPassword = $_POST['currentPassword'];
             $newPassword = $_POST['newPassword'];
             $confirmPassword = $_POST['confirmPassword'];
-            $pass_verify = password_verify($currentPassword, $user->password);
+            $pass_verify = password_verify($currentPassword, SessionUser::get('password'));
             if ($newPassword == $confirmPassword) {
                 if ($pass_verify) {
                     $hash_password = password_hash($newPassword,PASSWORD_BCRYPT,['cost' => 12]);
@@ -35,7 +31,7 @@ class user_settings
                     WHERE
                         id = :id
                     ", [
-                        ":id" => $user->getUserID(),
+                        ":id" => SessionUser::getUserID(),
                         ":password" => $hash_password
                     ])->execute();
                     $ajax['success'] = true;
@@ -48,37 +44,34 @@ class user_settings
             echo json_encode($ajax);
         } else {
             include_once('attaches/modalChangePassword.php');
-            die();
         }
     }
 
     public function editProfile()
     {
-        global $user;
-
         $ajax = [];
         $ajax['success'] = false;
         $email = $_POST['email'];
         $username = $_POST['username'];
 
         if ($_POST['firstPIN'] == '****') {
-            $firstPIN = $user->firstPIN;
+            $firstPIN = SessionUser::get('firstPIN');
         } else {
             if (!is_numeric($_POST['firstPIN']) && strlen($_POST['firstPIN']) !== 4){
                 $ajax['text'] = 'Invalid first PIN';
                 echo json_encode($ajax);
-                die();
+                ApplicationHelper::exit();
             }
             $firstPIN = password_hash($_POST['firstPIN'],PASSWORD_BCRYPT, ['cost' => 12]);
         }
 
         if ($_POST['secondPIN'] == '********') {
-            $secondPIN = $user->secondPIN;
+            $secondPIN = SessionUser::get('secondPIN');
         } else {
             if (!is_numeric($_POST['secondPIN']) && strlen($_POST['secondPIN']) !== 8){
                 $ajax['text'] = 'Invalid second PIN';
                 echo json_encode($ajax);
-                die();
+                ApplicationHelper::exit();
             }
             $secondPIN = password_hash($_POST['secondPIN'], PASSWORD_BCRYPT, ['cost' => 12]);
         }
@@ -86,12 +79,12 @@ class user_settings
         if (empty($username)) {
             $ajax['text'] = 'Invalid username';
             echo json_encode($ajax);
-            die();
+            ApplicationHelper::exit();
         }
         if (empty($email)) {
             $ajax['text'] = 'Invalid email';
             echo json_encode($ajax);
-            die();
+            ApplicationHelper::exit();
         }
 
         query('
@@ -105,7 +98,7 @@ class user_settings
         WHERE
             id = :id
         ', [
-            ':id' => $user->getUserID(),
+            ':id' => SessionUser::getUserID(),
             ':email' => $email,
             ':username' => $username,
             ':firstPIN' => $firstPIN,
@@ -113,7 +106,7 @@ class user_settings
         ])->execute();
         $ajax['success'] = true;
         echo json_encode($ajax);
-        die();
+        ApplicationHelper::exit();
     }
 
     private static function generateLockPIN($len)

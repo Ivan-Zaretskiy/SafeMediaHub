@@ -1,10 +1,10 @@
-<form id="addNewSerialFrom">
+<form id="addNewSeriesFrom">
     <div class="modal-body">
         <div style="margin: 20px">
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name of serial">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name of series">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="url_to_watch">URL</label>
@@ -21,7 +21,7 @@
                 <div class="form-group col-md-6">
                     <label for="category">Category</label>
                     <select type="text" class="form-control" id="category" name="category">
-                        <?php foreach ($this->serialCategories as $category){ ?>
+                        <?php foreach ($this->seriesCategories as $category){ ?>
                             <option value="<?=$category?>"><?=$category?></option>
                         <?php } ?>
                     </select>
@@ -62,12 +62,12 @@
     </div>
 </form>
 <script>
-    $('#addNewSerialFrom').on('submit',function (e){
+    $('#addNewSeriesFrom').on('submit',function (e){
         e.preventDefault();
 
-        let form = $('#addNewSerialFrom');
+        let form = $('#addNewSeriesFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=serials&action=addNewSerial';
+        let url = '/load.php?page=series&action=addNewSeries';
 
         $.ajax({
             method: "POST",
@@ -76,11 +76,11 @@
             success: function (data){
                 let response = JSON.parse(data);
                 if (response.success === true){
-                    serialsTable.ajax.reload();
-                    showAlert('Successfully added serial: <strong>' + response.name + '</strong>', 'success');
+                    seriesTable.ajax.reload();
+                    showAlert('Successfully added series: <strong>' + response.name + '</strong>', 'success');
                     closeModal();
                 } else {
-                    showAlert('Error on added new serial', 'error');
+                    showAlert('Error on added new series', 'error');
                 }
             }
         })

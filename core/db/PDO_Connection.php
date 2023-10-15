@@ -7,7 +7,7 @@ class PDO_Connection {
         try {
             $this->connection = new PDO("mysql:charset=utf8;host=".$data->HOST.";dbname=".$data->DBNAME, $data->USER, $data->PASSWORD);
         } catch (PDOException $exception) {
-            die($exception);
+            doError($exception);
         }
     }
 

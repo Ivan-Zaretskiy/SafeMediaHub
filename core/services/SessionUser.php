@@ -1,62 +1,58 @@
 <?php
 
-class SessionUser extends CustomObject {
+class SessionUser extends StaticObject {
 
-    public function __construct($user_id = null)
-    {
-        parent::__construct();
-        $user_id = $user_id ?? $_SESSION['user']['id'];
-        $this->setFromDBResult($user_id);
+    static function init() {
+        parent::init();
     }
 
-    public function getUserID(): int
-    {
-        return (int) $this->get('id');
+    static function setSessionUser($user_id) {
+        $_SESSION['user_id'] = $user_id;
+        self::setFromDBResult($user_id);
     }
 
-    function setFromDBResult($user_id): void
-    {
+    static function issetSession(): bool {
+        return isset($_SESSION['user_id']);
+    }
+    static function getUserID(): int {
+        return (int) self::get('id');
+    }
+
+    static function setFromDBResult($user_id): void {
         $dataUser = query('SELECT * FROM users WHERE id = ?', $user_id)->fetchRow();
-        $this->setObjectFromArray($dataUser);
-        if ($this->haveKey()) {
-            $this->setUserKey();
+        self::setObjectFromArray($dataUser);
+        if (self::haveKey()) {
+            self::setUserKey();
         }
     }
 
-    function getNextMode(): string
-    {
-        return !$this->isDarkMode() ? 'dark' : 'light';
+    static function getNextMode(): string {
+        return self::getInterfaceMode() === 'light' ? 'dark' : 'light';
     }
 
-    function getModeIcon(): string
-    {
-        return !$this->isDarkMode() ? 'moon-o' : 'sun-o';
+    static function getModeIcon(): string {
+        return self::getInterfaceMode() === 'light' ? 'moon-o' : 'sun-o';
     }
 
-    function isDarkMode(): bool
-    {
-        return (bool) $this->get('dark_mode');
+    static function isDarkMode(): bool {
+        return (bool) self::get('dark_mode');
     }
 
-    function getInterfaceMode(): string
-    {
-        return $this->isDarkMode() ? 'dark' : 'light';
+    static function getInterfaceMode(): string {
+        return self::isDarkMode() ? 'dark' : 'light';
     }
 
-    function setUserKey($key = null)
-    {
+    static function setUserKey($key = null) {
         $key = $key ?? ($_SESSION['user']['key'] ?? null);
-        $this->set('key', $key);
+        self::set('key', $key);
         $_SESSION['user']['key'] = $key;
     }
 
-    function updateUserData()
-    {
-        $this->setFromDBResult($this->getUserID());
+    static function updateUserData() {
+        self::setFromDBResult(self::getUserID());
     }
 
-    function haveKey(): bool
-    {
-        return (bool) $this->get('have_key');
+    static function haveKey(): bool {
+        return (bool) self::get('have_key');
     }
 }

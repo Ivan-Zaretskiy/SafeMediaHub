@@ -22,7 +22,7 @@
 
         let form = $('#addCustomFieldFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=keysManager&action=addCustomField';
+        let url = '/load.php?page=notes&action=addCustomField';
 
         $.ajax({
             method: "POST",

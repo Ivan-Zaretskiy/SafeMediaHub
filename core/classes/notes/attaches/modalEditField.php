@@ -26,7 +26,7 @@
 
         let form = $('#editFieldFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=keysManager&action=editField&id='+modal_data.field.id;
+        let url = '/load.php?page=notes&action=editField&id='+modal_data.field.id;
 
         $.ajax({
             method: "POST",

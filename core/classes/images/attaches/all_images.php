@@ -9,7 +9,7 @@
 <script>
     var imagesTable = $('#imagesTable').DataTable({
         ajax: {
-            url: '/load.php?page=imageManager&action=getImages',
+            url: '/load.php?page=images&action=getImages',
             method: "GET",
         },
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, 'All'] ],

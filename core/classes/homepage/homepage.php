@@ -2,8 +2,6 @@
 class homepage {
 
     public function show() {
-        global $user;
-
         include_once('attaches/show_homepage.php');
     }
 
@@ -12,9 +10,7 @@ class homepage {
     }
 
     public function switchMode() {
-        global $user;
-
-        $mode = $user->dark_mode == 0 ? 1 : 0;
+        $mode = !SessionUser::isDarkMode();
         query("
         UPDATE
             users
@@ -24,7 +20,7 @@ class homepage {
             id = :id
         ", [
             ':mode' => $mode,
-            ':id' => $user->getUserID()
+            ':id' => SessionUser::getUserID()
         ])->execute();
         redirect('/');
     }

@@ -1,17 +1,17 @@
 <?php
-class serialsHelper {
+class seriesHelper {
 
     public static function getWatchStatuses() {
         $local = MemcacheHelper::get('WatchStatuses');
         if ($local) {
             return $local;
         }
-        $statuses = query("SELECT * FROM watch_statuses")->fetchAll();
+        $statuses = query("SELECT * FROM WatchStatuses")->fetchAll();
         MemcacheHelper::set('WatchStatuses', $statuses, 360);
         return $statuses;
     }
 
-    protected static function getSerialCategories(): array {
-        return ['Serial', 'Anime', 'Marvel', 'CW', 'Cartoon', 'Netflix'];
+    protected static function getSeriesCategories(): array {
+        return ['Series', 'Anime', 'Marvel', 'CW', 'Cartoon', 'Netflix'];
     }
 }

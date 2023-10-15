@@ -1,27 +1,23 @@
 <?php
-class imageManager {
+class images {
 
     public function loadAllImages() {
         include_once('attaches/all_images.php');
-        die();
     }
 
     public function getImages() {
-        global $user;
-
-        $result = query("SELECT * FROM images WHERE user_id = ?", $user->getUserID())->fetchAll();
+        $result = query("SELECT * FROM images WHERE user_id = ?", SessionUser::getUserID())->fetchAll();
 
         echo json_encode(['data'=>$result]);
     }
 
     public function loadNewImage() {
-        global $keyManager, $user;
         if (!isset($_GET['ajax'])) {
             $name = !empty($_POST['name']) ? $_POST['name'] : date('d-m-Y_H:i:s');
             $name = str_replace(' ', '_', trim($name));
             $name = $name . '.jpg';
             $image = file_get_contents($_POST['url_image']);
-            $encrypt = $keyManager->encryptString($image);
+            $encrypt = KeyHelper::encryptString($image);
             query("
             INSERT INTO
                 images
@@ -30,7 +26,7 @@ class imageManager {
                 name = :image_name,
                 file = :file
             ", [
-                ':user_id' => $user->getUserID(),
+                ':user_id' => SessionUser::getUserID(),
                 ':image_name' => $name,
                 ':file' => $encrypt
             ])->execute();
@@ -42,7 +38,6 @@ class imageManager {
     }
 
     public function loadNewImageFile() {
-        global $keyManager, $user;
         if (!isset($_GET['ajax'])) {
             $new_name = !empty($_POST['name']) ? $_POST['name'] : date('d-m-Y_H:i:s');
             $new_name = str_replace(' ', '_', trim($new_name));
@@ -50,7 +45,7 @@ class imageManager {
             $name = md5(mt_rand(100, 200)).time().'.jpg';
             $target_dir = "img/";
             if (move_uploaded_file($_FILES['file']['tmp_name'], $target_dir . $name)) {
-                $image_base64 = $keyManager->encryptString(file_get_contents($target_dir.$name));
+                $image_base64 = KeyHelper::encryptString(file_get_contents($target_dir.$name));
                 unlink($target_dir . $name);
                 query("
                 INSERT INTO
@@ -60,7 +55,7 @@ class imageManager {
                     name = :new_name,
                     file = :file
                 ", [
-                    ':user_id' => $user->getUserID(),
+                    ':user_id' => SessionUser::getUserID(),
                     ':new_name' => $new_name,
                     ':file' => $image_base64
                 ])->execute();
@@ -77,12 +72,9 @@ class imageManager {
 
     public function openImage() {
         include_once('attaches/simpleOpenImage.php');
-        die();
     }
 
     public function deleteImage() {
-        global $user;
-
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
@@ -94,7 +86,7 @@ class imageManager {
                 AND id = :id
             ', [
                 ':id' => $id,
-                ':user_id' => $user->getUserID()
+                ':user_id' => SessionUser::getUserID()
             ])->execute();
             $ajax['success'] = true;
         }

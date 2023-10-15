@@ -19,7 +19,7 @@
         var modal_data = getModalData();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=keysManager&action=checkPin',
+            url: '/load.php?page=notes&action=checkPin',
             data: {'PIN': $('#modalPIN').val(), 'data': modal_data },
             success: function (data) {
                 var response = JSON.parse(data);
@@ -30,7 +30,7 @@
                             showAlert('Image successfully deleted', 'success');
                             imagesTable.ajax.reload()
                             break;
-                        case 'showEncryptedString':
+                        case 'showNotes':
                             closeModal();
                             var str = '<span id="spanValue_' + modal_data.id + '">' + response.decrypted_value + '</span> <button class="btn btn-warning" onclick="copyToClipboard(\'spanValue_' + modal_data.id + '\')"><i class="fa fa-copy"></i</button>'
                             $('#encrypted_' + modal_data.id).html(str);
@@ -41,18 +41,18 @@
                             showAlert('Field successfully deleted', 'success');
                             break;
                         case 'addField':
-                            showModal('Add Field','/load.php?page=keysManager&action=addCustomField&ajax=true');
+                            showModal('Add Field','/load.php?page=notes&action=addCustomField&ajax=true');
                             break;
-                        case 'deleteSerial':
+                        case 'deleteSeries':
                             closeModal();
-                            serialsTable.ajax.reload();
-                            showAlert('Serial successfully deleted', 'success');
+                            seriesTable.ajax.reload();
+                            showAlert('Series successfully deleted', 'success');
                             break;
                         case 'loadNewImage':
-                            showModal('Load new image by URL','/load.php?page=imageManager&action=loadNewImage&ajax=true');
+                            showModal('Load new image by URL','/load.php?page=images&action=loadNewImage&ajax=true');
                             break;
                         case 'loadNewImageFile':
-                            showModal('Load new image by URL','/load.php?page=imageManager&action=loadNewImageFile&ajax=true');
+                            showModal('Load new image by URL','/load.php?page=images&action=loadNewImageFile&ajax=true');
                             break;
                     }
                 } else {

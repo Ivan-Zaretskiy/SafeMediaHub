@@ -12,7 +12,6 @@ function redirect($url = '/')
 }
 
 function query($sql, $params = null, $setCurrentConnection = true): PDO_Service {
-    global $PDO;
     $query = new PDO_Service($sql);
     if ($params) {
         if (is_array($params)) {
@@ -24,7 +23,7 @@ function query($sql, $params = null, $setCurrentConnection = true): PDO_Service 
         }
     }
     if ($setCurrentConnection) {
-        $query->setConnection($PDO);
+        $query->setConnection(PDOHelper::getPDOConnection());
     }
     return $query;
 }

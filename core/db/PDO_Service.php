@@ -50,9 +50,7 @@ class PDO_Service {
             $res->bindValue(is_string($key) ? $key : $key + 1, $param[0], $param[1]);
         }
         if (!$res->execute()) {
-            $error = $res->errorInfo();
-            die($error);
-            // TODO MAKE ERROR HANDLER;
+            doError($res->errorInfo());
         }
         return $res;
     }

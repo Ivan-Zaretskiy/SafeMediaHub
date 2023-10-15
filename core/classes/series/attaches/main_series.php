@@ -1,8 +1,8 @@
 <div class="overflow-hidden">
      <div class="overflow-auto p-20-px">
-         <h1 class="float-l">Serials</h1>
-         <button class="btn btn-success float-r m-20-px" onclick="showModal('Add new serials','/load.php?page=serials&action=addNewSerial&ajax=true')">Add new serials</button>
-         <table id="serialsTable" class="m-20-px w-100">
+         <h1 class="float-l">Series</h1>
+         <button class="btn btn-success float-r m-20-px" onclick="showModal('Add new series','/load.php?page=series&action=addNewSeries&ajax=true')">Add new series</button>
+         <table id="seriesTable" class="m-20-px w-100">
              <thead>
                  <tr>
                      <th>Name</th>
@@ -22,7 +22,7 @@
                      <td>
                          <select class='form-control m-input' name="category" id="category">
                              <option value="-1"></option>
-                             <?php foreach($this->serialCategories as $category){?>
+                             <?php foreach($this->seriesCategories as $category){?>
                                  <option value="<?=$category?>"><?=$category?></option><?php
                              }?>
                          </select>
@@ -52,12 +52,12 @@
     var dom = '<"row"<"col-md-6"l><"col-md-6">>B'+
         '<"dataTables_scroll dataTables_wrapper"<"table-dataTables_scrollBody table-adaptive"t>>'+
         '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
-    let serialsTable = $('#serialsTable').DataTable({
+    let seriesTable = $('#seriesTable').DataTable({
         dom:dom,
         processing: true,
         serverSide: true,
         ajax: {
-            url: '/load.php?page=serials&action=getSerials',
+            url: '/load.php?page=series&action=getSeries',
             method: "POST",
         },
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, 'All'] ],
@@ -103,21 +103,21 @@
             }},
             { title: "Option", data: "id", sortable: false, render: function (data){
                 let str = '<div class="button-group">';
-                str += '<button class="btn btn-warning button-group-item button-radius" title="Serial Info" onclick="showModal(\'Serial Info\', \'/load.php?page=serials&action=info&id='+data+'&ajax=true\')"><i class="fa fa-eye"></i></button>';
-                str += '<button class="btn btn-primary button-group-item button-radius" title="Edit Serial" onclick="showModal(\'Edit Serial\', \'/load.php?page=serials&action=editSerial&id='+data+'&ajax=true\')"><i class="fa fa-pencil-square-o"></i></button>';
-                str +='<button class="btn btn-danger button-group-item button-radius" title="Delete Serial" onclick="checkPin(\'deleteSerial\', ' + data + ')"><i class="fa fa-trash"></i></button>';
+                str += '<button class="btn btn-warning button-group-item button-radius" title="Series Info" onclick="showModal(\'Series Info\', \'/load.php?page=series&action=info&id='+data+'&ajax=true\')"><i class="fa fa-eye"></i></button>';
+                str += '<button class="btn btn-primary button-group-item button-radius" title="Edit Series" onclick="showModal(\'Edit Series\', \'/load.php?page=series&action=editSeries&id='+data+'&ajax=true\')"><i class="fa fa-pencil-square-o"></i></button>';
+                str +='<button class="btn btn-danger button-group-item button-radius" title="Delete Series" onclick="checkPin(\'deleteSeries\', ' + data + ')"><i class="fa fa-trash"></i></button>';
                 str += '</div>';
 
                 return str;
             }}
         ],
         initComplete: function () {
-            $('#serialsTable>tfoot input, #serialsTable>tfoot select').on('keyup change',function () {
+            $('#seriesTable>tfoot input, #seriesTable>tfoot select').on('keyup change',function () {
                 clearTimeout(timeout);
                 var idx = $(this).parent('td').index();
-                serialsTable.column(idx).search($(this).val());
+                seriesTable.column(idx).search($(this).val());
                 timeout = setTimeout(function () {
-                    serialsTable.draw();
+                    seriesTable.draw();
                 }, 300);
             });
         }

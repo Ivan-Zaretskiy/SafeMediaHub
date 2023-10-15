@@ -1,23 +1,23 @@
 <?php
-class serials extends serialsHelper {
+class series extends seriesHelper {
 
-    public array $serialCategories;
+    public array $seriesCategories;
     public array $watchStatuses;
 
     public function __construct()
     {
         $this->watchStatuses = self::getWatchStatuses();
-        $this->serialCategories = self::getSerialCategories();
+        $this->seriesCategories = self::getSeriesCategories();
     }
 
     private static function insertInDB(CustomObject $data): int
     {
         return query("
         INSERT INTO
-            serials
+            series
         SET
             user_id = :user_id,
-            name = :serialName,
+            name = :seriesName,
             category = :category,
             last_season = :last_season,
             last_episode = :last_episode,
@@ -30,7 +30,7 @@ class serials extends serialsHelper {
             url_to_watch = :url_to_watch
         ", [
             ':user_id' => $data->get('user_id'),
-            ':serialName' => $data->get('name'),
+            ':seriesName' => $data->get('name'),
             ':category' => $data->get('category'),
             ':last_season' => $data->get('last_season'),
             ':last_episode' => $data->get('last_episode'),
@@ -48,9 +48,9 @@ class serials extends serialsHelper {
     {
         return query("
         UPDATE
-            serials
+            series
         SET
-            name = :serialName,
+            name = :seriesName,
             category = :category,
             last_season = :last_season,
             last_episode = :last_episode,
@@ -65,7 +65,7 @@ class serials extends serialsHelper {
             id = :id
             ", [
             ':id' => $data->get('id'),
-            ':serialName' => $data->get('name'),
+            ':seriesName' => $data->get('name'),
             ':category' => $data->get('category'),
             ':last_season' => $data->get('last_season'),
             ':last_episode' => $data->get('last_episode'),
@@ -80,26 +80,24 @@ class serials extends serialsHelper {
     }
 
 
-    public function loadSerials()
+    public function loadSeries()
     {
-        include_once('attaches/main_serials.php');
+        include_once('attaches/main_series.php');
     }
 
     /**
      * @throws Exception
      */
-    public function getSerials($check_user = true)
+    public function getSeries($check_user = true)
     {
-        global $user;
-
         $q_select = '
         SELECT
             SQL_CALC_FOUND_ROWS s.*,
             ws.name AS full_watch_status
         FROM
-            serials AS s 
+            series AS s 
 
-            LEFT JOIN watch_statuses AS ws
+            LEFT JOIN WatchStatuses AS ws
             ON s.watch_status = ws.id';
 
         $q_where = "";
@@ -110,7 +108,7 @@ class serials extends serialsHelper {
         $params = [];
         if ($check_user) {
             $q_where = $pre . " s.user_id = :user_id";
-            $params[':user_id'] = $user->getUserID();
+            $params[':user_id'] = SessionUser::getUserID();
             $pre = " AND ";
         }
         if( sizeof($_POST['columns']) > 0 ) {
@@ -150,17 +148,14 @@ class serials extends serialsHelper {
         }
 
         echo json_encode(["draw"=>(int) $_POST['draw'], "recordsTotal" => $total, "recordsFiltered" => $total, "data" => $result, "q" => $q]);
-        die();
     }
 
-    public function addNewSerial()
+    public function addNewSeries()
     {
-        global $user;
-
         if (!isset($_GET['ajax'])) {
             $ajax = [];
             $data = new CustomObject();
-            $data->set('user_id', $user->getUserID());
+            $data->set('user_id', SessionUser::getUserID());
             $data->set('name', $_POST['name']);
             $data->set('category', $_POST['category']);
             $data->set('last_season', (int) $_POST['last_season']);
@@ -187,12 +182,11 @@ class serials extends serialsHelper {
             }
             echo json_encode($ajax);
         } else {
-            include_once('attaches/modalAddNewSerial.php');
-            die();
+            include_once('attaches/modalAddNewSeries.php');
         }
     }
 
-    public function editSerial()
+    public function editSeries()
     {
         $id = (int) $_GET['id'];
         if (!empty($id)) {
@@ -221,25 +215,24 @@ class serials extends serialsHelper {
                 }
                 echo json_encode($ajax);
             } else {
-                $serial = query('SELECT * FROM serials WHERE id = ?', $id)->fetchRow();
+                $series = query('SELECT * FROM series WHERE id = ?', $id)->fetchRow();
 
-                include_once('attaches/modalEditSerial.php');
+                include_once('attaches/modalEditSeries.php');
             }
-            die();
         }
     }
 
     public function seasonAction()
     {
         $ajax['success'] = false;
-        $serial = query("SELECT * FROM serials WHERE id = ?", (int) $_POST['id'])->fetchRow();
-        if ($serial) {
+        $series = query("SELECT * FROM series WHERE id = ?", (int) $_POST['id'])->fetchRow();
+        if ($series) {
             $season = (int) $_POST['season'];
-            query("UPDATE serials SET last_season = :season WHERE id = :id", [':season' => $_POST['season'], ':id' => $serial->id])->execute();
+            query("UPDATE series SET last_season = :season WHERE id = :id", [':season' => $_POST['season'], ':id' => $series->id])->execute();
             $ajax['success'] = true;
             $ajax['new_value'] = $season;
         } else {
-            $ajax['error_message'] = 'Serial Not Found!';
+            $ajax['error_message'] = 'Series Not Found!';
         }
         echo json_encode($ajax);
     }
@@ -247,14 +240,14 @@ class serials extends serialsHelper {
     public function episodeAction()
     {
         $ajax['success'] = false;
-        $serial = query("SELECT * FROM serials WHERE id = ?", (int) $_POST['id'])->fetchRow();
-        if ($serial) {
+        $series = query("SELECT * FROM series WHERE id = ?", (int) $_POST['id'])->fetchRow();
+        if ($series) {
             $episode = (int) $_POST['episode'];
-            query("UPDATE serials SET last_episode = :episode WHERE id = :id", [':episode' => $episode, ':id' => $serial->id])->execute();
+            query("UPDATE series SET last_episode = :episode WHERE id = :id", [':episode' => $episode, ':id' => $series->id])->execute();
             $ajax['success'] = true;
             $ajax['new_value'] = $episode;
         } else {
-            $ajax['error_message'] = 'Serial Not Found!';
+            $ajax['error_message'] = 'Series Not Found!';
         }
         echo json_encode($ajax);
     }
@@ -264,25 +257,24 @@ class serials extends serialsHelper {
         $id = (int) $_GET['id'];
         if ($id) {
             if ($_GET['ajax']) {
-                $serial = query("
+                $series = query("
                 SELECT
                     s.*,
                     ws.name AS full_watch_status
                 FROM
-                    serials AS s 
+                    series AS s 
 
-                    LEFT JOIN watch_statuses AS ws
+                    LEFT JOIN WatchStatuses AS ws
                     ON s.watch_status = ws.id
                 WHERE
                     s.id = ?", $id)->fetchRow();
 
-                include_once('attaches/modalSerialInfo.php');
+                include_once('attaches/modalSeriesInfo.php');
                 echo "
                    <script>
-                       $('#modalHeader h2').html('{$serial->name}');
-                       $('#modalHidden h2').html('{$serial->name}');
+                       $('#modalHeader h2').html('{$series->name}');
+                       $('#modalHidden h2').html('{$series->name}');
                    </script>";
-                die();
             }
         }
     }
@@ -292,11 +284,10 @@ class serials extends serialsHelper {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
-            query("UPDATE serials SET last_episode_time = :last_time WHERE id = :id", [':last_time' => $_POST['time'], ':id' => $id])->execute();
+            query("UPDATE series SET last_episode_time = :last_time WHERE id = :id", [':last_time' => $_POST['time'], ':id' => $id])->execute();
             $ajax['success'] = true;
         }
         echo json_encode($ajax);
-        die();
     }
 
     public function changeNextEpisodeDate()
@@ -304,11 +295,10 @@ class serials extends serialsHelper {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
-            query("UPDATE serials SET next_episode_date = :next_date WHERE id = :id", [':next_date' => $_POST['date'], ':id' => $id])->execute();
+            query("UPDATE series SET next_episode_date = :next_date WHERE id = :id", [':next_date' => $_POST['date'], ':id' => $id])->execute();
             $ajax['success'] = true;
         }
         echo json_encode($ajax);
-        die();
     }
 
     public function changeWatchStatus()
@@ -316,10 +306,10 @@ class serials extends serialsHelper {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         $status = $_POST['status'] ?? 1;
-        $watch_status = query("SELECT name FROM watch_statuses WHERE id = ?", $status)->fetchCell();
+        $watch_status = query("SELECT name FROM WatchStatuses WHERE id = ?", $status)->fetchCell();
         if ($watch_status) {
             if ($id) {
-                query("UPDATE serials SET watch_status = :status WHERE id = :id", [':status' => $status, ':id' => $id])->execute();
+                query("UPDATE series SET watch_status = :status WHERE id = :id", [':status' => $status, ':id' => $id])->execute();
                 $ajax['success'] = true;
                 $ajax['new_value'] = $watch_status;
             } else {
@@ -329,7 +319,6 @@ class serials extends serialsHelper {
             $ajax['error_message'] = 'Watch status not found';
         }
         echo json_encode($ajax);
-        die();
     }
 
     public function changeAdditionalInfo()
@@ -338,16 +327,16 @@ class serials extends serialsHelper {
         if (!isset($_POST['additional_info'])) {
             $ajax['error_message'] = 'Property Additional Info not found!';
             echo json_encode($ajax);
-            die();
+            ApplicationHelper::exit();
         }
         if (!isset($_POST['id'])) {
             $ajax['error_message'] = 'ID not found';
             echo json_encode($ajax);
-            die();
+            ApplicationHelper::exit();
         }
         query("
         UPDATE
-            serials
+            series
         SET
             additional_info = :additional_info
         WHERE
@@ -358,6 +347,5 @@ class serials extends serialsHelper {
         ])->execute();
         $ajax['success'] = true;
         echo json_encode($ajax);
-        die();
     }
 }

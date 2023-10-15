@@ -1,14 +1,10 @@
-<form id="newImageFile">
+<form id="uploadKeyForm">
     <div class="modal-body">
         <div style="margin: 20px">
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name of image">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="url_image">File</label>
-                    <input type="file" class="form-control" id="file" name="file" placeholder="Upload image">
+                <div class="form-group col-md-12">
+                    <label for="key">File</label>
+                    <input type="file" class="form-control" id="key" name="key" placeholder="Upload key">
                 </div>
             </div>
         </div>
@@ -19,11 +15,10 @@
     </div>
 </form>
 <script>
-    $('#newImageFile').on('submit',function (e){
+    $('#uploadKeyForm').on('submit',function (e){
         e.preventDefault();
         let data =  new FormData(this);
-        let url = '/load.php?page=imageManager&action=loadNewImageFile';
-
+        let url = '/load.php?page=notes&action=uploadKey';
         $.ajax({
             method: "POST",
             url: url,
@@ -34,11 +29,11 @@
             success: function (data){
                 let response = JSON.parse(data);
                 if (response.success === true){
-                    imagesTable.ajax.reload();
-                    showAlert('Image successfully added', 'success');
+                    updateAllTables();
+                    showAlert('Key successfully uploaded', 'success');
                     closeModal();
                 } else {
-                    showAlert(response.error_message ?? 'Error on added new image', 'error');
+                    showAlert(response.error_message ?? 'Error on uploaded key', 'error');
                 }
             }
         })

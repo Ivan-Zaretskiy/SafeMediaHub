@@ -28,8 +28,33 @@ class ApplicationHelper {
             $errorText = "Ошибка типа $errorType: $errorMessage в файле $errorFile на строке $errorLine" . PHP_EOL;;
             $errorAppend = "-------------------------" . PHP_EOL;
 
-            file_put_contents('core/logs/log_' . date("d.m.Y") . '.log', $errorText . $errorAppend, FILE_APPEND);
+            file_put_contents('logs/log_' . date("d.m.Y") . '.log', $errorText . $errorAppend, FILE_APPEND);
             exit;
         }
+    }
+
+    static function init() {
+
+        spl_autoload_register('ApplicationHelper::autoload');
+
+        register_shutdown_function('ApplicationHelper::handleShutdown');
+
+        Dotenv\Dotenv::createImmutable(__MAINDIR__)->load();
+
+        PDOHelper::init();
+
+        SessionUser::init();
+
+        ApplicationHelper::login();
+
+        KeyHelper::init();
+    }
+
+    static function login () {
+        new login();
+    }
+
+    static function exit() {
+        exit();
     }
 }

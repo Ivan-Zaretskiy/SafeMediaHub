@@ -8,13 +8,13 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="profileUsername">Full Name</label>
-                    <input type="text" class="form-control" id="profileUsername" name="username" value="<?= $user->username; ?>" placeholder="Enter your username">
+                    <input type="text" class="form-control" id="profileUsername" name="username" value="<?= SessionUser::get('username'); ?>" placeholder="Enter your username">
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                     <label for="profileEmail">Email</label>
-                    <input type="email" class="form-control" id="profileEmail" name="email" value="<?= $user->email; ?>" placeholder="Enter your email">
+                    <input type="email" class="form-control" id="profileEmail" name="email" value="<?= SessionUser::get('email'); ?>" placeholder="Enter your email">
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -36,16 +36,16 @@
     </form>
 </div>
 <script>
-    let userHaveKey = Boolean(<?= $user->have_key?>);
+    let userHaveKey = Boolean(<?= SessionUser::haveKey(); ?>);
 
     $(document).ready(function () {
         showProfileButtons(userHaveKey);
     });
 
-    function showProfileButtons(have_key): void {
+    function showProfileButtons(have_key) {
         var buttons = '';
-        var uploadKeyButton = `<button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/load.php?page=keysManager&action=uploadKey&ajax=true');">Upload Key</button>`;
-        var changePasswordButton = `<button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=user_settings&action=changePassword&ajax=true')">Change password</button>`;
+        var uploadKeyButton = `<button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/load.php?page=notes&action=uploadKey&ajax=true');">Upload Key</button>`;
+        var changePasswordButton = `<button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=settings&action=changePassword&ajax=true')">Change password</button>`;
         var resetKeyButton= `<button class="btn btn-danger float-r m-20-px" onclick="check2Pins('resetKey')">Reset Key</button>`;
         var generateKeyButton= `<button class="btn btn-info float-r m-20-px" onclick="check2Pins('generateMyKey')">${have_key ? 'Regenerate Key' : 'Generate Key'}</button>`;
         if (have_key) {
@@ -61,7 +61,7 @@
 
         var form = $('#changeProfileForm');
         var data = form.serialize();
-        var url = '/load.php?page=user_settings&action=editProfile';
+        var url = '/load.php?page=settings&action=editProfile';
 
         $.ajax({
             method: "POST",

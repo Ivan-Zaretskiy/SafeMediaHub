@@ -1,10 +1,10 @@
 <?php
 //////////////////////////////////////////////////////////
-query("CREATE TABLE IF NOT EXIST `encryptedString` (
+query("CREATE TABLE IF NOT EXIST `notes` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT(12) NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
-    `encryptedText` VARCHAR(1024) NOT NULL,
+    `value` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP()
 )")->execute();
@@ -24,7 +24,7 @@ query("CREATE TABLE IF NOT EXIST `users`(
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )")->execute();
 //////////////////////////////////////////////////////////
-query("CREATE TABLE IF NOT EXIST `serials`(
+query("CREATE TABLE IF NOT EXIST `series`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -51,7 +51,7 @@ query('CREATE TABLE IF NOT EXIST `images` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )')->execute();
 //////////////////////////////////////////////////////////
-query('CREATE TABLE IF NOT EXIST `watch_statuses` (
+query('CREATE TABLE IF NOT EXIST `WatchStatuses` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

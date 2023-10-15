@@ -1,6 +1,6 @@
 <?php
 
-class login{
+class login {
 
     public function __construct() {
         if (isset($_GET['action'])) {
@@ -9,13 +9,15 @@ class login{
                 $this->$action();
             }
         }
-        if (empty($_SESSION['user']['id'])) {
+        if (SessionUser::issetSession()) {
+            SessionUser::setSessionUser($_SESSION['user_id']);
+        } else {
             if (!empty($_POST['email']) && !empty($_POST['password'])) {
                 $email = $_POST['email'];
                 $pass = $_POST['password'];
                 $user_info = query('SELECT * FROM users WHERE email = ?', $email)->fetchRow();
                 if ($user_info && password_verify($pass, $user_info->password)) {
-                    $_SESSION['user']['id'] = $user_info->id;
+                    SessionUser::setSessionUser($user_info->id);
                 } else {
                     $this->sign_in('Invalid email or password');
                 }
@@ -29,13 +31,11 @@ class login{
     public function sign_up($error = false) {
         $type = 'sign_up';
         include_once 'attaches/login_form.php';
-        die();
     }
 
     public function sign_in($error = false) {
         $type = 'sign_in';
         include_once 'attaches/login_form.php';
-        die();
     }
 
     public function logout() {
@@ -87,6 +87,5 @@ class login{
         redirect('/');
     }
 
-    private function afterLogin() {
-    }
+    private function afterLogin() {}
 }
