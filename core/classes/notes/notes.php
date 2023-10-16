@@ -1,7 +1,7 @@
 <?php
 class notes {
 
-    public function loadMain() {
+    public function main() {
         include_once('attaches/main.php');
     }
 

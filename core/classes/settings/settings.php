@@ -3,12 +3,12 @@
 class settings
 {
 
-    public function profile()
+    public function main()
     {
         $firstPIN = self::generateLockPIN(4);
         $secondPIN = self::generateLockPIN(8);
 
-        include_once('attaches/show_profile.php');
+        include_once('attaches/main.php');
     }
 
     public function changePassword()

@@ -1,8 +1,8 @@
 <?php
 class images {
 
-    public function loadAllImages() {
-        include_once('attaches/all_images.php');
+    public function main() {
+        include_once('attaches/main.php');
     }
 
     public function getImages() {

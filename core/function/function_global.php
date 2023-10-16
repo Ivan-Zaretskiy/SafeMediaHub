@@ -29,3 +29,11 @@ function query($sql, $params = null, $setCurrentConnection = true): PDO_Service 
 function doError($message) {
     trigger_error($message, E_USER_ERROR);
 }
+
+function writeLog($text, $file = null): false|int {
+    $path = 'logs/';
+    mkdir($path, 0755, true);
+    $file = $file ?? "log_" . date('d.m.Y') . ".log";
+
+    return file_put_contents($path . $file, $text, FILE_APPEND);
+}

@@ -10,7 +10,7 @@ class KeyHelper {
     private static int $sha2len = 32;
     private static int $bitesCount = 1024;
 
-    static function init() {
+    static function init(): void {
         self::$ivlen = openssl_cipher_iv_length(self::$cipher);
         if (!file_exists(self::$keyUrl)) self::generateKey();
         self::setKey(self::getKey());

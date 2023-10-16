@@ -4,6 +4,15 @@ $(document).ajaxStart(function(){
 $(document).ajaxStop(function(){
     hideLoadingBar();
 });
+$(document).ajaxError(function (event, jqxhr, settings, error) {
+   if (error === 'Unauthorized') {
+       window.location.href = '/';
+   } else {
+       hideLoadingBar();
+       unblockCUI();
+       alert('Error');
+   }
+});
 function showLoadingBar() {
     var loadingHTML = '<div class="loading-progress">\n' +
         '    <div class="loading-bar">\n' +

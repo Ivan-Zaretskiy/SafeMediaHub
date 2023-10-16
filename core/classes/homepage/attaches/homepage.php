@@ -4,7 +4,7 @@
             <div class="toggle-pass" onclick="toggleMenuAdmin()"></div>
             <div class="buttons-header">
                 <?php include_once('templates/html/theme_switcher.php');?>
-                <a class="btn btn-info" href="index.php?page=login&action=logout">Logout</a>
+                <a class="btn btn-info" href="/index.php?page=login&action=logout">Logout</a>
             </div>
         </div>
         <div class="load-content">
@@ -31,19 +31,19 @@
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-sticky-note" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="loadMain" page-id="page-2" ajax-href="/index.php?page=notes&action=loadMain&appMode=load" ready="false">Notes</span>
+                    <span class="title-pass load-title-pass" name="loadMain" page-id="page-2" ajax-href="/index.php?page=notes&action=main&appMode=load" ready="false">Notes</span>
                 </a>
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-tv" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="series" page-id="page-3" ajax-href="/index.php?page=series&action=loadSeries&appMode=load" ready="false">Series</span>
+                    <span class="title-pass load-title-pass" name="series" page-id="page-3" ajax-href="/index.php?page=series&action=main&appMode=load" ready="false">Series</span>
                 </a>
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-image" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="images" page-id="page-4" ajax-href="/index.php?page=images&action=loadAllImages&appMode=load" ready="false">Images</span>
+                    <span class="title-pass load-title-pass" name="images" page-id="page-4" ajax-href="/index.php?page=images&action=main&appMode=load" ready="false">Images</span>
                 </a>
             </li>
         </ul>

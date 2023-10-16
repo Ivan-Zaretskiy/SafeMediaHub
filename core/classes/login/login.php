@@ -34,8 +34,15 @@ class login {
     }
 
     public function sign_in($error = false) {
-        $type = 'sign_in';
-        include_once 'attaches/login_form.php';
+        if (ApplicationHelper::getAppMode() === 'load') {
+            header('HTTP/1.1 401 Unauthorized');
+            header('Content-Type: application/json; charset=UTF-8');
+            echo json_encode(['newLocation' => '/']);
+        } else {
+            $type = 'sign_in';
+            include_once 'attaches/login_form.php';
+        }
+        ApplicationHelper::exit();
     }
 
     public function logout() {

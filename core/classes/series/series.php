@@ -4,14 +4,12 @@ class series extends seriesHelper {
     public array $seriesCategories;
     public array $watchStatuses;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->watchStatuses = self::getWatchStatuses();
         $this->seriesCategories = self::getSeriesCategories();
     }
 
-    private static function insertInDB(CustomObject $data): int
-    {
+    private static function insertInDB(CustomObject $data): int {
         return query("
         INSERT INTO
             series
@@ -44,8 +42,7 @@ class series extends seriesHelper {
         ])->execute();
     }
 
-    private static function updateInDB(CustomObject $data): int
-    {
+    private static function updateInDB(CustomObject $data): int {
         return query("
         UPDATE
             series
@@ -80,16 +77,14 @@ class series extends seriesHelper {
     }
 
 
-    public function loadSeries()
-    {
-        include_once('attaches/main_series.php');
+    public function main() {
+        include_once('attaches/main.php');
     }
 
     /**
      * @throws Exception
      */
-    public function getSeries($check_user = true)
-    {
+    public function getSeries($check_user = true) {
         $q_select = '
         SELECT
             SQL_CALC_FOUND_ROWS s.*,
@@ -150,8 +145,7 @@ class series extends seriesHelper {
         echo json_encode(["draw"=>(int) $_POST['draw'], "recordsTotal" => $total, "recordsFiltered" => $total, "data" => $result, "q" => $q]);
     }
 
-    public function addNewSeries()
-    {
+    public function addNewSeries() {
         if (!isset($_GET['ajax'])) {
             $ajax = [];
             $data = new CustomObject();
@@ -186,8 +180,7 @@ class series extends seriesHelper {
         }
     }
 
-    public function editSeries()
-    {
+    public function editSeries() {
         $id = (int) $_GET['id'];
         if (!empty($id)) {
             if (!isset($_GET['ajax'])) {
@@ -222,8 +215,7 @@ class series extends seriesHelper {
         }
     }
 
-    public function seasonAction()
-    {
+    public function seasonAction() {
         $ajax['success'] = false;
         $series = query("SELECT * FROM series WHERE id = ?", (int) $_POST['id'])->fetchRow();
         if ($series) {
@@ -237,8 +229,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function episodeAction()
-    {
+    public function episodeAction() {
         $ajax['success'] = false;
         $series = query("SELECT * FROM series WHERE id = ?", (int) $_POST['id'])->fetchRow();
         if ($series) {
@@ -252,8 +243,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function info()
-    {
+    public function info() {
         $id = (int) $_GET['id'];
         if ($id) {
             if ($_GET['ajax']) {
@@ -279,8 +269,7 @@ class series extends seriesHelper {
         }
     }
 
-    public function changeTime()
-    {
+    public function changeTime() {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
@@ -290,8 +279,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function changeNextEpisodeDate()
-    {
+    public function changeNextEpisodeDate() {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
@@ -301,8 +289,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function changeWatchStatus()
-    {
+    public function changeWatchStatus() {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         $status = $_POST['status'] ?? 1;
@@ -321,8 +308,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function changeAdditionalInfo()
-    {
+    public function changeAdditionalInfo() {
         $ajax['success'] = false;
         if (!isset($_POST['additional_info'])) {
             $ajax['error_message'] = 'Property Additional Info not found!';

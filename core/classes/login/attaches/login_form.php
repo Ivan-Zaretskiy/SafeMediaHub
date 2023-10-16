@@ -7,109 +7,109 @@
                 <img src="/img/login.png" alt="IMG">
             </div>
             <?php if (isset($type) && $type == 'sign_up') { ?>
-            <form id="sign_up_form" class="login100-form validate-form" method="post" action="/index.php?page=login&action=createNewAccount">
-                <span class="login100-form-title">
-                    Create Account
-                </span>
-                <?php if ($error) { ?>
-                <div class="alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    <strong>Danger!</strong> <?= $error ?>
-                </div>
-                <?php } ?>
-                <div class="wrap-input100 validate-input" data-validate="Username is required">
-                    <input class="input100" type="text" name="username" placeholder="Username">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                <form id="sign_up_form" class="login100-form validate-form" method="post" action="/index.php?page=login&action=createNewAccount">
+                    <span class="login100-form-title">
+                        Create Account
                     </span>
-                </div>
-                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    <input class="input100" type="text" name="email" placeholder="Email">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="wrap-input100 validate-input" data-validate="First PIN is required">
-                    <input id="firstPIN" class="input100" type="text" name="firstPIN" minlength="4" maxlength="4" placeholder="First PIN (4 symbols)">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-key" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="wrap-input100 validate-input" data-validate="Second PIN is required">
-                    <input id="secondPIN" class="input100" type="text" name="secondPIN" minlength="8" maxlength="8" placeholder="Second PIN (8 symbols)">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-key" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <input id="password" class="input100" type="password" name="password" placeholder="Password">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="wrap-input100 validate-input" data-validate="Passwords don't match">
-                    <input id="confirm_password" class="input100" type="password" name="confirm_password" placeholder="Confirm password">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="container-login100-form-btn">
-                    <button id="submit_login" class="login100-form-btn">
-                        Sign Up
-                    </button>
-                </div>
-                <div class="text-center p-t-12">
-                    <a class="txt2" href="/">
-                        Sign in (if you have account)
-                        <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </form>
+                    <?php if ($error) { ?>
+                        <div class="alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <strong>Danger!</strong> <?= $error ?>
+                        </div>
+                    <?php } ?>
+                    <div class="wrap-input100 validate-input" data-validate="Username is required">
+                        <input class="input100" type="text" name="username" placeholder="Username">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" name="email" placeholder="Email">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="First PIN is required">
+                        <input id="firstPIN" class="input100" type="text" name="firstPIN" minlength="4" maxlength="4" placeholder="First PIN (4 symbols)">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Second PIN is required">
+                        <input id="secondPIN" class="input100" type="text" name="secondPIN" minlength="8" maxlength="8" placeholder="Second PIN (8 symbols)">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input id="password" class="input100" type="password" name="password" placeholder="Password">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Passwords don't match">
+                        <input id="confirm_password" class="input100" type="password" name="confirm_password" placeholder="Confirm password">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button id="submit_login" class="login100-form-btn">
+                            Sign Up
+                        </button>
+                    </div>
+                    <div class="text-center p-t-12">
+                        <a class="txt2" href="/">
+                            Sign in (if you have account)
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </form>
             <?php } else { ?>
-            <form id="login_form" class="login100-form validate-form" method="post">
-                <span class="login100-form-title">
-                    Member Login
-                </span>
-                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    <input class="input100" type="text" name="email" placeholder="Email">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                <form id="login_form" class="login100-form validate-form" method="post">
+                    <span class="login100-form-title">
+                        Member Login
                     </span>
-                </div>
-                <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <input class="input100" type="password" name="password" placeholder="Password">
-                    <span class="focus-input100"></span>
-                    <span class="symbol-input100">
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="container-login100-form-btn">
-                    <button id="submit_login" class="login100-form-btn">
-                        Login
-                    </button>
-                </div>
-                <div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-                    <a class="txt2" href="#">
-                        Username / Password?
-                    </a>
-                </div>
-                <div class="text-center p-t-12">
-                    <a class="txt2" href="/index.php?page=login&action=sign_up">
-                        Create your Account
-                        <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </form>
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" name="email" placeholder="Email">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="password" placeholder="Password">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button id="submit_login" class="login100-form-btn">
+                            Login
+                        </button>
+                    </div>
+                    <div class="text-center p-t-12">
+			    			<span class="txt1">
+			    				Forgot
+			    			</span>
+                        <a class="txt2" href="#">
+                            Username / Password?
+                        </a>
+                    </div>
+                    <div class="text-center p-t-12">
+                        <a class="txt2" href="/index.php?page=login&action=sign_up">
+                            Create your Account
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </form>
             <?php } ?>
         </div>
     </div>

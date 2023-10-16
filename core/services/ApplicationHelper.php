@@ -28,10 +28,12 @@ class ApplicationHelper {
             $errorFile = $error['file'];
             $errorLine = $error['line'];
 
-            $errorText = "Ошибка типа $errorType: $errorMessage в файле $errorFile на строке $errorLine" . PHP_EOL;;
-            $errorAppend = "-------------------------" . PHP_EOL;
+            $errorText = "Error type $errorType: $errorMessage in file $errorFile on row $errorLine" . PHP_EOL .
+                "-------------------------" . PHP_EOL;
 
-            file_put_contents('logs/log_' . date("d.m.Y") . '.log', $errorText . $errorAppend, FILE_APPEND);
+            writeLog(
+                $errorText,
+            );
             exit;
         }
     }
@@ -54,6 +56,7 @@ class ApplicationHelper {
     static function initRoute(): void {
         self::getRouteClass()->{self::getRouteAction()}();
     }
+
     static function setAppMode(): void {
         $mode = $_REQUEST['appMode'] ?? null;
         self::$mode = match($mode) {
@@ -61,6 +64,7 @@ class ApplicationHelper {
             default => 'main'
         };
     }
+
     static function getAppMode(): string {
         return self::$mode;
     }
@@ -81,6 +85,20 @@ class ApplicationHelper {
         ApplicationHelper::login();
 
         KeyHelper::init();
+    }
+
+    static function handle() {
+        switch (ApplicationHelper::getAppMode()) {
+            case 'main':
+                include_once("templates/main.php");
+                break;
+            case 'load':
+                include_once("templates/load.php");
+                break;
+            default:
+                redirect('/index.php?page=404');
+                break;
+        }
     }
 
     static function login () {

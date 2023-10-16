@@ -1,5 +1,4 @@
 <?php
-
 const __MAINDIR__ = __DIR__ . '/..';
 const TIME_FORMAT = 'H:i:s';
 const DATE_INTERFACE_FORMAT = 'd.m.Y';
@@ -14,4 +13,3 @@ require_once "services/StaticObject.php";
 require_once "services/SessionUser.php";
 require_once "services/PDOHelper.php";
 require_once "services/KeyHelper.php";
-

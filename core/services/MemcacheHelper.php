@@ -1,11 +1,12 @@
 <?php
 class MemcacheHelper {
     private static $memcache;
+    protected static int $port = 11211;
 
     public static function init() {
         if (!self::$memcache) {
             self::$memcache = new Memcache;
-            self::$memcache->addServer('localhost', 11211);
+            self::$memcache->addServer('localhost', self::$port);
         }
     }
 
