@@ -60,7 +60,7 @@ class series extends seriesHelper {
             url_to_watch = :url_to_watch
         WHERE
             id = :id
-            ", [
+        ", [
             ':id' => $data->get('id'),
             ':seriesName' => $data->get('name'),
             ':category' => $data->get('category'),
@@ -77,14 +77,14 @@ class series extends seriesHelper {
     }
 
 
-    public function main() {
+    public function main(): void {
         include_once('attaches/main.php');
     }
 
     /**
      * @throws Exception
      */
-    public function getSeries($check_user = true) {
+    public function getSeries($check_user = true): void {
         $q_select = '
         SELECT
             SQL_CALC_FOUND_ROWS s.*,
@@ -145,7 +145,7 @@ class series extends seriesHelper {
         echo json_encode(["draw"=>(int) $_POST['draw'], "recordsTotal" => $total, "recordsFiltered" => $total, "data" => $result, "q" => $q]);
     }
 
-    public function addNewSeries() {
+    public function addNewSeries(): void {
         if (!isset($_GET['ajax'])) {
             $ajax = [];
             $data = new CustomObject();
@@ -180,7 +180,7 @@ class series extends seriesHelper {
         }
     }
 
-    public function editSeries() {
+    public function editSeries(): void {
         $id = (int) $_GET['id'];
         if (!empty($id)) {
             if (!isset($_GET['ajax'])) {
@@ -215,7 +215,7 @@ class series extends seriesHelper {
         }
     }
 
-    public function seasonAction() {
+    public function seasonAction(): void {
         $ajax['success'] = false;
         $series = query("SELECT * FROM series WHERE id = ?", (int) $_POST['id'])->fetchRow();
         if ($series) {
@@ -229,7 +229,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function episodeAction() {
+    public function episodeAction(): void {
         $ajax['success'] = false;
         $series = query("SELECT * FROM series WHERE id = ?", (int) $_POST['id'])->fetchRow();
         if ($series) {
@@ -243,7 +243,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function info() {
+    public function info(): void {
         $id = (int) $_GET['id'];
         if ($id) {
             if ($_GET['ajax']) {
@@ -269,7 +269,7 @@ class series extends seriesHelper {
         }
     }
 
-    public function changeTime() {
+    public function changeTime(): void {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
@@ -279,7 +279,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function changeNextEpisodeDate() {
+    public function changeNextEpisodeDate(): void {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
@@ -289,7 +289,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function changeWatchStatus() {
+    public function changeWatchStatus(): void {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         $status = $_POST['status'] ?? 1;
@@ -308,7 +308,7 @@ class series extends seriesHelper {
         echo json_encode($ajax);
     }
 
-    public function changeAdditionalInfo() {
+    public function changeAdditionalInfo(): void {
         $ajax['success'] = false;
         if (!isset($_POST['additional_info'])) {
             $ajax['error_message'] = 'Property Additional Info not found!';

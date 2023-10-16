@@ -122,11 +122,11 @@ class settings
             ':mode' => $mode,
             ':id' => SessionUser::getUserID()
         ])->execute();
-        redirect('/');
+
+        redirect();
     }
 
-    private static function generateLockPIN($len)
-    {
+    private static function generateLockPIN($len): string {
         return str_repeat('*', $len);
     }
 
@@ -196,7 +196,7 @@ class settings
                         $new_key = KeyHelper::generateKeyString();
                         $name_file = SessionUser::get('username') . '.env';
                         $ajax['name'] = $name_file;
-                        $this->saveKeyFile($name_file, $new_key);
+                        self::saveKeyFile($name_file, $new_key);
                         $key_hash = password_hash($new_key, PASSWORD_BCRYPT, ['cost' => 12]);
                         query('
                         UPDATE
@@ -219,7 +219,7 @@ class settings
                     case 'resetKey':
                         query('UPDATE users SET have_key = 0, key_created_at = NULL, key_hash = NULL WHERE id = ?', SessionUser::getUserID())->execute();
                         SessionUser::updateUserData();
-                        $this->deleteAllUserEncryptedValues();
+                        self::deleteAllUserEncryptedValues();
                         $ajax['success'] = true;
                         break;
                 }
@@ -230,7 +230,7 @@ class settings
         }
     }
 
-    private function updateAllValuesByNewKey($old_key, $new_key) {
+    private function updateAllValuesByNewKey($old_key, $new_key): void {
         $notes = query('SELECT * FROM notes WHERE user_id = ?', SessionUser::getUserID())->fetchAll();
         foreach ($notes as $note) {
             $oldName = KeyHelper::decryptString($note->name, $old_key);
@@ -270,7 +270,7 @@ class settings
 
     }
 
-    public function uploadKey() {
+    public function uploadKey(): void {
         if (!isset($_GET['ajax'])) {
             $ajax = [];
             $ajax['success'] = false;
@@ -287,7 +287,7 @@ class settings
         }
     }
 
-    public function saveKeyFile($name_file, $new_key) {
+    public static function saveKeyFile($name_file, $new_key): void {
         $path = 'temporary_user_files/';
         mkdir($path, 0755, true);
         $txt = fopen($path.$name_file, "w+") or doError("Unable to open file!");
@@ -301,7 +301,7 @@ class settings
         unlink($path.$name);
     }
 
-    public function deleteAllUserEncryptedValues() {
+    public static function deleteAllUserEncryptedValues(): void {
         query("DELETE FROM images WHERE user_id = ?", SessionUser::getUserID())->execute();
         query("DELETE FROM notes WHERE user_id = ?", SessionUser::getUserID())->execute();
     }
