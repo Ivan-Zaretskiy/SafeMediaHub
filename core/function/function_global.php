@@ -1,14 +1,12 @@
 <?php
 
-function showLoader(): string
-{
+function showLoader(): string {
     return '<div class="loader"></div alt="LOADER">';
 }
 
-function redirect($url = '/')
-{
+function redirect($url = '/'): void {
     header('Location: '.$url);
-    exit();
+    ApplicationHelper::exit();
 }
 
 function query($sql, $params = null, $setCurrentConnection = true): PDO_Service {
@@ -28,6 +26,6 @@ function query($sql, $params = null, $setCurrentConnection = true): PDO_Service 
     return $query;
 }
 
-function doError($message): void {
-    trigger_error($message, E_ERROR);
+function doError($message) {
+    trigger_error($message, E_USER_ERROR);
 }

@@ -8,7 +8,7 @@
 <script>
     var fieldsTable = $('#fieldsTable').DataTable({
         ajax: {
-            url: '/load.php?page=notes&action=getFields',
+            url: '/index.php?page=notes&action=getFields&appMode=load',
             method: "GET",
         },
         columns: [

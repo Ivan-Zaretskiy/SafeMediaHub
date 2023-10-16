@@ -22,7 +22,7 @@
 
         let form = $('#addCustomFieldFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=notes&action=addCustomField';
+        let url = '/index.php?page=notes&action=addCustomField&appMode=load';
 
         $.ajax({
             method: "POST",

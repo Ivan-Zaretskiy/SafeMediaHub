@@ -107,7 +107,7 @@
         var time = $('#time_'+id).val();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=series&action=changeTime',
+            url: '/index.php?page=series&action=changeTime&appMode=load',
             data: {'id': id, 'time': time},
             success: function (data) {
                 let response = JSON.parse(data);
@@ -129,7 +129,7 @@
         var date = $('#next_episode_date_'+id).val();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=series&action=changeNextEpisodeDate',
+            url: '/index.php?page=series&action=changeNextEpisodeDate&appMode=load',
             data: {'id': id, 'date': date},
             success: function (data) {
                 let response = JSON.parse(data);
@@ -150,7 +150,7 @@
         var status = $('#watch_status_'+id).val();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=series&action=changeWatchStatus',
+            url: '/index.php?page=series&action=changeWatchStatus&appMode=load',
             data: {'id': id, 'status': status},
             success: function (data) {
                 let response = JSON.parse(data);
@@ -170,7 +170,7 @@
         blockCUI();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=series&action=changeAdditionalInfo',
+            url: '/index.php?page=series&action=changeAdditionalInfo&appMode=load',
             data: {'id': id, 'additional_info': $('#additional_info_'+id).val()},
             success: function (data) {
                 let response = JSON.parse(data);

@@ -22,7 +22,7 @@
     $('#newImageFile').on('submit',function (e){
         e.preventDefault();
         let data =  new FormData(this);
-        let url = '/load.php?page=images&action=loadNewImageFile';
+        let url = '/index.php?page=images&action=loadNewImageFile&appMode=load';
 
         $.ajax({
             method: "POST",

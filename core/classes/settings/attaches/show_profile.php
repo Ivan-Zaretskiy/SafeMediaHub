@@ -44,8 +44,8 @@
 
     function showProfileButtons(have_key) {
         var buttons = '';
-        var uploadKeyButton = `<button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/load.php?page=notes&action=uploadKey&ajax=true');">Upload Key</button>`;
-        var changePasswordButton = `<button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/load.php?page=settings&action=changePassword&ajax=true')">Change password</button>`;
+        var uploadKeyButton = `<button class="btn btn-primary m-20-px" onclick="showModal('Upload Key', '/index.php?page=notes&action=uploadKey&ajax=true&appMode=load');">Upload Key</button>`;
+        var changePasswordButton = `<button class="btn btn-success float-r m-20-px" onclick="showModal('Change password','/index.php?page=settings&action=changePassword&ajax=true&appMode=load')">Change password</button>`;
         var resetKeyButton= `<button class="btn btn-danger float-r m-20-px" onclick="check2Pins('resetKey')">Reset Key</button>`;
         var generateKeyButton= `<button class="btn btn-info float-r m-20-px" onclick="check2Pins('generateMyKey')">${have_key ? 'Regenerate Key' : 'Generate Key'}</button>`;
         if (have_key) {
@@ -61,7 +61,7 @@
 
         var form = $('#changeProfileForm');
         var data = form.serialize();
-        var url = '/load.php?page=settings&action=editProfile';
+        var url = '/index.php?page=settings&action=editProfile&appMode=load';
 
         $.ajax({
             method: "POST",

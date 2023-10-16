@@ -25,25 +25,25 @@
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-user" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="profile" page-id="page-1" ajax-href="/load.php?page=settings&action=profile" ready="false">Profile</span>
+                    <span class="title-pass load-title-pass" name="profile" page-id="page-1" ajax-href="/index.php?page=settings&action=profile&appMode=load" ready="false">Profile Settings</span>
                 </a>
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-sticky-note" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="loadMain" page-id="page-2" ajax-href="/load.php?page=homepage&action=loadMain" ready="false">Notes</span>
+                    <span class="title-pass load-title-pass" name="loadMain" page-id="page-2" ajax-href="/index.php?page=notes&action=loadMain&appMode=load" ready="false">Notes</span>
                 </a>
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-tv" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="series" page-id="page-3" ajax-href="/load.php?page=series&action=loadSeries" ready="false">Series</span>
+                    <span class="title-pass load-title-pass" name="series" page-id="page-3" ajax-href="/index.php?page=series&action=loadSeries&appMode=load" ready="false">Series</span>
                 </a>
             </li>
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-image" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="images" page-id="page-4" ajax-href="/load.php?page=images&action=loadAllImages" ready="false">Images</span>
+                    <span class="title-pass load-title-pass" name="images" page-id="page-4" ajax-href="/index.php?page=images&action=loadAllImages&appMode=load" ready="false">Images</span>
                 </a>
             </li>
         </ul>

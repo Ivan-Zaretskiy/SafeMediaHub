@@ -81,7 +81,7 @@ function seasonAction(id, elem ='#season_', minus = true, to_first = false) {
         blockCUI();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=series&action=seasonAction',
+            url: '/index.php?page=series&action=seasonAction&appMode=load',
             data: {'id': id, 'season': new_value},
             success: function (data) {
                 let response = JSON.parse(data);
@@ -119,7 +119,7 @@ function episodeAction(id, elem ='#episode_', minus = true, to_first = false) {
         blockCUI();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=series&action=episodeAction',
+            url: '/index.php?page=series&action=episodeAction&appMode=load',
             data: {'id': id, 'episode': new_value},
             success: function (data) {
                 let response = JSON.parse(data);
@@ -174,14 +174,14 @@ function checkPin(func, id = false) {
     var data = {};
     data.func = func;
     if (id) data.id = id;
-    showModal('Enter your first PIN for: '+func,'/load.php?page=notes&action=checkPin&ajax=true', data);
+    showModal('Enter your first PIN for: '+func,'/index.php?page=settings&action=checkPin&ajax=true&appMode=load', data);
 }
 
 function check2Pins(func, id) {
     var data = {};
     data.func = func;
     if (id) data.id = id;
-    showModal('Enter your PINs for: '+func,'/load.php?page=notes&action=check2Pins&ajax=true', data);
+    showModal('Enter your PINs for: '+func,'/index.php?page=settings&action=check2Pins&ajax=true&appMode=load', data);
 }
 
 function getModalData(){

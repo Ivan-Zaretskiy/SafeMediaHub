@@ -19,7 +19,7 @@
         var modal_data = getModalData();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=notes&action=checkPin',
+            url: '/index.php?page=settings&action=checkPin&appMode=load',
             data: {'PIN': $('#modalPIN').val(), 'data': modal_data },
             success: function (data) {
                 var response = JSON.parse(data);
@@ -41,7 +41,7 @@
                             showAlert('Field successfully deleted', 'success');
                             break;
                         case 'addField':
-                            showModal('Add Field','/load.php?page=notes&action=addCustomField&ajax=true');
+                            showModal('Add Field','/index.php?page=notes&action=addCustomField&ajax=true&appMode=load');
                             break;
                         case 'deleteSeries':
                             closeModal();
@@ -49,10 +49,10 @@
                             showAlert('Series successfully deleted', 'success');
                             break;
                         case 'loadNewImage':
-                            showModal('Load new image by URL','/load.php?page=images&action=loadNewImage&ajax=true');
+                            showModal('Load new image by URL','/index.php?page=images&action=loadNewImage&ajax=true&appMode=load');
                             break;
                         case 'loadNewImageFile':
-                            showModal('Load new image by URL','/load.php?page=images&action=loadNewImageFile&ajax=true');
+                            showModal('Load new image by URL','/index.php?page=images&action=loadNewImageFile&ajax=true&appMode=load');
                             break;
                     }
                 } else {

@@ -24,6 +24,7 @@ class SessionUser extends StaticObject {
         if (self::haveKey()) {
             self::setUserKey();
         }
+
     }
 
     static function getNextMode(): string {

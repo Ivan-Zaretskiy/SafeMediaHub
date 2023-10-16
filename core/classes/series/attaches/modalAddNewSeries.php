@@ -67,7 +67,7 @@
 
         let form = $('#addNewSeriesFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=series&action=addNewSeries';
+        let url = '/index.php?page=series&action=addNewSeries&appMode=load';
 
         $.ajax({
             method: "POST",

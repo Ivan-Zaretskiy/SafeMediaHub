@@ -1,7 +1,7 @@
 <div class="overflow-hidden">
      <div class="overflow-auto p-20-px">
          <h1 class="float-l">Series</h1>
-         <button class="btn btn-success float-r m-20-px" onclick="showModal('Add new series','/load.php?page=series&action=addNewSeries&ajax=true')">Add new series</button>
+         <button class="btn btn-success float-r m-20-px" onclick="showModal('Add new series','/index.php?page=series&action=addNewSeries&ajax=true&appMode=load')">Add new series</button>
          <table id="seriesTable" class="m-20-px w-100">
              <thead>
                  <tr>
@@ -57,7 +57,7 @@
         processing: true,
         serverSide: true,
         ajax: {
-            url: '/load.php?page=series&action=getSeries',
+            url: '/index.php?page=series&action=getSeries&appMode=load',
             method: "POST",
         },
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, 'All'] ],
@@ -103,8 +103,8 @@
             }},
             { title: "Option", data: "id", sortable: false, render: function (data){
                 let str = '<div class="button-group">';
-                str += '<button class="btn btn-warning button-group-item button-radius" title="Series Info" onclick="showModal(\'Series Info\', \'/load.php?page=series&action=info&id='+data+'&ajax=true\')"><i class="fa fa-eye"></i></button>';
-                str += '<button class="btn btn-primary button-group-item button-radius" title="Edit Series" onclick="showModal(\'Edit Series\', \'/load.php?page=series&action=editSeries&id='+data+'&ajax=true\')"><i class="fa fa-pencil-square-o"></i></button>';
+                str += '<button class="btn btn-warning button-group-item button-radius" title="Series Info" onclick="showModal(\'Series Info\', \'/index.php?page=series&action=info&id='+data+'&ajax=true&appMode=load\')"><i class="fa fa-eye"></i></button>';
+                str += '<button class="btn btn-primary button-group-item button-radius" title="Edit Series" onclick="showModal(\'Edit Series\', \'/index.php?page=series&action=editSeries&id='+data+'&ajax=true&appMode=load\')"><i class="fa fa-pencil-square-o"></i></button>';
                 str +='<button class="btn btn-danger button-group-item button-radius" title="Delete Series" onclick="checkPin(\'deleteSeries\', ' + data + ')"><i class="fa fa-trash"></i></button>';
                 str += '</div>';
 

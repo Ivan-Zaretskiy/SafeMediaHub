@@ -24,7 +24,7 @@
 
         let form = $('#newImage');
         let data =  form.serialize();
-        let url = '/load.php?page=images&action=loadNewImage';
+        let url = '/index.php?page=images&action=loadNewImage&appMode=load';
 
         $.ajax({
             method: "POST",

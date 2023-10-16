@@ -23,14 +23,14 @@
         var modal_data = getModalData();
         $.ajax({
             method: "POST",
-            url: '/load.php?page=notes&action=check2Pins',
+            url: '/index.php?page=settings&action=check2Pins&appMode=load',
             data: {'PIN': $('#modalPIN').val(), 'PIN2': $('#modalPIN2').val(), 'data': modal_data },
             success: function (data) {
                 var response = JSON.parse(data);
                 if (response.success === true){
                     switch (modal_data.func){
                         case 'openImage':
-                            showModal('Image', '/load.php?page=images&action=openImage', response);
+                            showModal('Image', '/index.php?page=images&action=openImage&appMode=load', response);
                             break;
                         case 'openImageNewWindow':
                             closeModal();
@@ -39,7 +39,7 @@
                             win.document.write('<img src="' + href  + '"></img>');
                             break;
                         case 'editField':
-                            showModal('Edit Field', '/load.php?page=notes&action=editField&ajax=true', response);
+                            showModal('Edit Field', '/index.php?page=notes&action=editField&ajax=true&appMode=load', response);
                             break;
                         case 'downloadImage':
                             var a = document.createElement("a");
@@ -76,7 +76,7 @@
         setTimeout(() => {
             $.ajax({
                 method: "POST",
-                url: '/load.php?page=notes&action=removeEnvFile',
+                url: '/index.php?page=settings&action=removeEnvFile&appMode=load',
                 data: {'name': name}
             });
         }, 1000);

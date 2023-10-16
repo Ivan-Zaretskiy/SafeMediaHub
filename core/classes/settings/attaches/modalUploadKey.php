@@ -18,7 +18,7 @@
     $('#uploadKeyForm').on('submit',function (e){
         e.preventDefault();
         let data =  new FormData(this);
-        let url = '/load.php?page=notes&action=uploadKey';
+        let url = '/index.php?page=settings&action=uploadKey&appMode=load';
         $.ajax({
             method: "POST",
             url: url,

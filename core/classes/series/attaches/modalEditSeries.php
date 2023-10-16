@@ -68,7 +68,7 @@
 
         let form = $('#editSeriesFrom');
         let data =  form.serialize();
-        let url = '/load.php?page=series&action=editSeries&id=<?=$id?>';
+        let url = '/index.php?page=series&action=editSeries&id=<?=$id?>&appMode=load';
 
         $.ajax({
             method: "POST",
