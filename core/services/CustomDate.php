@@ -7,4 +7,15 @@ class CustomDate extends DateTime {
         }
         return null;
     }
+
+    /**
+     * @param string $date
+     * @return null|string
+     */
+    public static function returnNullIfEmpty($date): ?string {
+        if ($date === "") {
+            return null;
+        }
+        return $date;
+    }
 }

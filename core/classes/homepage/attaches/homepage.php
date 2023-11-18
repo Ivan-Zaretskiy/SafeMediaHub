@@ -25,7 +25,7 @@
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-user" aria-hidden="true"></i></span>
-                    <span class="title-pass load-title-pass" name="profile" page-id="page-1" ajax-href="/index.php?page=settings&action=profile&appMode=load" ready="false">Profile Settings</span>
+                    <span class="title-pass load-title-pass" name="profile" page-id="page-1" ajax-href="/index.php?page=settings&action=main&appMode=load" ready="false">Profile Settings</span>
                 </a>
             </li>
             <li class="li-pass">

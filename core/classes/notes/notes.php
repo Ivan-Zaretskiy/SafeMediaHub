@@ -20,10 +20,6 @@ class notes {
         ])->execute();
     }
 
-    public static function getEncryptedValueById($id) {
-        return query('SELECT value FROM notes WHERE id = ?', $id)->fetchCell();
-    }
-
     public function addCustomField() {
 
         if (!isset($_GET['ajax'])) {

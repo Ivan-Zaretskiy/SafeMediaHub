@@ -305,4 +305,8 @@ class settings
         query("DELETE FROM images WHERE user_id = ?", SessionUser::getUserID())->execute();
         query("DELETE FROM notes WHERE user_id = ?", SessionUser::getUserID())->execute();
     }
+
+    public static function getEncryptedValueById($id) {
+        return query('SELECT value FROM notes WHERE id = ?', $id)->fetchCell();
+    }
 }

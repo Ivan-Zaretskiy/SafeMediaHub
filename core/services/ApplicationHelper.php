@@ -31,9 +31,7 @@ class ApplicationHelper {
             $errorText = "Error type $errorType: $errorMessage in file $errorFile on row $errorLine" . PHP_EOL .
                 "-------------------------" . PHP_EOL;
 
-            writeLog(
-                $errorText,
-            );
+            writeLog($errorText);
             exit;
         }
     }

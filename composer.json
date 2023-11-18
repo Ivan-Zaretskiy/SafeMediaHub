@@ -4,6 +4,7 @@
       "ext-pdo": "*",
       "ext-json": "*",
       "ext-openssl": "*",
-      "ext-memcache": "*"
+      "ext-memcache": "*",
+      "ext-mbstring": "*"
     }
 }

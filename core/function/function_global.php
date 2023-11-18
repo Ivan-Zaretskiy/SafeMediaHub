@@ -32,7 +32,9 @@ function doError($message) {
 
 function writeLog($text, $file = null): false|int {
     $path = 'logs/';
-    mkdir($path, 0755, true);
+    if (!is_dir($path)) {
+        mkdir($path, 0755, true);
+    }
     $file = $file ?? "log_" . date('d.m.Y') . ".log";
 
     return file_put_contents($path . $file, $text, FILE_APPEND);

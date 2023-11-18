@@ -283,7 +283,7 @@ class series extends seriesHelper {
         $ajax['success'] = false;
         $id = (int) $_POST['id'];
         if ($id) {
-            query("UPDATE series SET next_episode_date = :next_date WHERE id = :id", [':next_date' => $_POST['date'], ':id' => $id])->execute();
+            query("UPDATE series SET next_episode_date = :next_date WHERE id = :id", [':next_date' => CustomDate::returnNullIfEmpty($_POST['date']) , ':id' => $id])->execute();
             $ajax['success'] = true;
         }
         echo json_encode($ajax);
