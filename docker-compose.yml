@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   php:
     build:
@@ -22,10 +21,10 @@ services:
   mysql:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: 'x58PNEW74'
-      MYSQL_DATABASE: 'SafeMediaHub_Local'
-      MYSQL_USER: 'developer'
-      MYSQL_PASSWORD: 'X58PNEW74'
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_LOCAL_NAME}
+      MYSQL_USER: ${DB_LOCAL_USER}
+      MYSQL_PASSWORD: ${DB_LOCAL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -33,4 +32,4 @@ services:
   memcached:
     image: memcached:latest
     ports:
-      - "11211:11211"
+      - "11212:11211"
