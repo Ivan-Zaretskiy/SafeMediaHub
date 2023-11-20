@@ -5,6 +5,8 @@ services:
       context: 'docker/php'
     volumes:
       - './:/var/www/html'
+    extra_hosts:
+      - host.docker.internal:host-gateway
     command: >
       sh -c "chown -R www-data:www-data /var/www/html/logs/ &&
              chmod -R 755 /var/www/html/logs/ &&

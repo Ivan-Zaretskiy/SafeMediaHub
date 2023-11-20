@@ -22,3 +22,6 @@ WORKDIR /var/www/html
 COPY conf.d/* $PHP_INI_DIR/conf.d/
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+EXPOSE 9000
+CMD ["php-fpm"]
