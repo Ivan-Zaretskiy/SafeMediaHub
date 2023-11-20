@@ -5,7 +5,7 @@ class PDO_Connection {
     public function __construct($mode = null) {
         $data = $this->getInstance($mode);
         try {
-            $this->connection = new PDO("mysql:charset=utf8;host=".$data->HOST.";dbname=".$data->DBNAME, $data->USER, $data->PASSWORD);
+            $this->connection = new PDO("mysql:host=$data->HOST;dbname=$data->DBNAME", $data->USER, $data->PASSWORD);
         } catch (PDOException $exception) {
             doError($exception);
         }

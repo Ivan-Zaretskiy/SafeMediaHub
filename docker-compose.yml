@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: 'docker/php'
+    volumes:
+      - './:/var/www/html'
+    command: >
+      sh -c "chown -R www-data:www-data /var/www/html/logs/ &&
+             chmod -R 755 /var/www/html/logs/ &&
+             exec php-fpm"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - './:/var/www/html'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+    depends_on:
+      - php
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 'x58PNEW74'
+      MYSQL_DATABASE: 'SafeMediaHub_Local'
+      MYSQL_USER: 'developer'
+      MYSQL_PASSWORD: 'X58PNEW74'
+    ports:
+      - "3306:3306"
+    volumes:
+      - './docker/volumes/mysql:/var/lib/mysql'
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
