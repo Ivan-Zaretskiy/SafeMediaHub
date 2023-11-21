@@ -19,7 +19,7 @@
             <li class="li-pass">
                 <a href="javascript:void(0)">
                     <span class="icon-pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
-                    <span class="title-pass"><h5 class="h2-main">Protection Manager</h5></span>
+                    <span class="title-pass"><h5 class="h2-main">SafeMediaHub</h5></span>
                 </a>
             </li>
             <li class="li-pass">

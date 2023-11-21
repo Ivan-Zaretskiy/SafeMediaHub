@@ -41,7 +41,7 @@
                         <button onclick="episodeAction(<?=$series->id?>, '#episode_info_', true)"><i class="fa fa-minus"></i></button>
                         <span id='episode_info_<?=$series->id?>'><?=$series->last_episode?></span>
                         <button onclick="episodeAction(<?=$series->id?>, '#episode_info_', false)"><i class="fa fa-plus"></i></button>
-                        <button onclick="episodeAction(<?=$series->id?>, '#episode_info_', false, trueerial)"><i class="fa fa-refresh"></i></button>
+                        <button onclick="episodeAction(<?=$series->id?>, '#episode_info_', false, true)"><i class="fa fa-refresh"></i></button>
                     </p>
                 </div>
                 <div class="form-group">

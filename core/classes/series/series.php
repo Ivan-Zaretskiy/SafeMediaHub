@@ -201,7 +201,7 @@ class series extends seriesHelper {
                 $data->set('additional_info', $_POST['additional_info']);
                 $data->set('watch_status', (int) $_POST['watch_status']);
                 $ajax['success'] = false;
-                if (!empty($data->name) && !empty($data->category)) {
+                if ($data->name && $data->category) {
                     self::updateInDB($data);
                     $ajax['success'] = true;
                     $ajax['name'] = $data->name;
