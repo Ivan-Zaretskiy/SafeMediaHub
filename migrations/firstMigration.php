@@ -1,15 +1,15 @@
 <?php
 //////////////////////////////////////////////////////////
-query("CREATE TABLE IF NOT EXIST `notes` (
+query("CREATE TABLE IF NOT EXISTS `notes` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `user_id` INT(12) NOT NULL,
+    `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
     `value` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP()
-)")->execute();
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);")->execute();
 //////////////////////////////////////////////////////////
-query("CREATE TABLE IF NOT EXIST `users`(
+query("CREATE TABLE IF NOT EXISTS `users`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(128) NOT NULL,
     `email` VARCHAR(1024) NOT NULL,
@@ -24,7 +24,7 @@ query("CREATE TABLE IF NOT EXIST `users`(
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )")->execute();
 //////////////////////////////////////////////////////////
-query("CREATE TABLE IF NOT EXIST `series`(
+query("CREATE TABLE IF NOT EXISTS `series` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -35,14 +35,14 @@ query("CREATE TABLE IF NOT EXIST `series`(
     `last_episode_time` TIME DEFAULT NULL,
     `next_episode_date` DATE DEFAULT NULL,
     `addition_info` MEDIUMTEXT DEFAULT NULL,
-    `iframe_html` VARCHAR(5124) DEFAULT NULL,
-    `image_url` VARCHAR(5124) DEFAULT NULL,
-    `url_to_watch` VARCHAR(5124) DEFAULT NULL,
+    `iframe_html` TEXT DEFAULT NULL,
+    `image_url` TEXT DEFAULT NULL,
+    `url_to_watch` TEXT DEFAULT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)")->execute();
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;")->execute();
 //////////////////////////////////////////////////////////
-query('CREATE TABLE IF NOT EXIST `images` (
+query('CREATE TABLE IF NOT EXISTS `images` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `name` VARCHAR(1024) NOT NULL,
@@ -51,7 +51,7 @@ query('CREATE TABLE IF NOT EXIST `images` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )')->execute();
 //////////////////////////////////////////////////////////
-query('CREATE TABLE IF NOT EXIST `WatchStatuses` (
+query('CREATE TABLE IF NOT EXISTS `WatchStatuses` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(1024) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

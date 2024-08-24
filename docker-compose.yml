@@ -1,16 +1,17 @@
-version: '3'
 services:
   php:
     build:
-      context: 'docker/php'
+      context: './docker/php'
     volumes:
       - './:/var/www/html'
     extra_hosts:
       - host.docker.internal:host-gateway
     command: >
-      sh -c "chown -R www-data:www-data /var/www/html/logs/ &&
-             chmod -R 755 /var/www/html/logs/ &&
+      sh -c "mkdir -p /var/www/html/logs && 
+             chown -R www-data:www-data /var/www/html/logs && 
+             chmod -R 755 /var/www/html/logs &&
              exec php-fpm"
+
   nginx:
     image: nginx:latest
     ports:
@@ -20,6 +21,7 @@ services:
       - './docker/nginx/conf.d:/etc/nginx/conf.d'
     depends_on:
       - php
+
   mysql:
     image: mysql:8
     environment:
@@ -31,10 +33,12 @@ services:
       - "3306:3306"
     volumes:
       - './docker/volumes/mysql:/var/lib/mysql'
+
   memcached:
     image: memcached:latest
     ports:
       - "11211:11211"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:

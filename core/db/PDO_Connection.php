@@ -30,7 +30,7 @@ class PDO_Connection {
         if ($mode) {
             return $mode;
         }
-        return $_SERVER['SERVER_NAME'] == 'localhost' ? $_ENV['DB_LOCAL_MODE'] : $_ENV['DB_PROD_MODE'];
+        return $_SERVER['SERVER_NAME'] == 'safemediahub.loc' ? $_ENV['DB_LOCAL_MODE'] : $_ENV['DB_PROD_MODE'];
     }
 
     public static function getConnection($mode): PDO_Connection {
