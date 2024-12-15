@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILE=docker-compose.yml
+ENV_FILE=.env
+
+docker compose -f ${FILE} --env-file=${ENV_FILE} down
